@@ -1,10 +1,8 @@
 import React from 'react'
 
-const Experience = () => {
+function Experience() {
   return (
-    <div>
-      
-    </div>
+    <div>Experience</div>
   )
 }
 
