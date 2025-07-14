@@ -1,0 +1,217 @@
+/* Mobile Responsive Styles */
+
+/* Ensure all text is readable on mobile */
+@media (max-width: 640px) {
+  /* Base mobile styles */
+  body {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  /* Prevent horizontal scrolling */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  
+  /* Ensure the main container doesn't overflow */
+  #root {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  
+  /* Ensure buttons are touch-friendly */
+  button, a {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+  
+  /* Improve text wrapping for typewriter effect */
+  .typewriter-container {
+    word-wrap: break-word;
+    white-space: normal !important;
+  }
+  
+  /* Ensure images don't overflow */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Improve form elements on mobile */
+  input, textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  /* Improve skill cards layout */
+  .skill-card {
+    min-height: 40px;
+    padding: 8px 12px;
+  }
+  
+  /* Ensure project cards are properly sized */
+  .project-card {
+    min-height: 200px;
+  }
+  
+  /* Improve navigation menu */
+  .mobile-menu {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  /* Improve contact form */
+  .contact-form {
+    padding: 16px;
+  }
+  
+  /* Ensure proper spacing on mobile */
+  .section-padding {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  /* Improve modal on mobile */
+  .modal-content {
+    margin: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  
+  /* Improve tilt effect on mobile */
+  .tilt-mobile {
+    transform: none !important;
+  }
+  
+  /* Fix any potential text overflow issues */
+  h1, h2, h3, h4, h5, h6 {
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  /* Ensure proper spacing between sections */
+  section {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  /* Improve button sizing on mobile */
+  .btn-mobile {
+    padding: 12px 24px;
+    font-size: 14px;
+    min-height: 44px;
+  }
+  
+  /* Ensure proper grid layouts */
+  .grid-mobile {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  /* Improve typography scaling */
+  .text-mobile-sm {
+    font-size: 12px;
+  }
+  
+  .text-mobile-base {
+    font-size: 14px;
+  }
+  
+  .text-mobile-lg {
+    font-size: 16px;
+  }
+  
+  .text-mobile-xl {
+    font-size: 20px;
+  }
+  
+  .text-mobile-2xl {
+    font-size: 24px;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 641px) and (max-width: 1024px) {
+  /* Tablet-specific adjustments */
+  .tablet-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Touch device improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover effects on touch devices */
+  .hover-effect:hover {
+    transform: none;
+  }
+  
+  /* Improve button press feedback */
+  .button-touch {
+    transition: opacity 0.2s ease;
+  }
+  
+  .button-touch:active {
+    opacity: 0.8;
+  }
+}
+
+/* Landscape mobile adjustments */
+@media (max-width: 896px) and (orientation: landscape) {
+  /* Reduce vertical spacing in landscape */
+  .landscape-spacing {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  
+  /* Ensure content fits in landscape */
+  .hero-section {
+    min-height: 100vh;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  /* Extra small screen adjustments */
+  .text-responsive {
+    font-size: 12px;
+  }
+  
+  .title-responsive {
+    font-size: 18px;
+  }
+  
+  .button-responsive {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Improve rendering on high DPI screens */
+  .sharp-text {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  /* Reduce motion for users who prefer it */
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  /* Ensure good contrast in dark mode */
+  .auto-contrast {
+    color: #ffffff;
+    background-color: #000000;
+  }
+}
