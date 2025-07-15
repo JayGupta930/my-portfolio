@@ -227,7 +227,7 @@ export const SkillsInfo = [
        image: AdminPortalLogo,
       tags: ["React JS", "API", "Supabase", "HTML", "CSS", "JavaScript"],
       github: "https://github.com/JayGupta930/uropine_admin_portal",
-      webapp: "https://console.uropine.ruralsurgery.in/dashboard",
+      webapp: "https://console.uropine.ruralsurgery.in/",
     },
     {
       id: 3,
@@ -236,8 +236,8 @@ export const SkillsInfo = [
         "A dedicated admin portal developed using React for managing a single medical device. The portal provides a clean and user-friendly interface to monitor device data, manage settings, and ensure smooth operation, tailored specifically for streamlined control and maintenance.",
        image: AdminPortalLogo,
       tags: ["React JS", "Framer Motion", "Locomotive", "HTML", "CSS", "JavaScript"],
-      github: "https://github.com/JayGupta930/uropine_admin_portal",
-      webapp: "https://console.uropine.ruralsurgery.in/dashboard",
+      github: "https://github.com/JayGupta930/ochi",
+      webapp: "https://designochi.web.app/",
     },
     {
       id: 4,
