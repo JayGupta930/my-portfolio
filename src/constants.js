@@ -231,6 +231,16 @@ export const SkillsInfo = [
     },
     {
       id: 3,
+      title: "Admin Portal",
+      description:
+        "A dedicated admin portal developed using React for managing a single medical device. The portal provides a clean and user-friendly interface to monitor device data, manage settings, and ensure smooth operation, tailored specifically for streamlined control and maintenance.",
+       image: AdminPortalLogo,
+      tags: ["React JS", "Framer Motion", "Locomotive", "HTML", "CSS", "JavaScript"],
+      github: "https://github.com/JayGupta930/uropine_admin_portal",
+      webapp: "https://console.uropine.ruralsurgery.in/dashboard",
+    },
+    {
+      id: 4,
       title: "UI of Music Web App",
       description:
         "Stream top albums, discover artists, enjoy podcasts, and vibe to playlists made just for you.",
@@ -240,7 +250,7 @@ export const SkillsInfo = [
       webapp: "hhttps://www.figma.com/@Jay930",
     },
     {
-      id: 4,
+      id: 5,
       title: "UI of Food Delivery App",
       description:
         "Search nearby restaurants, pick your favorite dishes, and enjoy fast delivery right to your door. Deliciousness made easy!",
@@ -250,7 +260,7 @@ export const SkillsInfo = [
       webapp: "https://www.figma.com/@Jay930",
     },
     {
-      id: 5,
+      id: 6,
       title: "UI of Fresh Juice Web App",
       description:
         "From orchard to glass — discover refreshing, natural juices packed with flavor and goodness. Taste the zest of life with every sip!",
