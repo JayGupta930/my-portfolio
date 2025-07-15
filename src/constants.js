@@ -42,6 +42,7 @@ import SaraswatiVidhyaMandirLogo from './assets/edu_logo/shishumandir.jpg';
 import JsonCodeEditorLogo from './assets/work_logo/json.png';
 import StoreRatingLogo from './assets/work_logo/storerating.png';
 import AdminPortalLogo from './assets/work_logo/adminportal.png';
+import OchiLogo from './assets/work_logo/ochi.png';
 import HungryLogo from './assets/work_logo/hungryfood.png';
 import MusicLogo from './assets/work_logo/music.png';
 import FreshJuiceLogo from './assets/work_logo/freshjuice.png';
@@ -231,10 +232,10 @@ export const SkillsInfo = [
     },
     {
       id: 3,
-      title: "Admin Portal",
+      title: "Ochi",
       description:
-        "A dedicated admin portal developed using React for managing a single medical device. The portal provides a clean and user-friendly interface to monitor device data, manage settings, and ensure smooth operation, tailored specifically for streamlined control and maintenance.",
-       image: AdminPortalLogo,
+        "A visually-rich, high-fidelity clone of the Ochi.Design website, crafted using modern frontend tools React, Tailwind CSS, Framer Motion, and Locomotive Scroll. This clone replicates smooth transitions, scroll-based animations, and an elegant layout inspired by the original site.",
+       image: OchiLogo,
       tags: ["React JS", "Framer Motion", "Locomotive", "HTML", "CSS", "JavaScript"],
       github: "https://github.com/JayGupta930/ochi",
       webapp: "https://designochi.web.app/",
