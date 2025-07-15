@@ -66,9 +66,9 @@ const Work = () => {
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
                   className="text-gray-400 hover:text-white transition-colors duration-200"
-                  title={project.id >= 3 ? "View Design" : "View Code"}
+                  title={project.id >= 4 ? "View Design" : "View Code"}
                 >
-                  {project.id >= 3 ? (
+                  {project.id >= 4 ? (
                     // Figma icon for UI design projects
                     <svg
                       width="20"
