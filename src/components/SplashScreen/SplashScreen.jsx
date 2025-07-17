@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import "./SplashScreen.css";
+import ProfileImage from "../../assets/Profile.jpg";
 
 const SplashScreen = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
@@ -41,7 +42,7 @@ const SplashScreen = ({ onComplete }) => {
         <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full p-1 shadow-2xl">
           <div className="w-full h-full rounded-full overflow-hidden">
             <img
-              src="/src/assets/Profile.jpg"
+              src={ProfileImage}
               alt="Jay Gupta"
               className="w-full h-full object-cover"
             />
