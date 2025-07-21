@@ -1,6 +1,7 @@
 import { Typewriter } from 'react-simple-typewriter'
 import Tilt from 'react-parallax-tilt'
 import profileImage from '../../assets/profile.jpg'
+import resumePDF from '../../assets/Resume.pdf'
 
 const About = () => {
   return (
@@ -51,12 +52,12 @@ const About = () => {
             efficient solutions.
           </p>
 
-          {/* Resume Button */}
-          <div className="flex justify-center md:justify-start">
+          {/* Resume Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start">
             <a
               target="_blank"
               download
-              href='../src/assets/Resume.pdf'
+              href={resumePDF}
               rel="noopener noreferrer"
               className="inline-block text-white py-3 px-6 sm:px-8 rounded-full cursor-pointer mt-2 sm:mt-3 md:mt-5 text-base sm:text-lg font-bold transition duration-300 transform hover:scale-105"
               style={{
@@ -65,6 +66,18 @@ const About = () => {
               }}
             >
               DOWNLOAD RESUME
+            </a>
+            <a
+              target="_blank"
+              href={resumePDF}
+              rel="noopener noreferrer"
+              className="inline-block text-white py-3 px-6 sm:px-8 rounded-full cursor-pointer mt-2 sm:mt-3 md:mt-5 text-base sm:text-lg font-bold transition duration-300 transform hover:scale-105"
+              style={{
+                background: 'linear-gradient(90deg, #8245ec, #a855f7)',
+                boxShadow: '0 0 2px #8245ec, 0 0 2px #8245ec, 0 0 40px #8245ec',
+              }}
+            >
+              VIEW RESUME
             </a>
           </div>
         </div>
