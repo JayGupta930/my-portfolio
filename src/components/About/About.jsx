@@ -53,13 +53,13 @@ const About = () => {
           </p>
 
           {/* Resume Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center md:justify-start items-center">
             <a
               target="_blank"
               download
               href={resumePDF}
               rel="noopener noreferrer"
-              className="inline-block text-white py-3 px-6 sm:px-8 rounded-full cursor-pointer mt-2 sm:mt-3 md:mt-5 text-base sm:text-lg font-bold transition duration-300 transform hover:scale-105"
+              className="flex items-center justify-center text-white py-4 px-8 sm:px-10 lg:px-12 rounded-full cursor-pointer text-base sm:text-lg lg:text-xl font-bold transition duration-300 transform hover:scale-105 whitespace-nowrap w-[200px] sm:w-[220px] lg:w-[240px] h-[50px] sm:h-[55px] lg:h-[60px]"
               style={{
                 background: 'linear-gradient(90deg, #8245ec, #a855f7)',
                 boxShadow: '0 0 2px #8245ec, 0 0 2px #8245ec, 0 0 40px #8245ec',
@@ -71,7 +71,7 @@ const About = () => {
               target="_blank"
               href={resumePDF}
               rel="noopener noreferrer"
-              className="inline-block text-white py-3 px-6 sm:px-8 rounded-full cursor-pointer mt-2 sm:mt-3 md:mt-5 text-base sm:text-lg font-bold transition duration-300 transform hover:scale-105"
+              className="flex items-center justify-center text-white py-4 px-8 sm:px-10 lg:px-12 rounded-full cursor-pointer text-base sm:text-lg lg:text-xl font-bold transition duration-300 transform hover:scale-105 whitespace-nowrap w-[200px] sm:w-[220px] lg:w-[240px] h-[50px] sm:h-[55px] lg:h-[60px]"
               style={{
                 background: 'linear-gradient(90deg, #8245ec, #a855f7)',
                 boxShadow: '0 0 2px #8245ec, 0 0 2px #8245ec, 0 0 40px #8245ec',
