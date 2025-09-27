@@ -19,24 +19,14 @@ import gitLogo from './assets/tech_logo/git.png';
 import githubLogo from './assets/tech_logo/github.png';
 import vscodeLogo from './assets/tech_logo/vscode.png';
 import postmanLogo from './assets/tech_logo/postman.png';
-// import mcLogo from './assets/tech_logo/mc.png';
+import ilikaEarthLogo from './assets/exp_logo/ilika.png';
 import figmaLogo from './assets/tech_logo/figma.png';
-// import netlifyLogo from './assets/tech_logo/netlify.png';
-// import vercelLogo from './assets/tech_logo/vercel.png';
-
-// Experience Section Logo's
-// import webverseLogo from './assets/company_logo/webverse_logo.png';
-// import agcLogo from './assets/company_logo/agc_logo.png';
-// import newtonschoolLogo from './assets/company_logo/newtonschool_logo.png';
 
 //  Education Section Logo's
 import SsipmtLogo from './assets/edu_logo/ssipmt.jpg';
 import RamanUniversityLogo from './assets/edu_logo/cvraman.png';
 import NationalPublicSchoolLogo from './assets/edu_logo/national.jpg';
 import SaraswatiVidhyaMandirLogo from './assets/edu_logo/shishumandir.jpg';
-// import glaLogo from './assets/education_logo/gla_logo.png';
-// import bsaLogo from './assets/education_logo/bsa_logo.png';
-// import vpsLogo from './assets/education_logo/vps_logo.png';
 
 // Project Section Logo's
 import JsonCodeEditorLogo from './assets/work_logo/json.png';
@@ -46,13 +36,6 @@ import OchiLogo from './assets/work_logo/ochi.png';
 import HungryLogo from './assets/work_logo/hungryfood.png';
 import MusicLogo from './assets/work_logo/music.png';
 import FreshJuiceLogo from './assets/work_logo/freshjuice.png';
-
-// import taskremLogo from './assets/work_logo/task_rem.png';
-// import npmLogo from './assets/work_logo/npm.png';
-// import webverLogo from './assets/work_logo/web_dig.png';
-// import cmLogo from './assets/work_logo/cm.png';
-// import imagesearchLogo from './assets/work_logo/image_search.png';
-// import removebgLogo from './assets/work_logo/remove_bg.png';
 
 
 export const SkillsInfo = [
@@ -107,55 +90,22 @@ export const SkillsInfo = [
   export const experiences = [
     {
       id: 0,
-      // img: webverseLogo,
-      role: "Fullstack Developer",
-      // company: "Webverse Digital",
-      date: "April 2024 - Present",
-      desc: "Developed dynamic and scalable web applications using the MERN stack, handling both frontend and backend development. Collaborated with cross-functional teams to build responsive UI, implement RESTful APIs, and optimize application performance in an agile environment.",
+       img: ilikaEarthLogo,
+      role: "Full Stack Web Developer Intern",
+      company: "Ilika.Earth",
+      date: "August 2025 - Present",
+      desc: "Developed and maintained responsive, user-friendly web applications to support the company's environmental and sustainability initiatives. Collaborated with cross-functional teams to design and implement scalable features using modern web technologies like React.js, Next.js, Node.js, Tailwind CSS.",
       skills: [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "React JS",
-        "TypeScript",
-        "Node JS",
+        "React.js",
+        "Next.js",
+        "Node.js",
         "Tailwind CSS",
-        "MongoDb",
-        "Redux",
-        " Next Js",
-      ],
-    },
-    {
-      id: 1,
-      // img: agcLogo,
-      role: "Fullstack Engineer",
-      company: "Agumentik Group of Companies",
-      date: "July 2023 - March 2024",
-      desc: "Contributed to innovative projects as a Fullstack Engineer, leading both frontend and backend development using technologies such as HTML, CSS, JavaScript, PHP, SQL, Bootstrap, and ReactJS. Worked closely with the team to deliver responsive, high-performance web applications and improve user experience through seamless integration of various technologies.",
-      skills: [
-        "ReactJS",
-        "Redux",
         "JavaScript",
-        "Tailwind CSS",
         "HTML",
         "CSS",
-        "SQL",
-      ],
-    },
-    {
-      id: 2,
-      // img: newtonschoolLogo,
-      role: "Frontend Intern",
-      company: "Newton School",
-      date: "September 2021 - August 2022",
-      desc: "Worked as a Frontend Developer Intern, designing and implementing scalable UI components and responsive websites using HTML, CSS, JavaScript, Bootstrap, and Material UI. Collaborated with the design team to translate wireframes and prototypes from Figma into interactive, user-friendly web pages.",
-      skills: [
-        "HTML",
-        "CSS",
-        "Javascript",
-        "Bootstrap",
-        "Figma",
-        "Material UI",
+        "Web Development",
+        "Responsive Design",
+        "Team Collaboration",
       ],
     },
   ];
