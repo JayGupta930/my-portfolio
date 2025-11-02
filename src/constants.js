@@ -251,3 +251,16 @@ export const SkillsInfo = [
     //   webapp: "https://removeyourbg.netlify.app/",
     // },
   ];  
+
+// GitHub Years for contribution graph
+export const GithubYears = [2025, 2024];
+
+// Site Configuration
+export const SiteConfig = {
+  user: {
+    socials: {
+      githubUserId: "JayGupta930"
+    }
+  }
+};
+  
