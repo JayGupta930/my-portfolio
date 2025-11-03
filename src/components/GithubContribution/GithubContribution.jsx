@@ -51,7 +51,7 @@ const GithubContributions = () => {
                 <Tooltip
                   showArrow
                   content={`${activity.count} activities on ${activity.date}`}
-                  className="text-neutral-950 dark:text-slate-50 font-openSans"
+                  className="bg-black text-white font-openSans"
                 >
                   {block}
                 </Tooltip>
