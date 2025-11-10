@@ -1,14 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaYoutube, FaGithub } from "react-icons/fa";
 
 const Footer = () => {
-  // Smooth scroll function
-  const handleScroll = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const navigate = useNavigate();
 
   return (
     <footer className="text-white py-6 sm:py-8 px-4 sm:px-[7vw] md:px-[7vw] lg:px-[20vw]">
@@ -19,15 +14,14 @@ const Footer = () => {
         {/* Navigation Links - Responsive */}
         <nav className="flex flex-wrap justify-center gap-2 sm:gap-4 md:gap-6 mt-4">
           {[
-            { name: "About", id: "about" },
-            { name: "Skills", id: "skills" },
-            // { name: "Experience", id: "experience" },
-            { name: "Projects", id: "projects" },
-            { name: "Education", id: "education" },
+            { name: "About", path: "/" },
+            { name: "Skills", path: "/skills" },
+            { name: "Projects", path: "/projects" },
+            { name: "Education", path: "/education" },
           ].map((item, index) => (
             <button
               key={index}
-              onClick={() => handleScroll(item.id)}
+              onClick={() => navigate(item.path)}
               className="hover:text-purple-500 text-xs sm:text-sm md:text-base my-1 px-2 py-1 rounded transition-colors cursor-pointer"
             >
               {item.name}

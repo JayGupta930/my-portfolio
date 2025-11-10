@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
   // Detect scroll and change navbar background
   useEffect(() => {
@@ -17,23 +18,16 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Smooth scroll function
-  const handleMenuItemClick = (sectionId) => {
-    setActiveSection(sectionId);
+  useEffect(() => {
     setIsOpen(false);
-
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  }, [location.pathname]);
 
   const menuItems = [
-    { id: "about", label: "About" },
-    { id: "skills", label: "Skills" },
-    // { id: "experience", label: "Experience" },
-    { id: "work", label: "Projects" },
-    { id: "education", label: "Education" },
+    { path: "/", label: "About", end: true },
+    { path: "/skills", label: "Skills" },
+    { path: "/projects", label: "Projects" },
+    { path: "/education", label: "Education" },
+    { path: "/contact", label: "Contact" },
   ];
 
   return (
@@ -56,14 +50,19 @@ const Navbar = () => {
         <ul className="hidden md:flex space-x-8 text-gray-300">
           {menuItems.map((item) => (
             <li
-              key={item.id}
-              className={`hover:text-[#8245ec] ${
-                activeSection === item.id ? "text-[#8245ec]" : ""
-              }`}
+              key={item.path}
             >
-              <button className="cursor-pointer" onClick={() => handleMenuItemClick(item.id)}>
+              <NavLink
+                to={item.path}
+                end={item.end}
+                className={({ isActive }) =>
+                  `cursor-pointer transition-colors duration-200 hover:text-[#8245ec] ${
+                    isActive ? "text-[#8245ec]" : ""
+                  }`
+                }
+              >
                 {item.label}
-              </button>
+              </NavLink>
             </li>
           ))}
         </ul>
@@ -110,14 +109,19 @@ const Navbar = () => {
           <ul className="flex flex-col items-center space-y-4 py-6 text-gray-300">
             {menuItems.map((item) => (
               <li
-                key={item.id}
-                className={`cursor-pointer hover:text-white text-base sm:text-lg ${
-                  activeSection === item.id ? "text-[#8245ec]" : ""
-                }`}
+                key={item.path}
               >
-                <button onClick={() => handleMenuItemClick(item.id)}>
+                <NavLink
+                  to={item.path}
+                  end={item.end}
+                  className={({ isActive }) =>
+                    `cursor-pointer hover:text-white text-base sm:text-lg ${
+                      isActive ? "text-[#8245ec]" : ""
+                    }`
+                  }
+                >
                   {item.label}
-                </button>
+                </NavLink>
               </li>
             ))}
             <div className="flex space-x-6 mt-4">
