@@ -24,6 +24,7 @@
     "react-icons": "^5.5.0",
     "react-parallax-tilt": "^1.7.299",
     "react-simple-typewriter": "^5.0.1",
+  "react-router-dom": "^6.28.0",
     "tailwindcss": "^4.1.4",
     "three": "^0.178.0"
   },
