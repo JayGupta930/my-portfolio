@@ -10,6 +10,8 @@ import Education from "./components/Education/Education";
 import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import Project from "./components/Projects/Projects";
+import Creativity from "./components/Creativity/Creativity";
+import Music from "./Creativity/Music/Music";
 import BlurBlob from "./BlurBlob";
 import "./mobile-responsive.css";
 
@@ -61,6 +63,8 @@ const App = () => {
           <Route path="/skills" element={<SkillsPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/education" element={<EducationPage />} />
+          <Route path="/creativity" element={<Creativity />} />
+          <Route path="/creativity/music" element={<Music />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<AboutPage />} />
         </Routes>

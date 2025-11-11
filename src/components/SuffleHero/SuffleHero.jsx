@@ -1,10 +1,26 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { scrollToSection } from "../../utils/scrollUtils";
+import shuffleImg01 from "../../assets/suffle_logo/characteri.webp";
+import shuffleImg02 from "../../assets/suffle_logo/characterii.webp";
+import shuffleImg03 from "../../assets/suffle_logo/characteriii.webp";
+import shuffleImg04 from "../../assets/suffle_logo/characteriv.webp";
+import shuffleImg05 from "../../assets/suffle_logo/characterv.webp";
+import shuffleImg06 from "../../assets/suffle_logo/charactervi.webp";
+import shuffleImg07 from "../../assets/suffle_logo/charactervii.webp";
+import shuffleImg08 from "../../assets/suffle_logo/characterviii.webp";
+import shuffleImg09 from "../../assets/suffle_logo/characterix.webp";
+import shuffleImg10 from "../../assets/suffle_logo/characteri.webp";
+import shuffleImg11 from "../../assets/suffle_logo/characterii.webp";
+import shuffleImg12 from "../../assets/suffle_logo/characteriii.webp";
+import shuffleImg13 from "../../assets/suffle_logo/characteriv.webp";
+import shuffleImg14 from "../../assets/suffle_logo/characterv.webp";
+import shuffleImg15 from "../../assets/suffle_logo/charactervi.webp";
+import shuffleImg16 from "../../assets/suffle_logo/charactervii.webp";
 
 const ShuffleHero = () => {
   return (
-    <section className="w-full px-8 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8 max-w-6xl mx-auto">
+    <section className="w-full min-h-screen px-8 py-12 grid grid-cols-1 md:grid-cols-2 items-center gap-8">
       <div>
         <span className="block mb-4 text-xs md:text-sm text-indigo-500 font-medium">
           Better every day
@@ -17,8 +33,8 @@ const ShuffleHero = () => {
           Specializing in React, JavaScript, and full-stack development to create
           innovative solutions that make a difference.
         </p>
-        <button 
-          onClick={() => scrollToSection('/contact')}
+        <button
+          onClick={() => scrollToSection("contact")}
           className="bg-indigo-500 text-white font-medium py-2 px-4 rounded transition-all hover:bg-indigo-600 active:scale-95 cursor-pointer"
         >
           Let's talk
@@ -47,84 +63,42 @@ const shuffle = (array) => {
 };
 
 const squareData = [
-  {
-    id: 1,
-    src: "https://images.unsplash.com/photo-1547347298-4074fc3086f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-  },
-  {
-    id: 2,
-    src: "https://images.unsplash.com/photo-1510925758641-869d353cecc7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-  },
-  {
-    id: 3,
-    src: "https://images.unsplash.com/photo-1629901925121-8a141c2a42f4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-  },
-  {
-    id: 4,
-    src: "https://images.unsplash.com/photo-1580238053495-b9720401fd45?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-  },
-  {
-    id: 5,
-    src: "https://images.unsplash.com/photo-1569074187119-c87815b476da?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1325&q=80",
-  },
-  {
-    id: 6,
-    src: "https://images.unsplash.com/photo-1556817411-31ae72fa3ea0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-  },
-  {
-    id: 7,
-    src: "https://images.unsplash.com/photo-1599586120429-48281b6f0ece?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-  },
-  {
-    id: 8,
-    src: "https://plus.unsplash.com/premium_photo-1671436824833-91c0741e89c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-  },
-  {
-    id: 9,
-    src: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
-  },
-  {
-    id: 10,
-    src: "https://images.unsplash.com/photo-1610768764270-790fbec18178?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-  },
-  {
-    id: 11,
-    src: "https://images.unsplash.com/photo-1507034589631-9433cc6bc453?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=684&q=80",
-  },
-  {
-    id: 12,
-    src: "https://images.unsplash.com/photo-1533107862482-0e6974b06ec4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=882&q=80",
-  },
-  {
-    id: 13,
-    src: "https://images.unsplash.com/photo-1560089000-7433a4ebbd64?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-  },
-  {
-    id: 14,
-    src: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80",
-  },
-  {
-    id: 15,
-    src: "https://images.unsplash.com/photo-1606244864456-8bee63fce472?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=681&q=80",
-  },
-  {
-    id: 16,
-    src: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1820&q=80",
-  },
+  { id: 1, src: shuffleImg01 },
+  { id: 2, src: shuffleImg02 },
+  { id: 3, src: shuffleImg03 },
+  { id: 4, src: shuffleImg04 },
+  { id: 5, src: shuffleImg05 },
+  { id: 6, src: shuffleImg06 },
+  { id: 7, src: shuffleImg07 },
+  { id: 8, src: shuffleImg08 },
+  { id: 9, src: shuffleImg09 },
+  { id: 10, src: shuffleImg10 },
+  { id: 11, src: shuffleImg11 },
+  { id: 12, src: shuffleImg12 },
+  { id: 13, src: shuffleImg13 },
+  { id: 14, src: shuffleImg14 },
+  { id: 15, src: shuffleImg15 },
+  { id: 16, src: shuffleImg16 },
 ];
 
 const generateSquares = () => {
-  return shuffle(squareData).map((sq) => (
+  return shuffle([...squareData]).map((sq) => (
     <motion.div
       key={sq.id}
       layout
       transition={{ duration: 1.5, type: "spring" }}
       className="w-full h-full"
-      style={{
-        backgroundImage: `url(${sq.src})`,
-        backgroundSize: "cover",
-      }}
-    ></motion.div>
+    >
+      <img
+        className="w-full h-full object-cover"
+        src={sq.src}
+        alt={`shuffle gallery item ${sq.id}`}
+        loading="lazy"
+        decoding="async"
+        width="256"
+        height="256"
+      />
+    </motion.div>
   ));
 };
 
