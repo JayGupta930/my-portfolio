@@ -13,7 +13,13 @@ import Project from "./components/Projects/Projects";
 import Creativity from "./components/Creativity/Creativity";
 import Music from "./Creativity/Music/Music";
 import BlurBlob from "./BlurBlob";
+import ScribbleLayout from "./pages/ScribbleLayout";
+import HomePage from "./pages/HomePage";
+import GameRoomPage from "./pages/GameRoomPage";
+import ResultsPage from "./pages/ResultsPage";
+import AboutPage from "./pages/AboutPage";
 import "./mobile-responsive.css";
+import { scrollToSection } from "./utils/scrollUtils";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -25,13 +31,28 @@ const ScrollToTop = () => {
   return null;
 };
 
-const AboutPage = () => (
-  <>
-    <About />
-    <GithubContribution />
-    <ShuffleHero />
-  </>
-);
+const LandingPage = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.scrollToId) {
+      const targetId = location.state.scrollToId;
+      const timeoutId = setTimeout(() => {
+        scrollToSection(targetId);
+      }, 100);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [location.state]);
+
+  return (
+    <>
+      <About />
+      <GithubContribution />
+      <ShuffleHero />
+    </>
+  );
+};
 
 const SkillsPage = () => (
   <>
@@ -59,14 +80,20 @@ const App = () => {
         <Navbar />
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<AboutPage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/skills" element={<SkillsPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/education" element={<EducationPage />} />
           <Route path="/creativity" element={<Creativity />} />
           <Route path="/creativity/music" element={<Music />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<AboutPage />} />
+          <Route path="/scribble" element={<ScribbleLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="room/:roomId" element={<GameRoomPage />} />
+            <Route path="results" element={<ResultsPage />} />
+          </Route>
+          <Route path="*" element={<LandingPage />} />
         </Routes>
         <Footer />
       </div>
