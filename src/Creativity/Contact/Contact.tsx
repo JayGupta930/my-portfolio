@@ -12,9 +12,11 @@ function CardHoverEffect() {
     };
 }
 
+import { useNavigate } from "react-router-dom";
 import charactervi from "../../assets/suffle_logo/charactervi.webp";
 
 const Contact = () => {
+  const navigate = useNavigate();
     const handleMouseMove = CardHoverEffect();
 
   return (
@@ -35,7 +37,11 @@ const Contact = () => {
             <br /> new era of gaming
             <br /> together.</strong>
           </h2>
-          <button className="relative mt-10 inline-flex h-12 items-center justify-center rounded-full border border-white/10 bg-[#dedcff] px-12 text-xs font-semibold uppercase tracking-[0.3em] text-black shadow-[0_16px_40px_rgba(120,99,255,0.55)] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(120,99,255,0.7)]">
+          <button
+            type="button"
+            onClick={() => navigate("/scribble")}
+            className="relative mt-10 inline-flex h-12 items-center justify-center rounded-full border border-white/10 bg-[#dedcff] px-12 text-xs font-semibold uppercase tracking-[0.3em] text-black shadow-[0_16px_40px_rgba(120,99,255,0.55)] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(120,99,255,0.7)]"
+          >
             Play Now
           </button>
 
