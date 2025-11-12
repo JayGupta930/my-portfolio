@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { scrollToSection } from "../../utils/scrollUtils";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,13 +24,29 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const menuItems = [
-    { path: "/", label: "About", end: true },
+    { path: "/", label: "Home", end: true, scrollToTop: true },
     { path: "/skills", label: "Skills" },
     { path: "/projects", label: "Projects" },
     { path: "/education", label: "Education" },
     { path: "/creativity", label: "Creativity" },
     { path: "/contact", label: "Contact" },
+    { path: "/about", label: "About", end: true },
   ];
+
+  const handleMenuItemClick = (event, item) => {
+    if (item.scrollToTop && location.pathname === item.path) {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setIsOpen(false);
+      return;
+    }
+
+    if (item.scrollToId && location.pathname === item.path) {
+      event.preventDefault();
+      scrollToSection(item.scrollToId);
+      setIsOpen(false);
+    }
+  };
 
   return (
     <nav
@@ -56,6 +73,8 @@ const Navbar = () => {
               <NavLink
                 to={item.path}
                 end={item.end}
+                state={item.scrollToId ? { scrollToId: item.scrollToId } : undefined}
+                onClick={(event) => handleMenuItemClick(event, item)}
                 className={({ isActive }) =>
                   `cursor-pointer transition-colors duration-200 hover:text-[#8245ec] ${
                     isActive ? "text-[#8245ec]" : ""
@@ -115,6 +134,8 @@ const Navbar = () => {
                 <NavLink
                   to={item.path}
                   end={item.end}
+                  state={item.scrollToId ? { scrollToId: item.scrollToId } : undefined}
+                  onClick={(event) => handleMenuItemClick(event, item)}
                   className={({ isActive }) =>
                     `cursor-pointer hover:text-white text-base sm:text-lg ${
                       isActive ? "text-[#8245ec]" : ""
