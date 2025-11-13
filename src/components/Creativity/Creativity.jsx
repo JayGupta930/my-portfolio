@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import CreativityContact from "../../Creativity/Contact/Contact";
+import { VaporizeTextCycle } from "../ui/vapour-text-effect";
 
 const Creativity = () => {
   const navigate = useNavigate();
@@ -31,7 +32,27 @@ const Creativity = () => {
                 <span className="text-xs uppercase tracking-wide text-slate-400">Instant access · No signup</span>
               </div>
             </div>
-            <div className="col-span-2 row-span-3 row-start-3 rounded-2xl border border-white/10 bg-gray-900/60 p-8 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(157,0,255,0.4)]"></div>
+            <div className="col-span-2 row-span-3 row-start-3 rounded-2xl border border-white/10 bg-gray-900/60 p-8 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(157,0,255,0.4)]">
+              <VaporizeTextCycle
+                texts={["Creative", "Design", "Ideas"]}
+                font={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: "40px",
+                  fontWeight: 600
+                }}
+                color="rgb(255,255, 255)"
+                spread={5}
+                density={5}
+                animation={{
+                  vaporizeDuration: 2,
+                  fadeInDuration: 1,
+                  waitDuration: 0.5
+                }}
+                direction="left-to-right"
+                alignment="center"
+                tag="h1"
+              />
+            </div>
             <div className="col-span-3 row-span-3 col-start-3 row-start-3 rounded-2xl border border-white/10 bg-gray-900/60 p-8 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(157,0,255,0.4)]"></div>
           </div>
         </div>
