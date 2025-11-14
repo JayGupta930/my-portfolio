@@ -22,6 +22,7 @@ import "./mobile-responsive.css";
 import { scrollToSection } from "./utils/scrollUtils";
 import MagicBento from "./components/MagicBento";
 import ModelViewer from "./components/ModelViewer";
+import Globe from "./components/ui/globe";
 import {
   SiReact,
   SiNextdotjs,
@@ -138,7 +139,7 @@ const LandingPage = () => {
 
       <div className="w-full max-w-7xl mx-auto h-[600px] flex items-center justify-between gap-12 px-8 md:px-16 lg:px-24 bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-3xl my-8 border border-gray-800">
         <div className="flex-1 text-left pl-8">
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white" style={{ textShadow: '0 0 20px rgba(255,255,255,0.3)' }}>
+          <h2 className="text-4xl md:text-6xl lg:text-5xl font-bold text-white" style={{ textShadow: '0 0 20px rgba(255,255,255,0.3)' }}>
             Fast as lightning.
           </h2>
         </div>
@@ -149,6 +150,7 @@ const LandingPage = () => {
             height={600}
           />
         </div>
+        {/* <Globe /> */}
       </div>
     </>
   );
