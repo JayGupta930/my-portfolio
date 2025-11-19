@@ -22,7 +22,7 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="relative flex min-h-screen items-center justify-center bg-[#dcdcfe] px-4 py-16 text-[#bfbaff]"
+      className="relative flex min-h-screen items-center justify-center px-4 py-16 text-[#bfbaff]"
     >
       <div
         className="relative mx-auto w-full max-w-8xl"
@@ -30,7 +30,7 @@ const Contact = () => {
       >
         <div className="pointer-events-none absolute inset-0 rounded-[2.5rem] bg-[radial-gradient(circle_at_top,#b9b4ff_0%,transparent_65%)] opacity-70 blur-3xl"></div>
 
-        <div className="relative overflow-hidden rounded-[2.5rem] border border-[#7268ff]/20 bg-black px-6 py-46 text-center shadow-[0_40px_120px_rgba(88,64,199,0.4)] sm:px-10 md:px-16">
+        <div className="relative overflow-hidden rounded-[2.5rem] border border-[#7268ff]/20 bg-black px-6 py-34 text-center shadow-[0_40px_120px_rgba(88,64,199,0.4)] sm:px-10 md:px-16">
           <p className="font-general text-xs uppercase tracking-[0.35em] text-[#9ca0ff]">Join JX Gaming</p>
           <h2 className="mt-6 font-zentry text-[3rem] uppercase leading-[0.9] text-[#dedcff] sm:text-[4rem] md:text-[4.5rem]">
             <strong>Let&apos;s build the
