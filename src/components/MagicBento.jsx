@@ -1,5 +1,7 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
+import Game2048 from './2048/Game2048';
+import TicTacToe from './TicTacToe/Tic';
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
@@ -9,21 +11,23 @@ const MOBILE_BREAKPOINT = 768;
 const cardData = [
   {
     color: '#060010',
-    title: 'Analytics',
-    description: 'Track user behavior',
-    label: 'Insights'
+    title: 'Profile',
+    description: 'FSD @ilika.earth | Ex-UI/UX @Solysian Tech Private Limited | Full-Stack Developer (MERN) | React & Next.js Specialist | UI/UX Designer | JLPT N2 Prep (Aiming for Tech Roles in Japan)',
+    label: 'Linkedin',
+    link: 'https://www.linkedin.com/in/jay-gupta-930/'
   },
   {
     color: '#060010',
-    title: 'Dashboard',
-    description: 'Centralized data view',
-    label: 'Overview'
+    title: 'X (Twitter)',
+    description: 'I specialize in translating ideas into well-crafted digital experiences, using React for dynamic interfaces and UI/UX design to shape smooth user journeys.',
+    label: 'X',
+    link: 'https://x.com/JayGupta930/'
   },
   {
     color: '#060010',
-    title: 'Collaboration',
-    description: 'Work together seamlessly',
-    label: 'Teamwork'
+    title: 'Fun',
+    description: 'I enjoy solving puzzles and playing games like chess and 2048 during my free time to unwind and challenge my mind.',
+    label: '2048'
   },
   {
     color: '#060010',
@@ -33,15 +37,18 @@ const cardData = [
   },
   {
     color: '#060010',
-    title: 'Integration',
-    description: 'Connect favorite tools',
-    label: 'Connectivity'
+    title: 'Instagram',
+    description: 'ジェイ',
+    label: 'Instagram',
+    link: 'https://www.instagram.com/jaygupta7774/',
+    showFollowers: true
   },
   {
     color: '#060010',
-    title: 'Security',
-    description: 'Enterprise-grade protection',
-    label: 'Protection'
+    title: 'GitHub',
+    description: 'Building stuff I shouldn\'t be building at 3 AM.\nDesigning like an artist.\n Coding like a machine.\nMERN | React | UI/UX | Controlled madness.',
+    label: 'GitHub',
+    link: 'https://github.com/JayGupta930'
   }
 ];
 
@@ -492,6 +499,24 @@ const MagicBento = ({
   const gridRef = useRef(null);
   const isMobile = useMobileDetection();
   const shouldDisableAnimations = disableAnimations || isMobile;
+  const [followerCount, setFollowerCount] = useState(null);
+
+  useEffect(() => {
+    const fetchInstagramFollowers = async () => {
+      try {
+        const response = await fetch('https://www.instagram.com/jaygupta7774/?__a=1&__d=dis');
+        const data = await response.json();
+        const followers = data?.graphql?.user?.edge_followed_by?.count;
+        if (followers) {
+          setFollowerCount(followers.toLocaleString());
+        }
+      } catch (error) {
+        console.log('Could not fetch Instagram followers');
+        setFollowerCount('View Profile');
+      }
+    };
+    fetchInstagramFollowers();
+  }, []);
 
   return (
     <>
@@ -635,9 +660,13 @@ const MagicBento = ({
       <BentoCardGrid gridRef={gridRef}>
         <div className="card-responsive grid gap-2">
           {cardData.map((card, index) => {
-            const baseClassName = `card flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
-              enableBorderGlow ? 'card--border-glow' : ''
-            }`;
+            const isGameCard = index === 2 || index === 3;
+            const GameComponent = isGameCard ? (index === 2 ? Game2048 : TicTacToe) : null;
+            const baseClassName = [
+              'card flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full rounded-[20px] border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)]',
+              enableBorderGlow ? 'card--border-glow' : '',
+              isGameCard ? 'p-0' : 'p-5'
+            ].filter(Boolean).join(' ');
 
             const cardStyle = {
               backgroundColor: card.color || 'var(--background-dark)',
@@ -649,7 +678,173 @@ const MagicBento = ({
               '--glow-radius': '200px'
             };
 
+            const gameCardContent = isGameCard ? (
+              <div className="h-full w-full p-3 sm:p-4 flex flex-col">
+                <div className="flex-1 min-h-0">
+                  {GameComponent && <GameComponent embedded />}
+                </div>
+              </div>
+            ) : null;
+
             if (enableStars) {
+              const CardContent = isGameCard ? (
+                gameCardContent
+              ) : (
+                <>
+                  <div className="card__header flex justify-between items-start gap-2 relative text-white mb-4">
+                    <span className="card__label text-base">{card.label}</span>
+                    {index === 0 && (
+                      <img 
+                        src="/img/Profile.jpg" 
+                        alt="Profile" 
+                        className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                      />
+                    )}
+                    {index === 1 && (
+                      <img 
+                        src="/img/x.jpg" 
+                        alt="X Profile" 
+                        className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                      />
+                    )}
+                    {index === 4 && (
+                      <img 
+                        src="/img/insta.jpg" 
+                        alt="Instagram Profile" 
+                        className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                      />
+                    )}
+                    {index === 5 && (
+                      <img 
+                        src="/img/github.jpg" 
+                        alt="GitHub Profile" 
+                        className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                      />
+                    )}
+                  </div>
+                  <div className="card__content flex flex-col relative text-white mt-auto gap-2">
+                    <h3 className={`card__title font-semibold text-xl m-0 ${(index === 0 || index === 1 || index === 5) ? '' : textAutoHide ? 'text-clamp-1' : ''}`}>
+                      {card.title}
+                    </h3>
+                    <p
+                      className={`card__description text-xs leading-relaxed opacity-90 ${(index === 0 || index === 1 || index === 5) ? '' : textAutoHide ? 'text-clamp-2' : ''}`}
+                      style={(index === 0 || index === 1 || index === 5) ? { display: '-webkit-box', WebkitLineClamp: 6, WebkitBoxOrient: 'vertical', overflow: 'hidden', whiteSpace: 'pre-line' } : {}}
+                    >
+                      {card.description}
+                    </p>
+                    {index === 4 && card.showFollowers && followerCount && (
+                      <p className="text-sm font-semibold opacity-80 mt-1">
+                        {followerCount} followers
+                      </p>
+                    )}
+                  </div>
+                </>
+              );
+
+              if (index === 0 && card.link) {
+                return (
+                  <a
+                    key={index}
+                    href={card.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block no-underline"
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <ParticleCard
+                      className={baseClassName}
+                      style={cardStyle}
+                      disableAnimations={shouldDisableAnimations}
+                      particleCount={particleCount}
+                      glowColor={glowColor}
+                      enableTilt={isGameCard ? false : enableTilt}
+                      clickEffect={isGameCard ? false : clickEffect}
+                      enableMagnetism={isGameCard ? false : enableMagnetism}
+                    >
+                      {CardContent}
+                    </ParticleCard>
+                  </a>
+                );
+              }
+
+              if (index === 1 && card.link) {
+                return (
+                  <a
+                    key={index}
+                    href={card.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block no-underline"
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <ParticleCard
+                      className={baseClassName}
+                      style={cardStyle}
+                      disableAnimations={shouldDisableAnimations}
+                      particleCount={particleCount}
+                      glowColor={glowColor}
+                      enableTilt={isGameCard ? false : enableTilt}
+                      clickEffect={isGameCard ? false : clickEffect}
+                      enableMagnetism={isGameCard ? false : enableMagnetism}
+                    >
+                      {CardContent}
+                    </ParticleCard>
+                  </a>
+                );
+              }
+
+              if (index === 4 && card.link) {
+                return (
+                  <a
+                    key={index}
+                    href={card.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block no-underline"
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <ParticleCard
+                      className={baseClassName}
+                      style={cardStyle}
+                      disableAnimations={shouldDisableAnimations}
+                      particleCount={particleCount}
+                      glowColor={glowColor}
+                      enableTilt={isGameCard ? false : enableTilt}
+                      clickEffect={isGameCard ? false : clickEffect}
+                      enableMagnetism={isGameCard ? false : enableMagnetism}
+                    >
+                      {CardContent}
+                    </ParticleCard>
+                  </a>
+                );
+              }
+
+              if (index === 5 && card.link) {
+                return (
+                  <a
+                    key={index}
+                    href={card.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block no-underline"
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <ParticleCard
+                      className={baseClassName}
+                      style={cardStyle}
+                      disableAnimations={shouldDisableAnimations}
+                      particleCount={particleCount}
+                      glowColor={glowColor}
+                      enableTilt={isGameCard ? false : enableTilt}
+                      clickEffect={isGameCard ? false : clickEffect}
+                      enableMagnetism={isGameCard ? false : enableMagnetism}
+                    >
+                      {CardContent}
+                    </ParticleCard>
+                  </a>
+                );
+              }
+
               return (
                 <ParticleCard
                   key={index}
@@ -658,24 +853,583 @@ const MagicBento = ({
                   disableAnimations={shouldDisableAnimations}
                   particleCount={particleCount}
                   glowColor={glowColor}
-                  enableTilt={enableTilt}
-                  clickEffect={clickEffect}
-                  enableMagnetism={enableMagnetism}
+                  enableTilt={isGameCard ? false : enableTilt}
+                  clickEffect={isGameCard ? false : clickEffect}
+                  enableMagnetism={isGameCard ? false : enableMagnetism}
                 >
-                  <div className="card__header flex justify-between gap-3 relative text-white">
-                    <span className="card__label text-base">{card.label}</span>
-                  </div>
-                  <div className="card__content flex flex-col relative text-white">
-                    <h3 className={`card__title font-normal text-base m-0 mb-1 ${textAutoHide ? 'text-clamp-1' : ''}`}>
-                      {card.title}
-                    </h3>
-                    <p
-                      className={`card__description text-xs leading-5 opacity-90 ${textAutoHide ? 'text-clamp-2' : ''}`}
-                    >
-                      {card.description}
-                    </p>
-                  </div>
+                  {CardContent}
                 </ParticleCard>
+              );
+            }
+
+            const NonStarCardContent = isGameCard ? (
+              gameCardContent
+            ) : (
+              <>
+                <div className="card__header flex justify-between items-start gap-2 relative text-white mb-4">
+                  <span className="card__label text-base">{card.label}</span>
+                  {index === 0 && (
+                    <img 
+                      src="https://i.postimg.cc/Mp7vnfZn/1000111857.jpg" 
+                      alt="Profile" 
+                      className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                    />
+                  )}
+                  {index === 1 && (
+                    <img 
+                      src="/img/x.jpg" 
+                      alt="X Profile" 
+                      className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                    />
+                  )}
+                  {index === 4 && (
+                    <img 
+                      src="/img/insta.jpg" 
+                      alt="Instagram Profile" 
+                      className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                    />
+                  )}
+                  {index === 5 && (
+                    <img 
+                      src="/img/github.jpg" 
+                      alt="GitHub Profile" 
+                      className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                    />
+                  )}
+                </div>
+                <div className="card__content flex flex-col relative text-white mt-auto gap-2">
+                  <h3 className={`card__title font-semibold text-xl m-0 ${(index === 0 || index === 1 || index === 5) ? '' : textAutoHide ? 'text-clamp-1' : ''}`}>
+                    {card.title}
+                  </h3>
+                  <p className={`card__description text-xs leading-relaxed opacity-90 ${(index === 0 || index === 1 || index === 5) ? '' : textAutoHide ? 'text-clamp-2' : ''}`}
+                     style={(index === 0 || index === 1 || index === 5) ? { display: '-webkit-box', WebkitLineClamp: 6, WebkitBoxOrient: 'vertical', overflow: 'hidden', whiteSpace: 'pre-line' } : {}}>
+                    {card.description}
+                  </p>
+                  {index === 4 && card.showFollowers && followerCount && (
+                    <p className="text-sm font-semibold opacity-80 mt-1">
+                      {followerCount} followers
+                    </p>
+                  )}
+                </div>
+              </>
+            );
+
+            if (index === 0 && card.link) {
+              return (
+                <a
+                  key={index}
+                  href={card.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block no-underline"
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div
+                    className={baseClassName}
+                    style={cardStyle}
+                    ref={el => {
+                      if (!el) return;
+                      if (isGameCard) return;
+
+                      const handleMouseMove = e => {
+                        if (shouldDisableAnimations) return;
+
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+
+                        if (enableTilt) {
+                          const rotateX = ((y - centerY) / centerY) * -10;
+                          const rotateY = ((x - centerX) / centerX) * 10;
+
+                          gsap.to(el, {
+                            rotateX,
+                            rotateY,
+                            duration: 0.1,
+                            ease: 'power2.out',
+                            transformPerspective: 1000
+                          });
+                        }
+
+                        if (enableMagnetism) {
+                          const magnetX = (x - centerX) * 0.05;
+                          const magnetY = (y - centerY) * 0.05;
+
+                          gsap.to(el, {
+                            x: magnetX,
+                            y: magnetY,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                          });
+                        }
+                      };
+
+                      const handleMouseLeave = () => {
+                        if (shouldDisableAnimations) return;
+
+                        if (enableTilt) {
+                          gsap.to(el, {
+                            rotateX: 0,
+                            rotateY: 0,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                          });
+                        }
+
+                        if (enableMagnetism) {
+                          gsap.to(el, {
+                            x: 0,
+                            y: 0,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                          });
+                        }
+                      };
+
+                      const handleClick = e => {
+                        if (!clickEffect || shouldDisableAnimations) return;
+
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+
+                        const maxDistance = Math.max(
+                          Math.hypot(x, y),
+                          Math.hypot(x - rect.width, y),
+                          Math.hypot(x, y - rect.height),
+                          Math.hypot(x - rect.width, y - rect.height)
+                        );
+
+                        const ripple = document.createElement('div');
+                        ripple.style.cssText = `
+                          position: absolute;
+                          width: ${maxDistance * 2}px;
+                          height: ${maxDistance * 2}px;
+                          border-radius: 50%;
+                          background: radial-gradient(circle, rgba(${glowColor}, 0.4) 0%, rgba(${glowColor}, 0.2) 30%, transparent 70%);
+                          left: ${x - maxDistance}px;
+                          top: ${y - maxDistance}px;
+                          pointer-events: none;
+                          z-index: 1000;
+                        `;
+
+                        el.appendChild(ripple);
+
+                        gsap.fromTo(
+                          ripple,
+                          {
+                            scale: 0,
+                            opacity: 1
+                          },
+                          {
+                            scale: 1,
+                            opacity: 0,
+                            duration: 0.8,
+                            ease: 'power2.out',
+                            onComplete: () => ripple.remove()
+                          }
+                        );
+                      };
+
+                      el.addEventListener('mousemove', handleMouseMove);
+                      el.addEventListener('mouseleave', handleMouseLeave);
+                      el.addEventListener('click', handleClick);
+                    }}
+                  >
+                    {NonStarCardContent}
+                  </div>
+                </a>
+              );
+            }
+
+            if (index === 1 && card.link) {
+              return (
+                <a
+                  key={index}
+                  href={card.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block no-underline"
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div
+                    className={baseClassName}
+                    style={cardStyle}
+                    ref={el => {
+                      if (!el) return;
+                      if (isGameCard) return;
+
+                      const handleMouseMove = e => {
+                        if (shouldDisableAnimations) return;
+
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+
+                        if (enableTilt) {
+                          const rotateX = ((y - centerY) / centerY) * -10;
+                          const rotateY = ((x - centerX) / centerX) * 10;
+
+                          gsap.to(el, {
+                            rotateX,
+                            rotateY,
+                            duration: 0.1,
+                            ease: 'power2.out',
+                            transformPerspective: 1000
+                          });
+                        }
+
+                        if (enableMagnetism) {
+                          const magnetX = (x - centerX) * 0.05;
+                          const magnetY = (y - centerY) * 0.05;
+
+                          gsap.to(el, {
+                            x: magnetX,
+                            y: magnetY,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                          });
+                        }
+                      };
+
+                      const handleMouseLeave = () => {
+                        if (shouldDisableAnimations) return;
+
+                        if (enableTilt) {
+                          gsap.to(el, {
+                            rotateX: 0,
+                            rotateY: 0,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                          });
+                        }
+
+                        if (enableMagnetism) {
+                          gsap.to(el, {
+                            x: 0,
+                            y: 0,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                          });
+                        }
+                      };
+
+                      const handleClick = e => {
+                        if (!clickEffect || shouldDisableAnimations) return;
+
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+
+                        const maxDistance = Math.max(
+                          Math.hypot(x, y),
+                          Math.hypot(x - rect.width, y),
+                          Math.hypot(x, y - rect.height),
+                          Math.hypot(x - rect.width, y - rect.height)
+                        );
+
+                        const ripple = document.createElement('div');
+                        ripple.style.cssText = `
+                          position: absolute;
+                          width: ${maxDistance * 2}px;
+                          height: ${maxDistance * 2}px;
+                          border-radius: 50%;
+                          background: radial-gradient(circle, rgba(${glowColor}, 0.4) 0%, rgba(${glowColor}, 0.2) 30%, transparent 70%);
+                          left: ${x - maxDistance}px;
+                          top: ${y - maxDistance}px;
+                          pointer-events: none;
+                          z-index: 1000;
+                        `;
+
+                        el.appendChild(ripple);
+
+                        gsap.fromTo(
+                          ripple,
+                          {
+                            scale: 0,
+                            opacity: 1
+                          },
+                          {
+                            scale: 1,
+                            opacity: 0,
+                            duration: 0.8,
+                            ease: 'power2.out',
+                            onComplete: () => ripple.remove()
+                          }
+                        );
+                      };
+
+                      el.addEventListener('mousemove', handleMouseMove);
+                      el.addEventListener('mouseleave', handleMouseLeave);
+                      el.addEventListener('click', handleClick);
+                    }}
+                  >
+                    {NonStarCardContent}
+                  </div>
+                </a>
+              );
+            }
+
+            if (index === 4 && card.link) {
+              return (
+                <a
+                  key={index}
+                  href={card.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block no-underline"
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div
+                    className={baseClassName}
+                    style={cardStyle}
+                    ref={el => {
+                      if (!el) return;
+                      if (isGameCard) return;
+
+                      const handleMouseMove = e => {
+                        if (shouldDisableAnimations) return;
+
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+
+                        if (enableTilt) {
+                          const rotateX = ((y - centerY) / centerY) * -10;
+                          const rotateY = ((x - centerX) / centerX) * 10;
+
+                          gsap.to(el, {
+                            rotateX,
+                            rotateY,
+                            duration: 0.1,
+                            ease: 'power2.out',
+                            transformPerspective: 1000
+                          });
+                        }
+
+                        if (enableMagnetism) {
+                          const magnetX = (x - centerX) * 0.05;
+                          const magnetY = (y - centerY) * 0.05;
+
+                          gsap.to(el, {
+                            x: magnetX,
+                            y: magnetY,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                          });
+                        }
+                      };
+
+                      const handleMouseLeave = () => {
+                        if (shouldDisableAnimations) return;
+
+                        if (enableTilt) {
+                          gsap.to(el, {
+                            rotateX: 0,
+                            rotateY: 0,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                          });
+                        }
+
+                        if (enableMagnetism) {
+                          gsap.to(el, {
+                            x: 0,
+                            y: 0,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                          });
+                        }
+                      };
+
+                      const handleClick = e => {
+                        if (!clickEffect || shouldDisableAnimations) return;
+
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+
+                        const maxDistance = Math.max(
+                          Math.hypot(x, y),
+                          Math.hypot(x - rect.width, y),
+                          Math.hypot(x, y - rect.height),
+                          Math.hypot(x - rect.width, y - rect.height)
+                        );
+
+                        const ripple = document.createElement('div');
+                        ripple.style.cssText = `
+                          position: absolute;
+                          width: ${maxDistance * 2}px;
+                          height: ${maxDistance * 2}px;
+                          border-radius: 50%;
+                          background: radial-gradient(circle, rgba(${glowColor}, 0.4) 0%, rgba(${glowColor}, 0.2) 30%, transparent 70%);
+                          left: ${x - maxDistance}px;
+                          top: ${y - maxDistance}px;
+                          pointer-events: none;
+                          z-index: 1000;
+                        `;
+
+                        el.appendChild(ripple);
+
+                        gsap.fromTo(
+                          ripple,
+                          {
+                            scale: 0,
+                            opacity: 1
+                          },
+                          {
+                            scale: 1,
+                            opacity: 0,
+                            duration: 0.8,
+                            ease: 'power2.out',
+                            onComplete: () => ripple.remove()
+                          }
+                        );
+                      };
+
+                      el.addEventListener('mousemove', handleMouseMove);
+                      el.addEventListener('mouseleave', handleMouseLeave);
+                      el.addEventListener('click', handleClick);
+                    }}
+                  >
+                    {NonStarCardContent}
+                  </div>
+                </a>
+              );
+            }
+
+            if (index === 5 && card.link) {
+              return (
+                <a
+                  key={index}
+                  href={card.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block no-underline"
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div
+                    className={baseClassName}
+                    style={cardStyle}
+                    ref={el => {
+                      if (!el) return;
+
+                      const handleMouseMove = e => {
+                        if (shouldDisableAnimations) return;
+
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+
+                        if (enableTilt) {
+                          const rotateX = ((y - centerY) / centerY) * -10;
+                          const rotateY = ((x - centerX) / centerX) * 10;
+
+                          gsap.to(el, {
+                            rotateX,
+                            rotateY,
+                            duration: 0.1,
+                            ease: 'power2.out',
+                            transformPerspective: 1000
+                          });
+                        }
+
+                        if (enableMagnetism) {
+                          const magnetX = (x - centerX) * 0.05;
+                          const magnetY = (y - centerY) * 0.05;
+
+                          gsap.to(el, {
+                            x: magnetX,
+                            y: magnetY,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                          });
+                        }
+                      };
+
+                      const handleMouseLeave = () => {
+                        if (shouldDisableAnimations) return;
+
+                        if (enableTilt) {
+                          gsap.to(el, {
+                            rotateX: 0,
+                            rotateY: 0,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                          });
+                        }
+
+                        if (enableMagnetism) {
+                          gsap.to(el, {
+                            x: 0,
+                            y: 0,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                          });
+                        }
+                      };
+
+                      const handleClick = e => {
+                        if (!clickEffect || shouldDisableAnimations) return;
+
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+
+                        const maxDistance = Math.max(
+                          Math.hypot(x, y),
+                          Math.hypot(x - rect.width, y),
+                          Math.hypot(x, y - rect.height),
+                          Math.hypot(x - rect.width, y - rect.height)
+                        );
+
+                        const ripple = document.createElement('div');
+                        ripple.style.cssText = `
+                          position: absolute;
+                          width: ${maxDistance * 2}px;
+                          height: ${maxDistance * 2}px;
+                          border-radius: 50%;
+                          background: radial-gradient(circle, rgba(${glowColor}, 0.4) 0%, rgba(${glowColor}, 0.2) 30%, transparent 70%);
+                          left: ${x - maxDistance}px;
+                          top: ${y - maxDistance}px;
+                          pointer-events: none;
+                          z-index: 1000;
+                        `;
+
+                        el.appendChild(ripple);
+
+                        gsap.fromTo(
+                          ripple,
+                          {
+                            scale: 0,
+                            opacity: 1
+                          },
+                          {
+                            scale: 1,
+                            opacity: 0,
+                            duration: 0.8,
+                            ease: 'power2.out',
+                            onComplete: () => ripple.remove()
+                          }
+                        );
+                      };
+
+                      el.addEventListener('mousemove', handleMouseMove);
+                      el.addEventListener('mouseleave', handleMouseLeave);
+                      el.addEventListener('click', handleClick);
+                    }}
+                  >
+                    {NonStarCardContent}
+                  </div>
+                </a>
               );
             }
 
@@ -686,6 +1440,7 @@ const MagicBento = ({
                 style={cardStyle}
                 ref={el => {
                   if (!el) return;
+                  if (isGameCard) return;
 
                   const handleMouseMove = e => {
                     if (shouldDisableAnimations) return;
@@ -794,17 +1549,7 @@ const MagicBento = ({
                   el.addEventListener('click', handleClick);
                 }}
               >
-                <div className="card__header flex justify-between gap-3 relative text-white">
-                  <span className="card__label text-base">{card.label}</span>
-                </div>
-                <div className="card__content flex flex-col relative text-white">
-                  <h3 className={`card__title font-normal text-base m-0 mb-1 ${textAutoHide ? 'text-clamp-1' : ''}`}>
-                    {card.title}
-                  </h3>
-                  <p className={`card__description text-xs leading-5 opacity-90 ${textAutoHide ? 'text-clamp-2' : ''}`}>
-                    {card.description}
-                  </p>
-                </div>
+                {NonStarCardContent}
               </div>
             );
           })}
