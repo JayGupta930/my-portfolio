@@ -11,7 +11,7 @@ const Skills = () => (
     {/* Section Title */}
     <div className="text-center mb-8 sm:mb-12 md:mb-16">
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">SKILLS</h2>
-      <div className="w-16 sm:w-20 md:w-24 h-1 bg-[#8245ec] mx-auto mt-2"></div>
+      <div className="w-16 sm:w-20 md:w-24 h-1 bg-gradient-to-r from-purple-500 via-violet-500 to-cyan-400 mx-auto mt-2"></div>
       <p className="text-gray-400 mt-4 text-sm sm:text-base md:text-lg font-semibold px-4 sm:px-0">
       A collection of my technical skills and expertise honed through various projects and experiences
       </p>
