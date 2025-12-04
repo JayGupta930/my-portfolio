@@ -594,6 +594,10 @@ const MagicBento = ({
           }
           
           .card--border-glow:hover {
+            border: 1px solid transparent;
+            background: 
+              linear-gradient(#060010, #060010) padding-box,
+              linear-gradient(180deg, #6b21a8 0%, #a855f7 20%, #c084fc 40%, #67e8f9 60%, #22d3ee 80%, #a78bfa 100%) border-box;
             box-shadow: 0 4px 20px rgba(46, 24, 78, 0.4), 0 0 30px rgba(${glowColor}, 0.2);
           }
           
