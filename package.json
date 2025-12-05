@@ -19,6 +19,7 @@
     "@react-three/fiber": "^9.2.0",
     "@tailwindcss/vite": "^4.1.4",
     "clsx": "^2.1.1",
+    "firebase": "^12.6.0",
     "framer-motion": "^12.23.25",
     "gsap": "^3.13.0",
     "lenis": "^1.3.15",
