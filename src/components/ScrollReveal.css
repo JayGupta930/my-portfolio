@@ -1,0 +1,47 @@
+.scroll-reveal {
+  margin: 20px 0;
+}
+
+.scroll-reveal-text {
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.word {
+  display: inline-block;
+}
+
+/* Custom styles for Creativity section ScrollReveal */
+.creativity-scroll-reveal {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.creativity-scroll-text {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  line-height: 1.7;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+}
+
+.creativity-scroll-text .word {
+  color: #ffffff;
+}
+
+@media (max-width: 640px) {
+  .creativity-scroll-text {
+    font-size: clamp(0.85rem, 4vw, 1.1rem);
+    line-height: 1.6;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .creativity-scroll-text {
+    font-size: clamp(1rem, 2.2vw, 1.3rem);
+  }
+}
