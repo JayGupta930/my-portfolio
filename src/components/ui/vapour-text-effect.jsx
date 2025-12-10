@@ -77,6 +77,9 @@ export default function VaporizeTextCycle({
     width: "100%",
     height: "100%",
     pointerEvents: "none",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   }), []);
 
   const canvasStyle = useMemo(() => ({
