@@ -16,11 +16,35 @@ const FlappyBird = ({ embedded = false }) => {
   const [highScore, setHighScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
+  const [dimensions, setDimensions] = useState({ width: 280, height: 400 });
   const gameLoopRef = useRef(null);
   const gameAreaRef = useRef(null);
 
-  const GAME_HEIGHT = embedded ? 400 : 500;
-  const GAME_WIDTH = embedded ? 280 : 400;
+  // Responsive dimensions
+  useEffect(() => {
+    const updateDimensions = () => {
+      const screenWidth = window.innerWidth;
+      if (embedded) {
+        // Mobile-first responsive sizing
+        if (screenWidth < 380) {
+          setDimensions({ width: 240, height: 350 });
+        } else if (screenWidth < 480) {
+          setDimensions({ width: 260, height: 380 });
+        } else {
+          setDimensions({ width: 300, height: 420 });
+        }
+      } else {
+        setDimensions({ width: 400, height: 500 });
+      }
+    };
+    
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, [embedded]);
+
+  const GAME_HEIGHT = dimensions.height;
+  const GAME_WIDTH = dimensions.width;
 
   useEffect(() => {
     const saved = localStorage.getItem('flappy-high-score');
@@ -171,12 +195,12 @@ const FlappyBird = ({ embedded = false }) => {
         {/* Game Area */}
         <div 
           ref={gameAreaRef}
-          className="flex-1 flex items-center justify-center min-h-0"
+          className="flex-1 flex items-center justify-center min-h-0 px-1"
           onClick={jump}
         >
           <div 
-            className="relative bg-gradient-to-b from-cyan-400 to-cyan-600 rounded-xl overflow-hidden cursor-pointer"
-            style={{ width: GAME_WIDTH, height: GAME_HEIGHT }}
+            className="relative bg-gradient-to-b from-cyan-400 to-cyan-600 rounded-xl overflow-hidden cursor-pointer w-full max-w-[300px] sm:max-w-none"
+            style={{ width: GAME_WIDTH, height: GAME_HEIGHT, maxWidth: embedded ? '100%' : undefined }}
           >
             {/* Bird */}
             <div
