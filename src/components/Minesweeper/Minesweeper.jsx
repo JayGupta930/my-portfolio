@@ -206,15 +206,18 @@ const Minesweeper = ({ embedded = false }) => {
         </div>
 
         {/* Game Board */}
-        <div className={embedded ? 'flex-1 flex items-center justify-center min-h-0' : 'bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20'}>
-          <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)` }}>
+        <div className={embedded ? 'flex-1 flex items-center justify-center min-h-0 w-full overflow-hidden py-2' : 'bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20'}>
+          <div 
+            className={embedded ? "inline-grid gap-[3px]" : "grid gap-1"}
+            style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)` }}
+          >
             {grid.flat().map((cell, index) => (
               <button
                 key={index}
                 onClick={() => handleCellClick(cell.x, cell.y)}
                 onContextMenu={(e) => handleRightClick(e, cell.x, cell.y)}
                 className={`
-                  ${embedded ? 'w-[28px] h-[28px] text-xs' : 'w-9 h-9 text-sm'} 
+                  ${embedded ? 'w-[28px] h-[28px] text-[10px]' : 'w-9 h-9 text-sm'} 
                   rounded-md font-bold transition-all duration-150 flex items-center justify-center
                   ${cell.isRevealed
                     ? cell.isMine
@@ -228,12 +231,12 @@ const Minesweeper = ({ embedded = false }) => {
               >
                 {cell.isRevealed ? (
                   cell.isMine ? (
-                    '💣'
+                    <span className={embedded ? "text-[10px]" : "text-sm"}>💣</span>
                   ) : cell.neighborMines > 0 ? (
                     <span className={getNumberColor(cell.neighborMines)}>{cell.neighborMines}</span>
                   ) : null
                 ) : cell.isFlagged ? (
-                  '🚩'
+                  <span className={embedded ? "text-[10px]" : "text-sm"}>🚩</span>
                 ) : null}
               </button>
             ))}
