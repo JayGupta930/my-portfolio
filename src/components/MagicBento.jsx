@@ -537,21 +537,68 @@ const MagicBento = ({
           }
           
           .card-responsive {
+            display: grid;
             grid-template-columns: 1fr;
-            width: 90%;
+            width: 95%;
+            max-width: 100%;
             margin: 0 auto;
             padding: 0.5rem;
+            gap: 0.75rem;
+          }
+          
+          .card-responsive .card {
+            width: 100%;
+            min-height: 180px;
+            aspect-ratio: auto;
+          }
+          
+          @media (min-width: 480px) {
+            .card-responsive {
+              width: 92%;
+              gap: 0.75rem;
+            }
+            
+            .card-responsive .card {
+              // min-height: 200px;
+              min-height: -webkit-fill-available;
+            }
           }
           
           @media (min-width: 600px) {
             .card-responsive {
               grid-template-columns: repeat(2, 1fr);
+              width: 90%;
+              gap: 1rem;
+            }
+            
+            .card-responsive .card {
+              // min-height: 220px;
+              min-height: -webkit-fill-available;
+            }
+          }
+          
+          @media (min-width: 768px) {
+            .card-responsive {
+              grid-template-columns: repeat(2, 1fr);
+              width: 88%;
+              gap: 1rem;
+            }
+            
+            .card-responsive .card {
+              // min-height: 240px;
+              min-height: -webkit-fill-available;
             }
           }
           
           @media (min-width: 1024px) {
             .card-responsive {
               grid-template-columns: repeat(4, 1fr);
+              width: 90%;
+              gap: 0.5rem;
+            }
+            
+            .card-responsive .card {
+              min-height: -webkit-fill-available;
             }
             
             .card-responsive .card:nth-child(3) {
@@ -567,6 +614,13 @@ const MagicBento = ({
             .card-responsive .card:nth-child(6) {
               grid-column: 4;
               grid-row: 3;
+            }
+          }
+          
+          @media (min-width: 1280px) {
+            .card-responsive {
+              width: 85%;
+              max-width: 90rem;
             }
           }
           
@@ -635,10 +689,51 @@ const MagicBento = ({
             text-overflow: ellipsis;
           }
           
-          @media (max-width: 599px) {
+          /* Mobile-specific card styling */
+          @media (max-width: 479px) {
             .card-responsive {
               grid-template-columns: 1fr;
-              width: 90%;
+              width: 95%;
+              margin: 0 auto;
+              padding: 0.25rem;
+              gap: 0.5rem;
+            }
+            
+            .card-responsive .card {
+              width: 100%;
+              min-height: 160px;
+              padding: 1rem !important;
+              aspect-ratio: auto;
+            }
+            
+            .card-responsive .card .card__header {
+              margin-bottom: 0.5rem;
+            }
+            
+            .card-responsive .card .card__header img {
+              width: 2.5rem;
+              height: 2.5rem;
+            }
+            
+            .card-responsive .card .card__label {
+              font-size: 0.875rem;
+            }
+            
+            .card-responsive .card .card__title {
+              font-size: 1rem;
+            }
+            
+            .card-responsive .card .card__description {
+              font-size: 0.7rem;
+              -webkit-line-clamp: 3;
+              line-clamp: 3;
+            }
+          }
+          
+          @media (max-width: 599px) and (min-width: 480px) {
+            .card-responsive {
+              grid-template-columns: 1fr;
+              width: 92%;
               margin: 0 auto;
               padding: 0.5rem;
             }
@@ -646,6 +741,32 @@ const MagicBento = ({
             .card-responsive .card {
               width: 100%;
               min-height: 180px;
+            }
+            
+            .card-responsive .card .card__header img {
+              width: 3rem;
+              height: 3rem;
+            }
+          }
+          
+          /* Tablet portrait adjustments */
+          @media (min-width: 600px) and (max-width: 767px) {
+            .card-responsive .card .card__description {
+              font-size: 0.75rem;
+              -webkit-line-clamp: 3;
+              line-clamp: 3;
+            }
+          }
+          
+          /* Touch device optimizations */
+          @media (hover: none) and (pointer: coarse) {
+            .card-responsive .card {
+              touch-action: manipulation;
+            }
+            
+            .card-responsive .card:active {
+              transform: scale(0.98);
+              transition: transform 0.1s ease;
             }
           }
         `}
