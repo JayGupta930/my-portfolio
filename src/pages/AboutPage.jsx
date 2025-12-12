@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 const AboutPage = () => {
+  const navigate = useNavigate();
+
   return (
     <main className="min-h-screen bg-[#050414] text-slate-100">
       <section className="mx-auto flex max-w-4xl flex-col gap-12 px-6 py-24">
@@ -56,12 +60,12 @@ const AboutPage = () => {
             I&apos;m always excited to tackle new challenges—whether it&apos;s refining an existing platform or
             launching something from scratch. If you have an idea in mind, feel free to reach out.
           </p>
-          <a
-            href="mailto:jay.gupta@example.com"
-            className="mt-6 inline-flex items-center justify-center rounded-full bg-[#8245ec] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#8245ec]/40 transition hover:scale-[1.015] hover:bg-[#9f5df7]"
+          <button
+            onClick={() => navigate("/contact")}
+            className="mt-6 inline-flex items-center justify-center rounded-full bg-[#8245ec] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#8245ec]/40 transition hover:scale-[1.015] hover:bg-[#9f5df7] cursor-pointer"
           >
             Start a conversation
-          </a>
+          </button>
         </section>
       </section>
     </main>
