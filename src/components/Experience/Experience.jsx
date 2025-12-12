@@ -2,10 +2,6 @@ import React from "react";
 import { experiences } from "../../constants"; // Import the experiences data
 
 const Experience = () => {
-  // Debug: Log the experiences data
-  console.log("Experiences data:", experiences);
-  console.log("Number of experiences:", experiences.length);
-  
   return (
     <section
       id="experience"
@@ -14,7 +10,7 @@ const Experience = () => {
       {/* Section Title */}
       <div className="text-center mb-8 sm:mb-12 md:mb-16">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">EXPERIENCE</h2>
-        <div className="w-20 sm:w-24 md:w-32 h-1 bg-purple-500 mx-auto mt-4"></div>
+        <div className="w-20 sm:w-24 md:w-32 h-1 bg-gradient-to-r from-purple-500 via-violet-500 to-cyan-400 mx-auto mt-4"></div>
         <p className="text-gray-400 mt-4 text-sm sm:text-base md:text-lg font-semibold px-4 sm:px-0">
           My professional journey showcasing hands-on experience in web development
         </p>
@@ -34,45 +30,37 @@ const Experience = () => {
             }`}
           >
             {/* Timeline Circle - adjusted for mobile */}
-            <div className="hidden sm:block absolute left-[50%] transform -translate-x-1/2 bg-gray-400 border-4 border-[#8245ec] w-12 h-12 sm:w-16 sm:h-16 rounded-full flex justify-center items-center z-10">
-              {exp.img ? (
-                <img
-                  src={exp.img}
-                  alt={exp.company}
-                  className="w-full h-full object-cover rounded-full"
-                />
-              ) : (
-                <div className="w-full h-full bg-purple-600 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-xs sm:text-sm">
-                    {exp.company ? exp.company.substring(0, 2).toUpperCase() : exp.role.substring(0, 2).toUpperCase()}
-                  </span>
-                </div>
-              )}
+            <div 
+              className="hidden sm:block absolute left-[50%] transform -translate-x-1/2 bg-gray-400 border-4 border-transparent w-12 h-12 sm:w-16 sm:h-16 rounded-full flex justify-center items-center z-10"
+              style={{
+                background: 'linear-gradient(#9ca3af, #9ca3af) padding-box, linear-gradient(to right, #a855f7, #8b5cf6, #22d3ee) border-box',
+              }}
+            >
+              <img
+                src={exp.img}
+                alt={exp.company}
+                className="w-full h-full object-cover rounded-full"
+              />
             </div>
 
             {/* Content Section */}
             <div
-              className={`w-full sm:max-w-md p-4 sm:p-6 md:p-8 rounded-2xl shadow-2xl border border-white bg-gray-900 backdrop-blur-md shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] ${
+              className={`w-full sm:max-w-md p-4 sm:p-6 md:p-8 rounded-2xl shadow-2xl border border-transparent bg-gray-900 backdrop-blur-md shadow-[0_0_20px_1px_rgba(130,69,236,0.3)] ${
                 index % 2 === 0 ? "sm:mr-8" : "sm:ml-8"
               } sm:ml-8 transform transition-transform duration-300 hover:scale-105`}
+              style={{
+                background: 'linear-gradient(#111827, #111827) padding-box, linear-gradient(to right, #a855f7, #8b5cf6, #22d3ee) border-box',
+              }}
             >
-              {/* Flex container for logo and text */}
+              {/* Flex container for image and text */}
               <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 md:space-x-6">
                 {/* Company Logo/Image */}
-                <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center p-2 shadow-lg">
-                  {exp.img ? (
-                    <img
-                      src={exp.img}
-                      alt={exp.company}
-                      className="w-full h-full object-contain rounded-md"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-purple-600 rounded-md flex items-center justify-center">
-                      <span className="text-white font-bold text-lg">
-                        {exp.company ? exp.company.substring(0, 2).toUpperCase() : exp.role.substring(0, 2).toUpperCase()}
-                      </span>
-                    </div>
-                  )}
+                <div className="w-20 h-16 sm:w-24 sm:h-16 bg-white rounded-md overflow-hidden flex-shrink-0 flex items-center justify-center p-1">
+                  <img
+                    src={exp.img}
+                    alt={exp.company}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
 
                 {/* Role, Company Name, and Date */}
@@ -81,29 +69,26 @@ const Experience = () => {
                     <h3 className="text-lg sm:text-xl font-semibold text-white">
                       {exp.role}
                     </h3>
-                    {exp.company && (
-                      <h4 className="text-sm sm:text-base text-gray-300">
-                        {exp.company}
-                      </h4>
-                    )}
+                    <h4 className="text-sm sm:text-base text-gray-300">
+                      {exp.company}
+                    </h4>
                   </div>
                   {/* Date at the bottom */}
                   <p className="text-xs sm:text-sm text-gray-500 mt-2">{exp.date}</p>
                 </div>
               </div>
 
-              {/* Description */}
               <p className="mt-4 text-gray-400 text-sm sm:text-base">{exp.desc}</p>
               
               {/* Skills */}
               {exp.skills && exp.skills.length > 0 && (
                 <div className="mt-4">
-                  <p className="text-gray-300 font-semibold text-sm mb-2">Technologies Used:</p>
+                  <p className="text-gray-300 font-bold text-sm mb-2">Skills:</p>
                   <div className="flex flex-wrap gap-2">
                     {exp.skills.map((skill, skillIndex) => (
                       <span
                         key={skillIndex}
-                        className="px-2 py-1 bg-purple-600 text-white text-xs rounded-full"
+                        className="px-2 py-1 bg-purple-600/30 border border-purple-500 text-purple-300 text-xs rounded-full"
                       >
                         {skill}
                       </span>
