@@ -7,6 +7,7 @@ const Game2048 = ({ embedded = false }) => {
   const [gameOver, setGameOver] = useState(false);
   const [won, setWon] = useState(false);
   const [tiles, setTiles] = useState([]);
+  const [isPlaying, setIsPlaying] = useState(!embedded); // Auto-play only in non-embedded mode
 
   // Initialize game
   const initializeGame = useCallback(() => {
@@ -187,6 +188,8 @@ const Game2048 = ({ embedded = false }) => {
 
   // Keyboard controls
   useEffect(() => {
+    if (!isPlaying) return; // Don't listen if not playing
+    
     const handleKeyDown = (e) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
         e.preventDefault();
@@ -202,19 +205,70 @@ const Game2048 = ({ embedded = false }) => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [move]);
+  }, [move, isPlaying]);
 
-  // Touch controls
+  // Touch controls - only on game container
+  const gameContainerRef = React.useRef(null);
+  
+  // Prevent page scroll when playing in embedded mode
   useEffect(() => {
+    if (!embedded) return;
+    
+    if (isPlaying) {
+      // Prevent body scroll when playing
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+    } else {
+      // Restore scroll when not playing
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    };
+  }, [isPlaying, embedded]);
+  
+  useEffect(() => {
+    if (!isPlaying) return; // Don't listen if not playing
+    
     let touchStartX = 0;
     let touchStartY = 0;
+    let isTouchOnGame = false;
 
     const handleTouchStart = (e) => {
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
+      // Skip if touching a button - let buttons work normally
+      if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+        isTouchOnGame = false;
+        return;
+      }
+      
+      // Only respond to touches that start within the game container
+      if (gameContainerRef.current && gameContainerRef.current.contains(e.target)) {
+        isTouchOnGame = true;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        // Prevent page scroll when touching game
+        if (embedded) {
+          e.preventDefault();
+        }
+      } else {
+        isTouchOnGame = false;
+      }
+    };
+
+    const handleTouchMove = (e) => {
+      // Prevent scroll while swiping on game
+      if (isTouchOnGame && embedded) {
+        e.preventDefault();
+      }
     };
 
     const handleTouchEnd = (e) => {
+      // Only process if the touch started on the game
+      if (!isTouchOnGame) return;
+      
       const touchEndX = e.changedTouches[0].clientX;
       const touchEndY = e.changedTouches[0].clientY;
       
@@ -230,16 +284,36 @@ const Game2048 = ({ embedded = false }) => {
           move(diffY > 0 ? 'down' : 'up');
         }
       }
+      
+      isTouchOnGame = false;
     };
 
-    document.addEventListener('touchstart', handleTouchStart);
-    document.addEventListener('touchend', handleTouchEnd);
+    const container = gameContainerRef.current;
+    if (container) {
+      container.addEventListener('touchstart', handleTouchStart, { passive: false });
+      container.addEventListener('touchmove', handleTouchMove, { passive: false });
+      container.addEventListener('touchend', handleTouchEnd, { passive: true });
+    }
     
     return () => {
-      document.removeEventListener('touchstart', handleTouchStart);
-      document.removeEventListener('touchend', handleTouchEnd);
+      if (container) {
+        container.removeEventListener('touchstart', handleTouchStart);
+        container.removeEventListener('touchmove', handleTouchMove);
+        container.removeEventListener('touchend', handleTouchEnd);
+      }
     };
-  }, [move]);
+  }, [move, isPlaying, embedded]);
+
+  // Start game handler
+  const handleStartGame = () => {
+    setIsPlaying(true);
+    initializeGame();
+  };
+
+  // Close game handler
+  const handleCloseGame = () => {
+    setIsPlaying(false);
+  };
 
   const getTileColor = (value) => {
     const colors = {
@@ -262,37 +336,37 @@ const Game2048 = ({ embedded = false }) => {
     ? 'relative w-full h-full flex flex-col bg-transparent overflow-hidden'
     : 'min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-4';
   const panelClass = embedded
-    ? 'relative flex flex-col bg-black/50 border border-white/10 rounded-2xl p-2 sm:p-2.5 gap-1.5 h-full'
+    ? 'relative flex flex-col bg-black/50 border border-white/10 rounded-2xl p-2 sm:p-2.5 gap-1 sm:gap-1.5 h-full'
     : 'w-full max-w-lg';
-  const headerClass = embedded ? 'text-center mb-1' : 'text-center mb-6';
-  const titleClass = embedded ? 'text-xl font-bold text-white mb-0.5' : 'text-6xl font-bold text-gray-800 mb-2';
-  const subtitleClass = embedded ? 'text-[10px] text-white/70' : 'text-gray-600';
+  const headerClass = embedded ? 'text-center mb-0.5 sm:mb-1' : 'text-center mb-6';
+  const titleClass = embedded ? 'text-lg sm:text-xl font-bold text-white mb-0.5' : 'text-6xl font-bold text-gray-800 mb-2';
+  const subtitleClass = embedded ? 'text-[9px] sm:text-[10px] text-white/70' : 'text-gray-600';
   const scoreboardClass = embedded
-    ? 'flex items-center justify-between mb-1.5 text-white'
+    ? 'flex items-center justify-between mb-1 sm:mb-1.5 text-white px-1'
     : 'flex justify-between items-center mb-4';
-  const scoreGroupClass = embedded ? 'flex gap-1.5' : 'flex gap-3';
+  const scoreGroupClass = embedded ? 'flex gap-1 sm:gap-1.5' : 'flex gap-3';
   const scoreBoxClass = embedded
-    ? 'bg-white/10 backdrop-blur px-2 py-1 rounded-lg shadow-sm text-white text-left'
+    ? 'bg-white/10 backdrop-blur px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md sm:rounded-lg shadow-sm text-white text-left'
     : 'bg-orange-400 text-white px-6 py-3 rounded-lg shadow-md text-left';
   const bestBoxClass = embedded
-    ? 'bg-white/10 backdrop-blur px-2 py-1 rounded-lg shadow-sm text-white text-left'
+    ? 'bg-white/10 backdrop-blur px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md sm:rounded-lg shadow-sm text-white text-left'
     : 'bg-orange-500 text-white px-6 py-3 rounded-lg shadow-md text-left';
   const scoreLabelClass = embedded
-    ? 'text-[8px] font-semibold uppercase tracking-[0.2em] text-white/70'
+    ? 'text-[7px] sm:text-[8px] font-semibold uppercase tracking-[0.1em] sm:tracking-[0.2em] text-white/70'
     : 'text-xs font-semibold uppercase';
-  const scoreValueClass = embedded ? 'text-sm font-bold mt-0.5' : 'text-2xl font-bold';
+  const scoreValueClass = embedded ? 'text-xs sm:text-sm font-bold mt-0.5' : 'text-2xl font-bold';
   const newGameButtonClass = embedded
-    ? 'bg-orange-500 text-white px-2.5 py-1 rounded-lg font-semibold hover:bg-orange-600 transition-colors text-[10px]'
+    ? 'bg-orange-500 text-white px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg font-semibold hover:bg-orange-600 transition-colors text-[9px] sm:text-[10px]'
     : 'bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-700 transition-colors shadow-md';
   const gridWrapperClass = embedded
-    ? 'relative flex-1 flex items-center justify-center overflow-hidden min-h-0 p-2'
+    ? 'relative flex-1 flex items-center justify-center overflow-hidden min-h-0 p-1 sm:p-2'
     : 'relative bg-gradient-to-br from-amber-800 to-orange-800 rounded-2xl p-4 shadow-2xl';
-  const backgroundGridClass = embedded ? 'grid grid-cols-4 gap-2 w-full max-w-[280px]' : 'grid grid-cols-4 gap-4';
+  const backgroundGridClass = embedded ? 'grid grid-cols-4 gap-1 sm:gap-2 w-full max-w-[240px] sm:max-w-[280px]' : 'grid grid-cols-4 gap-4';
   const backgroundCellClass = embedded
     ? 'bg-white/10 rounded-md aspect-square shadow-inner'
     : 'bg-amber-900 bg-opacity-40 rounded-xl aspect-square shadow-inner';
   const tilesLayerClass = embedded
-    ? 'absolute inset-0 grid grid-cols-4 grid-rows-4 gap-2 pointer-events-none'
+    ? 'absolute inset-0 grid grid-cols-4 grid-rows-4 gap-1 sm:gap-2 pointer-events-none'
     : 'absolute inset-4 grid grid-cols-4 grid-rows-4 gap-4 pointer-events-none';
   const instructionsClass = embedded
     ? 'text-center mt-2 text-white/70 text-xs'
@@ -301,17 +375,51 @@ const Game2048 = ({ embedded = false }) => {
     ? 'absolute inset-0 bg-black/80 backdrop-blur flex items-center justify-center z-20'
     : 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
   const overlayPanelClass = embedded
-    ? 'bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 text-center max-w-xs text-white'
+    ? 'bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 text-center max-w-[280px] sm:max-w-xs text-white mx-2'
     : 'bg-white rounded-2xl p-8 shadow-2xl text-center max-w-sm mx-4';
-  const overlayTitleClass = embedded ? 'text-2xl font-bold mb-3 text-white' : 'text-4xl font-bold mb-4';
-  const overlayScoreClass = embedded ? 'text-lg mb-2 text-white' : 'text-2xl text-gray-700 mb-2';
-  const overlayBestClass = embedded ? 'text-sm mb-4 text-white/80' : 'text-lg text-gray-600 mb-6';
+  const overlayTitleClass = embedded ? 'text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-white' : 'text-4xl font-bold mb-4';
+  const overlayScoreClass = embedded ? 'text-base sm:text-lg mb-1 sm:mb-2 text-white' : 'text-2xl text-gray-700 mb-2';
+  const overlayBestClass = embedded ? 'text-xs sm:text-sm mb-3 sm:mb-4 text-white/80' : 'text-lg text-gray-600 mb-6';
   const overlayButtonClass = embedded
-    ? 'bg-orange-500 text-white px-5 py-2 rounded-lg font-semibold hover:bg-orange-600 transition-colors text-sm'
+    ? 'bg-orange-500 text-white px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg font-semibold hover:bg-orange-600 transition-colors text-xs sm:text-sm'
     : 'bg-orange-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors';
 
   return (
-    <div className={containerClass}>
+    <div className={containerClass} ref={gameContainerRef}>
+      {/* Play Button Overlay - only in embedded mode when not playing */}
+      {embedded && !isPlaying && (
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center z-30 rounded-2xl">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">2048</h2>
+          <p className="text-white/70 text-xs sm:text-sm mb-3 sm:mb-4">Join tiles to reach 2048!</p>
+          <button
+            onClick={handleStartGame}
+            onTouchEnd={(e) => { e.stopPropagation(); handleStartGame(); }}
+            className="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold hover:from-orange-600 hover:to-amber-600 transition-all shadow-lg flex items-center gap-2 text-sm sm:text-base"
+            style={{ touchAction: 'manipulation' }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 sm:w-5 sm:h-5">
+              <path fillRule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clipRule="evenodd" />
+            </svg>
+            Play
+          </button>
+        </div>
+      )}
+
+      {/* Close Button - only in embedded mode when playing */}
+      {embedded && isPlaying && (
+        <button
+          onClick={handleCloseGame}
+          onTouchEnd={(e) => { e.stopPropagation(); handleCloseGame(); }}
+          className="absolute top-2 right-2 z-40 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-1.5 rounded-lg transition-all border border-white/20"
+          style={{ touchAction: 'manipulation' }}
+          title="Close game"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+            <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+          </svg>
+        </button>
+      )}
+
       <div className={panelClass}>
         {/* Header */}
         <div className={headerClass}>
@@ -333,7 +441,9 @@ const Game2048 = ({ embedded = false }) => {
           </div>
           <button
             onClick={initializeGame}
+            onTouchEnd={(e) => { e.stopPropagation(); initializeGame(); }}
             className={newGameButtonClass}
+            style={{ touchAction: 'manipulation' }}
           >
             New Game
           </button>
@@ -342,7 +452,7 @@ const Game2048 = ({ embedded = false }) => {
         {/* Game Grid */}
         <div className={gridWrapperClass}>
           {/* Background Grid */}
-          <div className="relative w-full max-w-[280px] mx-auto">
+          <div className="relative w-full max-w-[240px] sm:max-w-[280px] mx-auto">
             <div className={backgroundGridClass}>
               {Array(16).fill(0).map((_, i) => (
                 <div
@@ -356,10 +466,10 @@ const Game2048 = ({ embedded = false }) => {
             <div className={tilesLayerClass}>
               {tiles.map((tile) => {
                 const fontSize = tile.value >= 1024
-                  ? embedded ? '1.1rem' : '1.75rem'
+                  ? embedded ? '0.9rem' : '1.75rem'
                   : tile.value >= 128
-                    ? embedded ? '1.3rem' : '2rem'
-                    : embedded ? '1.5rem' : '2.5rem';
+                    ? embedded ? '1.1rem' : '2rem'
+                    : embedded ? '1.25rem' : '2.5rem';
 
                 return (
                   <div
@@ -388,7 +498,7 @@ const Game2048 = ({ embedded = false }) => {
         )}
 
         {/* Game Over Overlay */}
-        {(gameOver || won) && (
+        {(gameOver || won) && isPlaying && (
           <div className={overlayContainerClass}>
             <div className={overlayPanelClass}>
               <h2 className={overlayTitleClass}>
@@ -396,12 +506,26 @@ const Game2048 = ({ embedded = false }) => {
               </h2>
               <p className={overlayScoreClass}>Score: {score}</p>
               <p className={overlayBestClass}>Best: {bestScore}</p>
-              <button
-                onClick={initializeGame}
-                className={overlayButtonClass}
-              >
-                Try Again
-              </button>
+              <div className="flex gap-2 justify-center">
+                <button
+                  onClick={initializeGame}
+                  onTouchEnd={(e) => { e.stopPropagation(); initializeGame(); }}
+                  className={overlayButtonClass}
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  Try Again
+                </button>
+                {embedded && (
+                  <button
+                    onClick={handleCloseGame}
+                    onTouchEnd={(e) => { e.stopPropagation(); handleCloseGame(); }}
+                    className={`${overlayButtonClass} !bg-white/20 hover:!bg-white/30`}
+                    style={{ touchAction: 'manipulation' }}
+                  >
+                    Close
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         )}
