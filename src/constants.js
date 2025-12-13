@@ -36,6 +36,8 @@ import OchiLogo from './assets/work_logo/ochi.png';
 import HungryLogo from './assets/work_logo/hungryfood.png';
 import MusicLogo from './assets/work_logo/music.png';
 import FreshJuiceLogo from './assets/work_logo/freshjuice.png';
+import SanskarDhaniGarbaLogo from './assets/work_logo/sanskardhani-garba.png';
+import IlikaLogo from './assets/work_logo/ilika.png';
 
 
 export const SkillsInfo = [
@@ -152,105 +154,94 @@ export const SkillsInfo = [
   export const projects = [
     {
       id: 0,
-      title: "json_code_editor",
+      title: "SanskarDhani Garba",
       description:
-        "A powerful, modern web-based JSON editor built using React. With intuitive features and real-time feedback, the JSON Code Editor allows users to seamlessly write, upload, validate, format, visualize, and share JSON data — all in one place.",
-      image: JsonCodeEditorLogo,
-      tags: ["HTML", "CSS", "JavaScript", "React JS", "API"],
-      github: "https://github.com/JayGupta930/json_code_editor",
-      webapp: "https://json-code-editor.web.app/",
+      "A full-stack event management platform for Garba Utsav 2025 featuring ticket booking, QR-based ticket verification, secure payment integration, user authentication, and an admin dashboard for managing events, attendees, and real-time analytics.",
+      image: SanskarDhaniGarbaLogo,
+      tags: ["React JS", "Node.js", "MongoDB", "Express", "Payment Gateway", "QR Code"],
+      github: "https://github.com/JayGupta930",
+      webapp: "https://sanskardhanigarba.in/",
     },
     {
       id: 1,
+      title: "Ilika.Earth",
+      description: "A modern, responsive frontend platform promoting cloud sustainability and environmental awareness. Built with Next.js and Tailwind CSS, it delivers a seamless user experience while showcasing eco-friendly cloud computing practices, carbon footprint reduction strategies, and sustainable technology solutions.",
+      image: IlikaLogo,
+      tags: ["Next JS", "Tailwind CSS", "JavaScript", "HTML", "CSS"],
+      github: "https://github.com/JayGupta930/ilika_earth",
+      webapp: "https://ilika.earth/",
+    },
+    {
+      id: 2,
       title: "Store Rating",
       description:
-        "A full-stack web application built with React.js and Supabase that allows users to register, log in, and rate stores. The platform supports three roles.......",
+      "A full-stack web application built with React.js and Supabase that allows users to register, log in, and rate stores. The platform supports three roles.......",
        image: StoreRatingLogo,
       tags: ["React JS", "Supabase", "Postgres", "HTML", "CSS", "JavaScript"],
       github: "https://github.com/JayGupta930/store_rating",
       webapp: "https://store-rating930.web.app/home",
     },
     {
-      id: 2,
+      id: 3,
       title: "Admin Portal",
       description:
-        "A dedicated admin portal developed using React for managing a single medical device. The portal provides a clean and user-friendly interface to monitor device data, manage settings, and ensure smooth operation, tailored specifically for streamlined control and maintenance.",
+      "A dedicated admin portal developed using React for managing a single medical device. The portal provides a clean and user-friendly interface to monitor device data, manage settings, and ensure smooth operation, tailored specifically for streamlined control and maintenance.",
        image: AdminPortalLogo,
       tags: ["React JS", "API", "Supabase", "HTML", "CSS", "JavaScript"],
       github: "https://github.com/JayGupta930/uropine_admin_portal",
       webapp: "https://console.uropine.ruralsurgery.in/",
     },
     {
-      id: 3,
+      id: 4,
       title: "Ochi",
       description:
-        "A visually-rich, high-fidelity clone of the Ochi.Design website, crafted using modern frontend tools React, Tailwind CSS, Framer Motion, and Locomotive Scroll. This clone replicates smooth transitions, scroll-based animations, and an elegant layout inspired by the original site.",
+      "A visually-rich, high-fidelity clone of the Ochi.Design website, crafted using modern frontend tools React, Tailwind CSS, Framer Motion, and Locomotive Scroll. This clone replicates smooth transitions, scroll-based animations, and an elegant layout inspired by the original site.",
        image: OchiLogo,
       tags: ["React JS", "Framer Motion", "Locomotive", "HTML", "CSS", "JavaScript"],
       github: "https://github.com/JayGupta930/ochi",
       webapp: "https://designochi.web.app/",
     },
     {
-      id: 4,
+      id: 5,
+      title: "json_code_editor",
+      description:
+      "A powerful, modern web-based JSON editor built using React. With intuitive features and real-time feedback, the JSON Code Editor allows users to seamlessly write, upload, validate, format, visualize, and share JSON data — all in one place.",
+      image: JsonCodeEditorLogo,
+      tags: ["HTML", "CSS", "JavaScript", "React JS", "API"],
+      github: "https://github.com/JayGupta930/json_code_editor",
+      webapp: "https://json-code-editor.web.app/",
+    },
+    {
+      id: 6,
       title: "UI of Music Web App",
       description:
-        "Stream top albums, discover artists, enjoy podcasts, and vibe to playlists made just for you.",
+      "Stream top albums, discover artists, enjoy podcasts, and vibe to playlists made just for you.",
        image: MusicLogo,
       tags: ["Figma"],
       github: "https://www.figma.com/@Jay930",
       webapp: "hhttps://www.figma.com/@Jay930",
     },
     {
-      id: 5,
+      id: 7,
       title: "UI of Food Delivery App",
       description:
-        "Search nearby restaurants, pick your favorite dishes, and enjoy fast delivery right to your door. Deliciousness made easy!",
+      "Search nearby restaurants, pick your favorite dishes, and enjoy fast delivery right to your door. Deliciousness made easy!",
        image: HungryLogo,
       tags: ["Figma"],
       github: "https://www.figma.com/@Jay930",
       webapp: "https://www.figma.com/@Jay930",
     },
     {
-      id: 6,
+      id: 8,
       title: "UI of Fresh Juice Web App",
       description:
-        "From orchard to glass — discover refreshing, natural juices packed with flavor and goodness. Taste the zest of life with every sip!",
+      "From orchard to glass — discover refreshing, natural juices packed with flavor and goodness. Taste the zest of life with every sip!",
        image: FreshJuiceLogo,
       tags: [ "Figma"],
       github: "https://www.figma.com/@Jay930",
       webapp: "https://www.figma.com/@Jay930",
     },
-    // {
-    //   id: 6,
-    //   title: "Coding Master",
-    //   description:
-    //     "An ed-tech platform where users can access tech and coding-related blogs, notes, interview questions, e-books, and premium content with payment integration. Built with full-stack technologies for a seamless learning experience.",
-    //   // image: cmLogo,
-    //   tags: ["React JS", "Node.js", "MongoDB", "Express", "Payment Integration"],
-    //   github: "https://codingmasterweb.in/",
-    //   webapp: "https://codingmasterweb.in/",
-    // },
-    // {
-    //   id: 7,
-    //   title: "Image Search App",
-    //   description:
-    //     "A React.js-based image search application that allows users to search and download high-quality images from the web. Built using external APIs to ensure a vast library of results for various queries.",
-    //   // image: imagesearchLogo,
-    //   tags: ["React JS", "API", "Search Feature", "CSS", "Javascript"],
-    //   github: "https://github.com/codingmastr/Image-Search-App",
-    //   webapp: "https://imagsearch.netlify.app/",
-    // },
-    // {
-    //   id: 8,
-    //   title: "Image Background Remover",
-    //   description:
-    //     "An efficient background removal app built with React.js and API integration. Users can upload any image, remove the background, and download the transparent version for further use.",
-    //   // image: removebgLogo,
-    //   tags: ["React JS", "API", "Image Processing", "HTML", "CSS", "Javascript"],
-    //   github: "https://github.com/codingmastr/Image-Background-Remover",
-    //   webapp: "https://removeyourbg.netlify.app/",
-    // },
-  ];  
+    ];
 
 // GitHub Years for contribution graph
 export const GithubYears = [2025, 2024];
