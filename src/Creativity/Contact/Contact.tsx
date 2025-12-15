@@ -39,8 +39,8 @@ const Contact = () => {
           </h2>
           <button
             type="button"
-            onClick={() => navigate("/scribble")}
-            className="relative mt-10 inline-flex h-12 items-center justify-center rounded-full border border-white/10 bg-[#dedcff] px-12 text-xs font-semibold uppercase tracking-[0.3em] text-black shadow-[0_16px_40px_rgba(120,99,255,0.55)] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(120,99,255,0.7)]"
+            onClick={() => navigate("/games")}
+            className="relative mt-10 inline-flex h-12 items-center justify-center rounded-full border border-white/10 bg-[#dedcff] px-12 text-xs font-semibold uppercase tracking-[0.3em] text-black shadow-[0_16px_40px_rgba(120,99,255,0.55)] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(120,99,255,0.7)] cursor-pointer"
           >
             Play Now
           </button>
