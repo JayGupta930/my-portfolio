@@ -6,16 +6,19 @@ import notificationAvatar from "../../assets/work_logo/iii.jpg";
 
 // Creative notification messages
 const NOTIFICATION_MESSAGES = [
-  "Itna mat socho this is the right person.",
-  "You're on the right page let's talk!",
-  "Good choice. Ab bas message bhej do.",
+  "A meaningful conversation starts with a single message, why not now?.",
+  "If you’re here, you already know I can help. Let’s build something exceptional.",
+  "Opportunities don’t wait. Neither should your message.",
   "Don't overthink. Just say hi.",
   "If you're still reading, we might already vibe.",
   "Your future collaborator is waiting.👋",
   "The best conversations start with a simple hello.",
-  "You've scrolled this far, might as well connect!",
-  "Great minds think alike. Let's chat!",
-  "One message could change everything."
+  "Great projects begin with great communication. Start yours today.",
+  "The right collaboration can change everything. Let’s explore yours",
+  "Don’t let a good decision stay undecided. Send the message.",
+  "Your project + my expertise = something worth building. Let’s talk.",
+  "Big things start with small actions. This message could be one.",
+  "You’re closer to the solution than you think. Just message me."
 ];
 
 // Creative Toast Notification Component
@@ -366,7 +369,7 @@ const Contact = () => {
 
           <button
             type="submit"
-            className={`w-full border-2 border-transparent bg-transparent py-3 text-white font-semibold rounded-md transition transform active:scale-95 active:shadow-inner ${loading ? "opacity-70 cursor-not-allowed" : "hover:opacity-90 cursor-pointer"
+            className={`w-full border-2 border-transparent bg-transparent py-3 text-white font-semibold rounded-md transition-all duration-300 transform active:scale-95 active:shadow-inner ${loading ? "opacity-70 cursor-not-allowed" : "hover:bg-gradient-to-r hover:from-[#9C43FE] hover:to-[#4CC2E9] hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-500/30 cursor-pointer"
               }`}
             style={{
               borderImage: "linear-gradient(to right, #9C43FE, #4CC2E9) 1",
