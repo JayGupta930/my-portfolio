@@ -1,144 +1,136 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CreativityContact from "../../Creativity/Contact/Contact";
-import { VaporizeTextCycle } from "../ui/vapour-text-effect";
+import VaporizeTextCycle from "../ui/vapour-text-effect";
 import Globe from "../ui/globe";
+import ScrollReveal from "../ScrollReveal";
 
 const Creativity = () => {
   const navigate = useNavigate();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [dialogLanguage, setDialogLanguage] = useState("");
-  const [isMinimized, setIsMinimized] = useState(false);
-  const [isMaximized, setIsMaximized] = useState(false);
+  
+  // Typing animation states
+  const [displayedText, setDisplayedText] = useState("");
+  const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
+  const [cursorVisible, setCursorVisible] = useState(true);
 
-  const openDialog = (language) => {
-    setDialogLanguage(language);
-    setIsDialogOpen(true);
-    setIsMinimized(false);
-    setIsMaximized(false);
-  };
+  const codingQuotes = [
+    { text: "console.log('Hello, World!');", lang: "JavaScript" },
+    { text: "print('Code is poetry')", lang: "Python" },
+    { text: "System.out.println(\"Dream big\");", lang: "Java" },
+    { text: "<div>Build the future</div>", lang: "HTML" },
+    { text: "SELECT * FROM dreams;", lang: "SQL" },
+    { text: "echo 'Never stop learning';", lang: "PHP" },
+    { text: "puts 'Elegance matters'", lang: "Ruby" },
+    { text: "fn main() { think_different(); }", lang: "Rust" },
+  ];
 
-  const closeDialog = () => {
-    setIsDialogOpen(false);
-    setDialogLanguage("");
-    setIsMinimized(false);
-    setIsMaximized(false);
-  };
+  // Typing effect
+  useEffect(() => {
+    const currentQuote = codingQuotes[currentQuoteIndex].text;
+    
+    if (isTyping) {
+      if (displayedText.length < currentQuote.length) {
+        const timeout = setTimeout(() => {
+          setDisplayedText(currentQuote.slice(0, displayedText.length + 1));
+        }, 80);
+        return () => clearTimeout(timeout);
+      } else {
+        // Pause at end before deleting
+        const timeout = setTimeout(() => {
+          setIsTyping(false);
+        }, 2000);
+        return () => clearTimeout(timeout);
+      }
+    } else {
+      if (displayedText.length > 0) {
+        const timeout = setTimeout(() => {
+          setDisplayedText(displayedText.slice(0, -1));
+        }, 40);
+        return () => clearTimeout(timeout);
+      } else {
+        // Move to next quote
+        setCurrentQuoteIndex((prev) => (prev + 1) % codingQuotes.length);
+        setIsTyping(true);
+      }
+    }
+  }, [displayedText, isTyping, currentQuoteIndex]);
 
-  const toggleMinimize = () => {
-    setIsMinimized(true);
-    setIsDialogOpen(false);
-  };
-
-  const toggleMaximize = () => {
-    setIsMaximized(!isMaximized);
-  };
-
-  const restoreDialog = () => {
-    setIsDialogOpen(true);
-    setIsMinimized(false);
-  };
+  // Cursor blink effect
+  useEffect(() => {
+    const cursorInterval = setInterval(() => {
+      setCursorVisible((prev) => !prev);
+    }, 530);
+    return () => clearInterval(cursorInterval);
+  }, []);
 
   return (
     <>
       <section
         id="creativity"
-        className="relative px-4 font-sans sm:px-[7vw] md:px-[7vw] lg:px-[20vw]"
+        className="relative px-3 sm:px-4 font-sans md:px-[7vw] lg:px-[20vw]"
       >
-        <div className="mx-auto max-w-5xl">
-          <div className="grid grid-cols-5 grid-rows-4 gap-4">
-            <div className="col-span-5 row-span-1 rounded-2xl border border-white/10 bg-gray-900/70 p-8 shadow-2xl shadow-purple-500/10 backdrop-blur-md transition-all duration-300 hover:border-sky-500/50 hover:shadow-[0_0_40px_rgba(56,189,248,0.35)]">
-              <div className="h-full flex items-center justify-between">
-                <div className="flex justify-between w-full">
+        <div className="mx-auto max-w-5xl mt-20 sm:mt-20 pt-6 sm:pt-0">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
+            {/* Live Code Typing Card - Replaced Music Card */}
+            <div className="col-span-1 sm:col-span-2 lg:col-span-5 row-span-1 rounded-2xl border border-white/10 bg-gray-900/70 p-4 sm:p-6 lg:p-8 shadow-2xl shadow-purple-500/10 backdrop-blur-md transition-all duration-300 hover:border-emerald-500/50 hover:shadow-[0_0_40px_rgba(16,185,129,0.35)]">
+              <div className="h-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
+                <div className="flex flex-col sm:flex-row justify-between w-full gap-4 sm:gap-0">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg shadow-purple-500/30">
+                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-emerald-500/20 shadow-lg shadow-emerald-500/30 flex-shrink-0">
                       <svg
-                        className="h-6 w-6 text-white"
+                        className="h-5 w-5 sm:h-6 sm:w-6 text-emerald-400"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
-                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+                        <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-white">
-                        Music & Code Vibes
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-white">
+                        Live Code Terminal
                       </h3>
-                      <p className="mt-1 text-sm text-slate-400">
-                        Where rhythm meets algorithms
+                      <p className="mt-0.5 sm:mt-1 text-xs sm:text-sm text-slate-400">
+                        Watch the code come alive
                       </p>
                     </div>
                   </div>
-                  <div className="mt-4 flex items-center gap-2">
-                    <button 
-                      onClick={() => isMinimized && dialogLanguage === "Hindi" ? restoreDialog() : openDialog("Hindi")}
-                      className={`inline-flex items-center gap-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 px-3 py-1 text-xs font-medium text-purple-300 cursor-pointer hover:bg-purple-500/20 transition-all relative ${
-                        isMinimized && dialogLanguage === "Hindi" ? "animate-pulse ring-2 ring-purple-400" : ""
-                      }`}
-                    >
-                      <svg
-                        className="h-3 w-3"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                      </svg>
-                      Hindi
-                      {isMinimized && dialogLanguage === "Hindi" && (
-                        <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
+                  
+                  {/* Terminal Window */}
+                  <div className="flex-1 sm:ml-6 w-full sm:max-w-md">
+                    <div className="rounded-lg border border-white/10 bg-gray-950/80 overflow-hidden">
+                      {/* Terminal Header */}
+                      <div className="flex items-center gap-1.5 px-3 py-2 bg-gray-800/50 border-b border-white/5">
+                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
+                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
+                        <div className="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
+                        <span className="ml-2 text-[10px] sm:text-xs text-slate-500 font-mono">
+                          {codingQuotes[currentQuoteIndex].lang}
                         </span>
-                      )}
-                    </button>
-                    <button 
-                      onClick={() => isMinimized && dialogLanguage === "Bhojpuri" ? restoreDialog() : openDialog("Bhojpuri")}
-                      className={`inline-flex items-center gap-1.5 rounded-full border border-pink-500/30 bg-pink-500/10 px-3 py-1 text-xs font-medium text-pink-300 cursor-pointer hover:bg-pink-500/20 transition-all relative ${
-                        isMinimized && dialogLanguage === "Bhojpuri" ? "animate-pulse ring-2 ring-pink-400" : ""
-                      }`}
-                    >
-                      <svg
-                        className="h-3 w-3"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                      </svg>
-                      
-                      Bhojpuri
-                      {isMinimized && dialogLanguage === "Bhojpuri" && (
-                        <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
-                        </span>
-                      )}
-                    </button>
+                      </div>
+                      {/* Terminal Body */}
+                      <div className="px-3 py-3 sm:py-4 font-mono text-sm sm:text-base">
+                        <span className="text-emerald-400">❯ </span>
+                        <span className="text-cyan-300">{displayedText}</span>
+                        <span className={`inline-block w-2 h-4 sm:h-5 bg-emerald-400 ml-0.5 ${cursorVisible ? 'opacity-100' : 'opacity-0'}`}></span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                    <div className="flex items-center justify-center h-full">
-                      <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="h-20 w-20 object-contain"
-                      >
-                        <source src="/video/guitar.webm" type="video/webm" />
-                      </video>
-                    </div>
               </div>
             </div>
-            <div className="col-span-2 row-span-3 row-start-2 rounded-2xl border border-white/10 bg-gray-900/60 p-8 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(157,0,255,0.4)]">
+            {/* Globe Card */}
+            <div className="col-span-1 sm:col-span-1 lg:col-span-2 row-span-1 lg:row-span-3 lg:row-start-2 rounded-2xl border border-white/10 bg-gray-900/60 p-4 sm:p-6 lg:p-8 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(157,0,255,0.4)] min-h-[350px] sm:min-h-[380px] lg:min-h-0">
               <div className="flex flex-col items-center justify-center h-full">
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 scale-75 sm:scale-90 lg:scale-100 mx-auto">
                   <Globe />
                 </div>
-                <div className="mt-6">
+                <div className="mt-6 sm:mt-6 w-full h-20 sm:h-16 flex items-center justify-center text-center" style={{ minHeight: '80px' }}>
                   <VaporizeTextCycle
                     texts={["Creative", "Design", "Ideas"]}
                     font={{
                       fontFamily: "Inter, sans-serif",
-                      fontSize: "40px",
+                      fontSize: "50px",
                       fontWeight: 600,
                     }}
                     color="rgb(255,255, 255)"
@@ -156,139 +148,26 @@ const Creativity = () => {
                 </div>
               </div>
             </div>
-            <div className="col-span-3 row-span-3 col-start-3 row-start-2 rounded-2xl border border-white/10 bg-gray-900/60 p-8 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(157,0,255,0.4)]">
+            {/* Empty Card */}
+            <div className="col-span-1 sm:col-span-1 lg:col-span-3 row-span-1 lg:row-span-3 lg:col-start-3 lg:row-start-2 rounded-2xl border border-white/10 bg-gray-900/60 p-4 sm:p-6 lg:p-8 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(157,0,255,0.4)] min-h-[200px] sm:min-h-[280px] lg:min-h-0 flex items-center justify-center overflow-hidden">
+              <div className="w-full h-full flex items-center justify-center px-2 sm:px-4">
+                <ScrollReveal
+                  baseOpacity={0}
+                  enableBlur={true}
+                  baseRotation={5}
+                  blurStrength={10}
+                  containerClassName="creativity-scroll-reveal"
+                  textClassName="creativity-scroll-text"
+                  rotationEnd="top top"
+                  wordAnimationEnd="top top"
+                >
+                  When does a man die? When he is hit by a bullet? No! When he suffers a disease? No! When he ate a soup made out of a poisonous mushroom? No! A man dies when he is forgotten!
+                </ScrollReveal>
+              </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Dialog Box */}
-      {isDialogOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div
-            className={`relative rounded-lg border border-white/20 bg-gray-900/95 shadow-2xl transition-all duration-300 ${
-              isMaximized
-                ? "h-screen w-screen rounded-none"
-                : "h-96 w-[600px]"
-            }`}
-          >
-            {/* Title Bar */}
-            <div className="flex items-center justify-between rounded-t-lg border-b border-white/10 bg-gray-800/80 px-4 py-2">
-              <h3 className="text-sm font-semibold text-white">
-                {dialogLanguage} Music
-              </h3>
-              <div className="flex items-center gap-2">
-                {/* Minimize Button */}
-                <button
-                  onClick={toggleMinimize}
-                  className="group flex h-6 w-6 items-center justify-center rounded hover:bg-yellow-500/20 transition-colors"
-                  title="Minimize"
-                >
-                  <svg
-                    className="h-4 w-4 text-yellow-400 group-hover:text-yellow-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M20 12H4"
-                    />
-                  </svg>
-                </button>
-
-                {/* Maximize Button */}
-                <button
-                  onClick={toggleMaximize}
-                  className="group flex h-6 w-6 items-center justify-center rounded hover:bg-green-500/20 transition-colors"
-                  title="Maximize"
-                >
-                  {isMaximized ? (
-                    <svg
-                      className="h-4 w-4 text-green-400 group-hover:text-green-300"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      className="h-4 w-4 text-green-400 group-hover:text-green-300"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
-                      />
-                    </svg>
-                  )}
-                </button>
-
-                {/* Close Button */}
-                <button
-                  onClick={closeDialog}
-                  className="group flex h-6 w-6 items-center justify-center rounded hover:bg-red-500/20 transition-colors"
-                  title="Close"
-                >
-                  <svg
-                    className="h-4 w-4 text-red-400 group-hover:text-red-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            {/* Dialog Content */}
-            <div className="p-6 overflow-auto h-[calc(100%-48px)]">
-              <div className="flex flex-col items-center justify-center h-full text-center">
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg shadow-purple-500/30">
-                  <svg
-                    className="h-8 w-8 text-white"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
-                  </svg>
-                </div>
-                <h2 className="text-2xl font-bold text-white mb-2">
-                  {dialogLanguage} Music Collection
-                </h2>
-                <p className="text-slate-400 mb-6">
-                  Explore your favorite {dialogLanguage} songs
-                </p>
-                <div className="w-full max-w-md">
-                  <div className="rounded-lg border border-white/10 bg-gray-800/50 p-4">
-                    <p className="text-sm text-slate-300">
-                      Content for {dialogLanguage} music will be displayed here.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className="mt-10">
         <CreativityContact />
