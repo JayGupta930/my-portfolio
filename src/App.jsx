@@ -1,40 +1,48 @@
-import { useEffect } from "react";
+import { useEffect, useRef, Suspense, lazy, memo, useMemo } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss } from "react-icons/si";
 import Navbar from "./components/Navbar/Navbar";
-import About from "./components/About/About";
-import GithubContribution from "./components/GithubContribution/GithubContribution";
-import ShuffleHero from "./components/SuffleHero/SuffleHero";
-import Skills from "./components/Skills/Skills";
-import Experience from "./components/Experience/Experience";
-import Education from "./components/Education/Education";
-import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
-import Project from "./components/Projects/Projects";
-import Creativity from "./components/Creativity/Creativity";
-import Music from "./Creativity/Music/Music";
 import BlurBlob from "./BlurBlob";
-import ScribbleLayout from "./pages/ScribbleLayout";
-import HomePage from "./pages/HomePage";
-import GameRoomPage from "./pages/GameRoomPage";
-import ResultsPage from "./pages/ResultsPage";
-import AboutPage from "./pages/AboutPage";
 import "./mobile-responsive.css";
 import { scrollToSection } from "./utils/scrollUtils";
-import MagicBento from "./components/MagicBento";
-import ModelViewer from "./components/ModelViewer";
-import Globe from "./components/ui/globe";
-import {
-  SiReact,
-  SiNextdotjs,
-  SiTypescript,
-  SiTailwindcss,
-} from "react-icons/si";
+import SmoothScroll from "./components/SmoothScroll/SmoothScroll";
 
-import LogoLoop from "./components/LogoLoop";
-// import ImageTrail from "./components/Imagetrail";
-import { DemoOne } from "./components/Demo";
+// Eagerly loaded components (critical for first paint)
+import About from "./components/About/About";
+import HeroSection from "./components/mainhero";
 
-const ScrollToTop = () => {
+// Lazy loaded below-the-fold components for better initial load
+const Skills = lazy(() => import("./components/Skills/Skills"));
+const Experience = lazy(() => import("./components/Experience/Experience"));
+const Education = lazy(() => import("./components/Education/Education"));
+const GithubContribution = lazy(() => import("./components/GithubContribution/GithubContribution"));
+const LogoLoop = lazy(() => import("./components/LogoLoop"));
+const MagicBento = lazy(() => import("./components/MagicBento"));
+
+// Lazy loaded pages and components (loaded on-demand)
+const Contact = lazy(() => import("./components/Contact/Contact"));
+const Project = lazy(() => import("./components/Projects/Projects"));
+const Creativity = lazy(() => import("./components/Creativity/Creativity"));
+const Music = lazy(() => import("./Creativity/Music/Music"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const GamesPage = lazy(() => import("./pages/GamesPage"));
+
+// Loading fallback - memoized to prevent re-renders
+const PageLoader = memo(() => (
+  <div className="flex items-center justify-center min-h-[50vh]">
+    <div className="w-10 h-10 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
+  </div>
+));
+
+// Smaller loader for inline sections
+const SectionLoader = memo(() => (
+  <div className="flex items-center justify-center py-12">
+    <div className="w-8 h-8 border-3 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
+  </div>
+));
+
+const ScrollToTop = memo(() => {
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -42,9 +50,10 @@ const ScrollToTop = () => {
   }, [pathname]);
 
   return null;
-};
+});
 
 const LandingPage = () => {
+  const sectionRef = useRef(null)
   const location = useLocation();
 
   useEffect(() => {
@@ -58,54 +67,85 @@ const LandingPage = () => {
     }
   }, [location.state]);
 
-  const techLogos = [
-    { node: <SiReact />, title: "React", href: "https://react.dev" },
-    { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
-    {
-      node: <SiTypescript />,
-      title: "TypeScript",
-      href: "https://www.typescriptlang.org",
-    },
-    {
-      node: <SiTailwindcss />,
-      title: "Tailwind CSS",
-      href: "https://tailwindcss.com",
-    },
-  ];
+  // Memoize techLogos to prevent recreation on each render
+  const techLogos = useMemo(() => {
+    return [
+      { node: <SiReact />, title: "React", href: "https://react.dev" },
+      { node: <SiNextdotjs />, title: "Next.js", href: "https://nextjs.org" },
+      {
+        node: <SiTypescript />,
+        title: "TypeScript",
+        href: "https://www.typescriptlang.org",
+      },
+      {
+        node: <SiTailwindcss />,
+        title: "Tailwind CSS",
+        href: "https://tailwindcss.com",
+      },
+    ];
+  }, []);
+
+  // Optimized scroll parallax effect using requestAnimationFrame
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scroll = window.scrollY;
+          const shift = Math.min(scroll * 0.15, 80);
+          section.style.transform = `translateY(${shift}px)`;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <>
-      <About />
-      <GithubContribution />
-      <ShuffleHero />
-      <div
-        style={{ height: "200px", position: "relative", overflow: "hidden" }}
-      >
-        {/* Basic horizontal loop */}
-        <LogoLoop
-          logos={techLogos}
-          speed={120}
-          direction="left"
-          logoHeight={48}
-          gap={40}
-          hoverSpeed={0}
-          scaleOnHover
-          fadeOut
-          // fadeOutColor=""
-          ariaLabel="Technology partners"
-        />
-
-        {/* Vertical loop with deceleration on hover */}
-        {/* <LogoLoop
-        logos={techLogos}
-        speed={80}
-        direction="up"
-        logoHeight={48}
-        gap={40}
-        hoverSpeed={20}
-        fadeOut
-      /> */}
-      </div>
+      <HeroSection />
+      <About sectionRef={sectionRef} />
+      <hr className="border-t-2 border-gray-600 mx-auto max-w-7xl my-8" />
+      <Suspense fallback={<SectionLoader />}>
+        <Skills />
+      </Suspense>
+      <hr className="border-t-2 border-gray-600 mx-auto max-w-7xl my-8" />
+      <Suspense fallback={<SectionLoader />}>
+        <Experience />
+      </Suspense>
+      <hr className="border-t-2 border-gray-600 mx-auto max-w-7xl my-8" />
+      <Suspense fallback={<SectionLoader />}>
+        <Education />
+      </Suspense>
+      <hr className="border-t-2 border-gray-600 mx-auto max-w-7xl my-8" />
+      <Suspense fallback={<SectionLoader />}>
+        <GithubContribution />
+      </Suspense>
+      <hr className="border-t-2 border-gray-600 mx-auto max-w-7xl my-8" />
+      <Suspense fallback={<SectionLoader />}>
+        <div className="flex items-center"
+          style={{ height: "200px", position: "relative", overflow: "hidden" }}
+        >
+          {/* Basic horizontal loop */}
+          <LogoLoop
+            logos={techLogos}
+            speed={120}
+            direction="left"
+            logoHeight={48}
+            gap={40}
+            hoverSpeed={0}
+            scaleOnHover
+            fadeOut
+            ariaLabel="Technology partners"
+          />
+        </div>
+      </Suspense>
 
       {/* <div
         style={{ height: "500px", position: "relative", overflow: "hidden" }}
@@ -124,34 +164,21 @@ const LandingPage = () => {
         />
       </div> */}
 
-      <MagicBento
-        textAutoHide={true}
-        enableStars={true}
-        enableSpotlight={true}
-        enableBorderGlow={true}
-        enableTilt={true}
-        enableMagnetism={true}
-        clickEffect={true}
-        spotlightRadius={300}
-        particleCount={12}
-        glowColor="132, 0, 255"
-      />
-
-      <div className="w-full max-w-7xl mx-auto h-[600px] flex items-center justify-between gap-12 px-8 md:px-16 lg:px-24 bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-3xl my-8 border border-gray-800">
-        <div className="flex-1 text-left pl-8">
-          <h2 className="text-4xl md:text-6xl lg:text-5xl font-bold text-white" style={{ textShadow: '0 0 20px rgba(255,255,255,0.3)' }}>
-            Fast as lightning.
-          </h2>
-        </div>
-        <div className="flex-1 pr-8">
-          <ModelViewer
-            url="https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/main/2.0/ToyCar/glTF-Binary/ToyCar.glb"
-            width="100%"
-            height={600}
-          />
-        </div>
-        {/* <Globe /> */}
-      </div>
+      <hr className="border-t-2 border-gray-600 mx-auto max-w-7xl my-8" />
+      <Suspense fallback={<SectionLoader />}>
+        <MagicBento
+          textAutoHide={true}
+          enableStars={true}
+          enableSpotlight={true}
+          enableBorderGlow={true}
+          enableTilt={true}
+          enableMagnetism={true}
+          clickEffect={true}
+          spotlightRadius={300}
+          particleCount={12}
+          glowColor="132, 0, 255"
+        />
+      </Suspense>
     </>
   );
 };
@@ -163,7 +190,11 @@ const SkillsPage = () => (
   </>
 );
 
-const ProjectsPage = () => <Project />;
+const ProjectsPage = () => (
+  <Suspense fallback={<PageLoader />}>
+    <Project />
+  </Suspense>
+);
 
 const EducationPage = () => (
   <>
@@ -173,36 +204,32 @@ const EducationPage = () => (
 
 const App = () => {
   return (
-    <div className="bg-[#050414] min-h-screen w-full">
-      <BlurBlob
-        position={{ top: "35%", left: "20%" }}
-        size={{ width: "30%", height: "40%" }}
-      />
+    <SmoothScroll>
+      <div className="bg-[#050414] min-h-screen w-full">
+        <BlurBlob
+          position={{ top: "35%", left: "20%" }}
+          size={{ width: "30%", height: "40%" }}
+        />
 
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
-
-      <div className="relative pt-16 sm:pt-20 overflow-x-hidden w-full max-w-full">
-        <Navbar />
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/skills" element={<SkillsPage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route path="/education" element={<EducationPage />} />
-          <Route path="/creativity" element={<Creativity />} />
-          <Route path="/creativity/music" element={<Music />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/scribble" element={<ScribbleLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="room/:roomId" element={<GameRoomPage />} />
-            <Route path="results" element={<ResultsPage />} />
-          </Route>
-          <Route path="*" element={<LandingPage />} />
-        </Routes>
-        <Footer />
+        <div className="relative overflow-x-hidden w-full max-w-full">
+          <Navbar />
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/about" element={<Suspense fallback={<PageLoader />}><AboutPage /></Suspense>} />
+            <Route path="/skills" element={<SkillsPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/education" element={<EducationPage />} />
+            <Route path="/creativity" element={<Suspense fallback={<PageLoader />}><Creativity /></Suspense>} />
+            <Route path="/creativity/music" element={<Suspense fallback={<PageLoader />}><Music /></Suspense>} />
+            <Route path="/games" element={<Suspense fallback={<PageLoader />}><GamesPage /></Suspense>} />
+            <Route path="/contact" element={<Suspense fallback={<PageLoader />}><Contact /></Suspense>} />
+            <Route path="*" element={<LandingPage />} />
+          </Routes>
+          <Footer />
+        </div>
       </div>
-    </div>
+    </SmoothScroll>
   );
 };
 
