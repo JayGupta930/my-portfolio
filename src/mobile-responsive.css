@@ -1,5 +1,28 @@
 /* Mobile Responsive Styles */
 
+/* Games Page Mobile Responsive */
+@media (max-width: 640px) {
+  /* Game container adjustments */
+  .game-container-mobile {
+    height: calc(100vh - 180px) !important;
+    min-height: 400px;
+    max-height: 600px;
+  }
+  
+  /* Ensure game content scales properly */
+  .game-content-scale {
+    transform-origin: center center;
+  }
+}
+
+/* Very small screens - games */
+@media (max-width: 380px) {
+  .game-container-mobile {
+    height: calc(100vh - 160px) !important;
+    min-height: 350px;
+  }
+}
+
 /* Ensure all text is readable on mobile */
 @media (max-width: 640px) {
   /* Base mobile styles */
@@ -95,6 +118,11 @@
   section {
     padding-left: 16px;
     padding-right: 16px;
+  }
+  
+  /* Fix Projects section being cut off at top on mobile */
+  #work {
+    margin-top: 2rem;
   }
   
   /* Improve button sizing on mobile */
