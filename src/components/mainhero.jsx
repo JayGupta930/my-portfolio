@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback, memo } from 'react';
 
 const motivationalQuotes = [
   "Code is the canvas where ideas become alive.",
@@ -34,12 +34,20 @@ const HeroSection = () => {
   const [isQuoteVisible, setIsQuoteVisible] = useState(false);
   const [currentQuote, setCurrentQuote] = useState(motivationalQuotes[0]);
   const videoRef = useRef(null);
+  const tickingRef = useRef(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 50);
 
+    // Optimized scroll handler using requestAnimationFrame for throttling
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      if (!tickingRef.current) {
+        requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          tickingRef.current = false;
+        });
+        tickingRef.current = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -73,7 +81,7 @@ const HeroSection = () => {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           poster="/video/alternate.png"
           aria-hidden="true"
         >
@@ -245,4 +253,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+export default memo(HeroSection);
