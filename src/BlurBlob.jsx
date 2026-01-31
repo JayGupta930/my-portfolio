@@ -1,5 +1,5 @@
 // components/BlurBlob.jsx
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
 const BlurBlob = ({ position, size }) => {
@@ -37,4 +37,4 @@ BlurBlob.propTypes = {
   }),
 };
 
-export default BlurBlob;
+export default memo(BlurBlob);
