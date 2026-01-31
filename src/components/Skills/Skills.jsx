@@ -1,5 +1,5 @@
 // src/components/Skills/Skills.jsx
-import React from "react";
+import React, { memo } from "react";
 import { SkillsInfo } from "../../constants";
 import Tilt from "react-parallax-tilt";
 
@@ -49,6 +49,8 @@ const Skills = () => (
                     src={skill.logo}
                     alt={`${skill.name} logo`}
                     className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 flex-shrink-0"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <span className="text-xs sm:text-xs md:text-sm text-gray-300 break-words">
                     {skill.name}
@@ -63,4 +65,4 @@ const Skills = () => (
   </section>
 );
 
-export default Skills;
+export default memo(Skills);
