@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { experiences } from "../../constants"; // Import the experiences data
 
 const Experience = () => {
@@ -40,6 +40,8 @@ const Experience = () => {
                 src={exp.img}
                 alt={exp.company}
                 className="w-full h-full object-cover rounded-full"
+                loading="lazy"
+                decoding="async"
               />
             </div>
 
@@ -60,6 +62,8 @@ const Experience = () => {
                     src={exp.img}
                     alt={exp.company}
                     className="w-full h-full object-contain"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
 
@@ -104,4 +108,4 @@ const Experience = () => {
   );
 };
 
-export default Experience;
+export default memo(Experience);
