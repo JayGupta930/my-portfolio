@@ -2,6 +2,12 @@
 <html lang="en">
 
 <head>
+  <!-- Redirect from .web.app to custom domain -->
+  <script>
+    if (window.location.hostname === 'ijaygupta.web.app' || window.location.hostname === 'ijaygupta.firebaseapp.com') {
+      window.location.replace('https://jaygupta.me' + window.location.pathname + window.location.search + window.location.hash);
+    }
+  </script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3Y2DC7MNRS"></script>
   <script>
@@ -39,11 +45,11 @@
 
   <!-- Open Graph / Facebook / WhatsApp -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://jaygupta.web.app/" />
+  <meta property="og:url" content="https://jaygupta.me/" />
   <meta property="og:title" content="Jay Gupta - Portfolio" />
   <meta property="og:description"
     content="Welcome to my portfolio! I'm Jay Gupta, a passionate developer showcasing my projects, skills, and creative work. Explore my journey in web development and design." />
-  <meta property="og:image" content="https://jaygupta.web.app/og-profile.jpg" />
+  <meta property="og:image" content="https://jaygupta.me/og-profile.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -53,11 +59,11 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://jaygupta.web.app/" />
+  <meta name="twitter:url" content="https://jaygupta.me/" />
   <meta name="twitter:title" content="Jay Gupta - Portfolio" />
   <meta name="twitter:description"
     content="Welcome to my portfolio! I'm Jay Gupta, a passionate developer showcasing my projects, skills, and creative work. Explore my journey in web development and design." />
-  <meta name="twitter:image" content="https://jaygupta.web.app/og-profile.jpg" />
+  <meta name="twitter:image" content="https://jaygupta.me/og-profile.jpg" />
 
   <!-- Theme Color -->
   <meta name="theme-color" content="#000000" />
