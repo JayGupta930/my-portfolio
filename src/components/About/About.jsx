@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Typewriter } from 'react-simple-typewriter'
 import resumePDF from '../../assets/Resume.pdf'
 
@@ -75,4 +76,4 @@ const About = ({ sectionRef }) => {
   )
 }
 
-export default About
+export default memo(About)
