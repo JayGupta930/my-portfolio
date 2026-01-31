@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { education } from "../../constants"; // Import the education data
 
 const Education = () => {
@@ -40,6 +40,8 @@ const Education = () => {
                 src={edu.img}
                 alt={edu.school}
                 className="w-full h-full object-cover rounded-full"
+                loading="lazy"
+                decoding="async"
               />
             </div>
 
@@ -60,6 +62,8 @@ const Education = () => {
                     src={edu.img}
                     alt={edu.school}
                     className="w-full h-full object-contain"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
 
@@ -88,4 +92,4 @@ const Education = () => {
   );
 };
 
-export default Education;
+export default memo(Education);
