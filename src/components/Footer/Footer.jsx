@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaLinkedin, FaGithub, FaTwitter } from "react-icons/fa";
 
@@ -161,4 +161,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default memo(Footer);
