@@ -7,6 +7,7 @@ import BlurBlob from "./BlurBlob";
 import "./mobile-responsive.css";
 import { scrollToSection } from "./utils/scrollUtils";
 import SmoothScroll from "./components/SmoothScroll/SmoothScroll";
+import { AuthProvider } from "./context/AuthContext";
 
 // Eagerly loaded components (critical for first paint)
 import About from "./components/About/About";
@@ -27,6 +28,7 @@ const Creativity = lazy(() => import("./components/Creativity/Creativity"));
 const Music = lazy(() => import("./Creativity/Music/Music"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const GamesPage = lazy(() => import("./pages/GamesPage"));
+const Leaderboard = lazy(() => import("./components/Leaderboard/Leaderboard"));
 
 // Loading fallback - memoized to prevent re-renders
 const PageLoader = memo(() => (
@@ -204,32 +206,35 @@ const EducationPage = () => (
 
 const App = () => {
   return (
-    <SmoothScroll>
-      <div className="bg-[#050414] min-h-screen w-full">
-        <BlurBlob
-          position={{ top: "35%", left: "20%" }}
-          size={{ width: "30%", height: "40%" }}
-        />
+    <AuthProvider>
+      <SmoothScroll>
+        <div className="bg-[#050414] min-h-screen w-full">
+          <BlurBlob
+            position={{ top: "35%", left: "20%" }}
+            size={{ width: "30%", height: "40%" }}
+          />
 
-        <div className="relative overflow-x-hidden w-full max-w-full">
-          <Navbar />
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/about" element={<Suspense fallback={<PageLoader />}><AboutPage /></Suspense>} />
-            <Route path="/skills" element={<SkillsPage />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/education" element={<EducationPage />} />
-            <Route path="/creativity" element={<Suspense fallback={<PageLoader />}><Creativity /></Suspense>} />
-            <Route path="/creativity/music" element={<Suspense fallback={<PageLoader />}><Music /></Suspense>} />
-            <Route path="/games" element={<Suspense fallback={<PageLoader />}><GamesPage /></Suspense>} />
-            <Route path="/contact" element={<Suspense fallback={<PageLoader />}><Contact /></Suspense>} />
-            <Route path="*" element={<LandingPage />} />
-          </Routes>
-          <Footer />
+          <div className="relative overflow-x-hidden w-full max-w-full">
+            <Navbar />
+            <ScrollToTop />
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/about" element={<Suspense fallback={<PageLoader />}><AboutPage /></Suspense>} />
+              <Route path="/skills" element={<SkillsPage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/education" element={<EducationPage />} />
+              <Route path="/creativity" element={<Suspense fallback={<PageLoader />}><Creativity /></Suspense>} />
+              <Route path="/creativity/music" element={<Suspense fallback={<PageLoader />}><Music /></Suspense>} />
+              <Route path="/games" element={<Suspense fallback={<PageLoader />}><GamesPage /></Suspense>} />
+              <Route path="/leaderboard" element={<Suspense fallback={<PageLoader />}><Leaderboard /></Suspense>} />
+              <Route path="/contact" element={<Suspense fallback={<PageLoader />}><Contact /></Suspense>} />
+              <Route path="*" element={<LandingPage />} />
+            </Routes>
+            <Footer />
+          </div>
         </div>
-      </div>
-    </SmoothScroll>
+      </SmoothScroll>
+    </AuthProvider>
   );
 };
 
