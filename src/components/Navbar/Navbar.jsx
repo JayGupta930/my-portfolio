@@ -15,6 +15,7 @@ const Navbar = () => {
   const menuItems = [
     { path: "/", label: "Home", end: true, scrollToTop: true },
     { path: "/projects", label: "Projects" },
+    { path: "/games", label: "Games" },
     { path: "/creativity", label: "Creativity" },
     { path: "/contact", label: "Contact" },
     { path: "/about", label: "About", end: true },
