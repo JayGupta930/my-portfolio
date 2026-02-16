@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { RotateCcw, Play, Pause } from 'lucide-react';
+import GameLeaderboard from '../Leaderboard/GameLeaderboard';
+import { GAME_IDS, getGameConfig } from '../../config/gamesConfig';
 
 const GRID_SIZE = 15;
 const INITIAL_SPEED = 150;
+const GAME_CONFIG = getGameConfig(GAME_IDS.SNAKE);
 
 const SnakeGame = ({ embedded = false }) => {
   const [snake, setSnake] = useState([{ x: 7, y: 7 }]);
@@ -17,7 +20,7 @@ const SnakeGame = ({ embedded = false }) => {
   const directionRef = useRef(direction);
 
   useEffect(() => {
-    const saved = localStorage.getItem('snake-high-score');
+    const saved = localStorage.getItem(GAME_CONFIG.storageKey);
     if (saved) setHighScore(parseInt(saved));
   }, []);
 
@@ -70,7 +73,7 @@ const SnakeGame = ({ embedded = false }) => {
           const newScore = prev + 10;
           if (newScore > highScore) {
             setHighScore(newScore);
-            localStorage.setItem('snake-high-score', newScore.toString());
+            localStorage.setItem(GAME_CONFIG.storageKey, newScore.toString());
           }
           return newScore;
         });
@@ -275,6 +278,17 @@ const SnakeGame = ({ embedded = false }) => {
             </button>
           </div>
         </div>
+
+        {/* Game Leaderboard - Only show when not embedded */}
+        {!embedded && (
+          <GameLeaderboard
+            gameId={GAME_CONFIG.id}
+            gameName={GAME_CONFIG.name}
+            emoji={GAME_CONFIG.emoji}
+            gradient={GAME_CONFIG.gradient}
+            storageKey={GAME_CONFIG.storageKey}
+          />
+        )}
 
         {/* Game Over / Paused Overlay */}
         {(gameOver || (isPaused && !gameOver)) && (
