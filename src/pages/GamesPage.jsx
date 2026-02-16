@@ -1,6 +1,10 @@
-import React, { useState, Suspense, lazy } from "react";
+import React, { useState, Suspense, lazy, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, HelpCircle, X, Play } from "lucide-react";
+import { auth } from "../firebase";
+import { signInAnonymously, signOut } from "firebase/auth";
+import { ArrowLeft, HelpCircle, X, Play, Trophy } from "lucide-react";
+import GameLeaderboard from "../components/Leaderboard/GameLeaderboard";
+import { GAMES_CONFIG } from "../config/gamesConfig";
 
 // Lazy load all game components - they'll only be downloaded when selected
 const Game2048 = lazy(() => import("../components/2048/Game2048"));
@@ -19,7 +23,6 @@ const RockPaperScissors = lazy(() => import("../components/RockPaperScissors/Roc
 const WhackAMole = lazy(() => import("../components/WhackAMole/WhackAMole"));
 const MathQuiz = lazy(() => import("../components/MathQuiz/MathQuiz"));
 const PatternLock = lazy(() => import("../components/PatternLock/PatternLock"));
-const BubblePop = lazy(() => import("../components/BubblePop/BubblePop"));
 const QuizTrivia = lazy(() => import("../components/QuizTrivia/QuizTrivia"));
 const Hangman = lazy(() => import("../components/Hangman/Hangman"));
 const DiceRoll = lazy(() => import("../components/DiceRoll/DiceRoll"));
@@ -154,14 +157,7 @@ const gameGuides = [
     tips: "Focus on the sequence and try to memorize it visually. Don't rush - accuracy is key!"
   },
   {
-    emoji: "🫧",
-    name: "Bubble Pop",
-    controls: "Mouse Click / Tap",
-    howToPlay: "Pop the floating bubbles before they escape! Special golden bubbles give bonus points!",
-    tips: "Aim for smaller bubbles for more points. Chain pops quickly to build combos!"
-  },
-  {
-    emoji: "🧠",
+    emoji: "",
     name: "Quiz Trivia",
     controls: "Mouse Click / Tap",
     howToPlay: "Answer trivia questions before time runs out. Choose from 4 options - only one is correct!",
@@ -225,42 +221,64 @@ const gameGuides = [
   }
 ];
 
-const gamesList = [
-  { id: "2048", name: "2048", emoji: "🔢", gradient: "from-purple-600 to-pink-600", component: Game2048 },
-  { id: "tictactoe", name: "Tic Tac Toe", emoji: "⭕", gradient: "from-blue-600 to-cyan-600", component: TicTacToe },
-  { id: "memory", name: "Memory Match", emoji: "🎯", gradient: "from-pink-600 to-rose-600", component: MemoryGame },
-  { id: "snake", name: "Snake", emoji: "🐍", gradient: "from-green-600 to-emerald-600", component: SnakeGame },
-  { id: "minesweeper", name: "Minesweeper", emoji: "💣", gradient: "from-red-600 to-orange-600", component: Minesweeper },
-  { id: "simon", name: "Simon Says", emoji: "🎵", gradient: "from-cyan-600 to-teal-600", component: SimonSays },
-  { id: "wordle", name: "Wordle", emoji: "📝", gradient: "from-yellow-600 to-amber-600", component: WordleGame },
-  { id: "flappy", name: "Flappy Bird", emoji: "🐦", gradient: "from-sky-600 to-cyan-600", component: FlappyBird },
-  { id: "typing", name: "Speed Typing", emoji: "⌨️", gradient: "from-violet-600 to-purple-600", component: TypingGame },
-  { id: "color", name: "Color Guess", emoji: "🎨", gradient: "from-fuchsia-600 to-pink-600", component: ColorGuess },
-  { id: "reaction", name: "Reaction Time", emoji: "⚡", gradient: "from-amber-600 to-yellow-600", component: ReactionTime },
-  { id: "number", name: "Number Guess", emoji: "🔢", gradient: "from-indigo-600 to-blue-600", component: NumberGuess },
-  { id: "rps", name: "Rock Paper Scissors", emoji: "✊", gradient: "from-rose-600 to-red-600", component: RockPaperScissors },
-  { id: "whack", name: "Whack-a-Mole", emoji: "🔨", gradient: "from-orange-600 to-amber-600", component: WhackAMole },
-  { id: "math", name: "Math Quiz", emoji: "🧮", gradient: "from-blue-600 to-indigo-600", component: MathQuiz },
-  { id: "pattern", name: "Pattern Lock", emoji: "🔐", gradient: "from-purple-600 to-violet-600", component: PatternLock },
-  { id: "bubble", name: "Bubble Pop", emoji: "🫧", gradient: "from-cyan-600 to-blue-600", component: BubblePop },
-  { id: "trivia", name: "Quiz Trivia", emoji: "🧠", gradient: "from-emerald-600 to-teal-600", component: QuizTrivia },
-  { id: "hangman", name: "Hangman", emoji: "🎯", gradient: "from-slate-600 to-gray-600", component: Hangman },
-  { id: "dice", name: "Dice Roll", emoji: "🎲", gradient: "from-red-600 to-rose-600", component: DiceRoll },
-  { id: "scramble", name: "Word Scramble", emoji: "🔤", gradient: "from-teal-600 to-green-600", component: WordScramble },
-  { id: "tap", name: "Tap Speed", emoji: "👆", gradient: "from-orange-600 to-red-600", component: TapSpeed },
-  { id: "emoji", name: "Emoji Match", emoji: "😊", gradient: "from-pink-600 to-purple-600", component: EmojiMatch },
-  { id: "card", name: "High Card", emoji: "🃏", gradient: "from-violet-600 to-indigo-600", component: CardMatch },
-  { id: "target", name: "Target Shoot", emoji: "🎯", gradient: "from-red-600 to-orange-600", component: TargetShoot },
-  { id: "coin", name: "Coin Flip", emoji: "🪙", gradient: "from-yellow-600 to-amber-600", component: CoinFlip },
-];
+// Map components to game configs
+const componentMap = {
+  '2048': Game2048,
+  'tictactoe': TicTacToe,
+  'memory': MemoryGame,
+  'snake': SnakeGame,
+  'minesweeper': Minesweeper,
+  'simon': SimonSays,
+  'wordle': WordleGame,
+  'flappy': FlappyBird,
+  'typing': TypingGame,
+  'color': ColorGuess,
+  'reaction': ReactionTime,
+  'number': NumberGuess,
+  'rps': RockPaperScissors,
+  'whack': WhackAMole,
+  'math': MathQuiz,
+  'pattern': PatternLock,
+  'trivia': QuizTrivia,
+  'hangman': Hangman,
+  'dice': DiceRoll,
+  'scramble': WordScramble,
+  'tap': TapSpeed,
+  'emoji': EmojiMatch,
+  'card': CardMatch,
+  'target': TargetShoot,
+  'coin': CoinFlip,
+};
+
+// Build gamesList from centralized config
+const gamesList = GAMES_CONFIG.map(game => ({
+  ...game,
+  component: componentMap[game.id]
+}));
 
 const GamesPage = () => {
   const navigate = useNavigate();
   const [showGuide, setShowGuide] = useState(false);
   const [activeGame, setActiveGame] = useState(null);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
 
   const ActiveGameComponent = activeGame ? gamesList.find(g => g.id === activeGame)?.component : null;
   const activeGameInfo = activeGame ? gamesList.find(g => g.id === activeGame) : null;
+
+  // Reset leaderboard when game changes
+  useEffect(() => {
+    const signInUser = async () => {
+      try {
+        await signInAnonymously(auth);
+        console.log("Signed in anonymously");
+      } catch (err) {
+        console.error("Error signing in anonymously:", err);
+      }
+    };
+    
+    signInUser();
+    setShowLeaderboard(false);
+  }, [activeGame]);
 
   return (
     <div className="min-h-screen bg-[#050414] py-4 sm:py-8 px-2 sm:px-4">
@@ -268,21 +286,40 @@ const GamesPage = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4 mb-4 sm:mb-8 mt-12 sm:mt-16 px-2">
         {/* Back Button */}
         <button
-          onClick={() => activeGame ? setActiveGame(null) : navigate(-1)}
+          onClick={() => {
+            if (activeGame) {
+              setActiveGame(null);
+              setShowLeaderboard(false);
+            } else {
+              navigate(-1);
+            }
+          }}
           className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="text-xs md:text-sm font-medium">{activeGame ? "Back to Games" : "Back"}</span>
         </button>
 
-        {/* Guide Button */}
-        <button
-          onClick={() => setShowGuide(true)}
-          className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 backdrop-blur-md border border-white/20 text-white hover:opacity-90 transition-all duration-300 shadow-lg shadow-purple-500/25"
-        >
-          <HelpCircle className="w-4 h-4" />
-          <span className="text-xs md:text-sm font-medium">How to Play</span>
-        </button>
+        {/* Action Buttons */}
+        <div className="flex items-center gap-2">
+          {/* Leaderboard Button */}
+          <button
+            onClick={() => activeGame ? setShowLeaderboard(!showLeaderboard) : navigate('/leaderboard')}
+            className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 backdrop-blur-md border border-white/20 text-white hover:opacity-90 transition-all duration-300 shadow-lg shadow-orange-500/25"
+          >
+            <Trophy className="w-4 h-4" />
+            <span className="hidden sm:inline text-xs md:text-sm font-medium">Leaderboard</span>
+          </button>
+
+          {/* Guide Button */}
+          <button
+            onClick={() => setShowGuide(true)}
+            className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 backdrop-blur-md border border-white/20 text-white hover:opacity-90 transition-all duration-300 shadow-lg shadow-purple-500/25"
+          >
+            <HelpCircle className="w-4 h-4" />
+            <span className="hidden sm:inline text-xs md:text-sm font-medium">How to Play</span>
+          </button>
+        </div>
       </div>
 
       {/* Guide Modal */}
@@ -342,7 +379,7 @@ const GamesPage = () => {
       {/* Active Game View */}
       {activeGame && ActiveGameComponent && (
         <div className="px-2 sm:px-4">
-          <div className="max-w-4xl mx-auto">
+          <div className={`mx-auto ${showLeaderboard ? 'max-w-7xl' : 'max-w-4xl'}`}>
             {/* Game Header */}
             <div className="text-center mb-3 sm:mb-6">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 sm:mb-2">
@@ -350,14 +387,30 @@ const GamesPage = () => {
               </h1>
             </div>
 
-            {/* Game Container */}
-            <div className="relative group">
-              <div className={`absolute -inset-1 bg-gradient-to-r ${activeGameInfo?.gradient} rounded-2xl sm:rounded-3xl blur opacity-30`}></div>
-              <div className="relative bg-black/50 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-6 h-[calc(100vh-180px)] sm:h-[calc(100vh-200px)] md:h-[650px] min-h-[400px] max-h-[700px] overflow-hidden">
-                <Suspense fallback={<GameLoader />}>
-                  <ActiveGameComponent embedded={true} />
-                </Suspense>
+            {/* Game and Leaderboard Container */}
+            <div className={`flex ${showLeaderboard ? 'gap-4' : ''} items-start`}>
+              {/* Game Container */}
+              <div className={`relative group ${showLeaderboard ? 'flex-1' : 'w-full'}`}>
+                <div className={`absolute -inset-1 bg-gradient-to-r ${activeGameInfo?.gradient} rounded-2xl sm:rounded-3xl blur opacity-30`}></div>
+                <div className="relative bg-black/50 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-6 h-[calc(100vh-180px)] sm:h-[calc(100vh-200px)] md:h-[650px] min-h-[400px] max-h-[700px] overflow-hidden">
+                  <Suspense fallback={<GameLoader />}>
+                    <ActiveGameComponent embedded={true} />
+                  </Suspense>
+                </div>
               </div>
+
+              {/* Game-Specific Leaderboard - Right Side */}
+              {showLeaderboard && activeGameInfo && (
+                <div className="w-80 flex-shrink-0 hidden lg:block">
+                  <GameLeaderboard 
+                    gameId={activeGameInfo.id}
+                    gameName={activeGameInfo.name}
+                    emoji={activeGameInfo.emoji}
+                    gradient={activeGameInfo.gradient}
+                    storageKey={activeGameInfo.storageKey}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
