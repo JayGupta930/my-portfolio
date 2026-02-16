@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
+import { useAuth } from '../../context/AuthContext';
+import { GAME_IDS } from '../../config/gamesConfig';
+
+const API_URL = 'http://localhost:3000/api/scores';
 
 const Game2048 = ({ embedded = false }) => {
+  const { user } = useAuth();
   const [grid, setGrid] = useState([]);
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
@@ -8,6 +14,48 @@ const Game2048 = ({ embedded = false }) => {
   const [won, setWon] = useState(false);
   const [tiles, setTiles] = useState([]);
   const [isPlaying, setIsPlaying] = useState(!embedded); // Auto-play only in non-embedded mode
+
+  // Submit score to MongoDB backend
+  const submitScore = useCallback(async (finalScore) => {
+    try {
+      const userId = user?.uid || localStorage.getItem('userId') || `guest_${Date.now()}`;
+      const username = user?.displayName || localStorage.getItem('username') || `Player${Math.floor(Math.random() * 9999)}`;
+
+      // Persist guest identity for consistent tracking
+      if (!user) {
+        if (!localStorage.getItem('userId')) localStorage.setItem('userId', userId);
+        if (!localStorage.getItem('username')) localStorage.setItem('username', username);
+      }
+
+      // Store last played score for leaderboard highlighting
+      const lastPlayedData = {
+        score: finalScore,
+        userId,
+        username,
+        playedAt: new Date().toISOString(),
+        gameId: GAME_IDS.GAME_2048,
+        gameName: '2048'
+      };
+      localStorage.setItem('2048-last-played', JSON.stringify(lastPlayedData));
+
+      const { data } = await axios.post(API_URL, {
+        userId,
+        username,
+        gameId: GAME_IDS.GAME_2048,
+        gameName: '2048',
+        score: finalScore,
+        playedAt: new Date().toISOString(),
+      });
+
+      if (data.success) {
+        console.log('Score submitted successfully:', data.message || 'OK');
+      } else {
+        console.error('Score submission failed:', data.message);
+      }
+    } catch (error) {
+      console.error('Error submitting score:', error);
+    }
+  }, [user]);
 
   // Initialize game
   const initializeGame = useCallback(() => {
@@ -157,14 +205,16 @@ const Game2048 = ({ embedded = false }) => {
       // Check for 2048
       if (newGrid.flat().includes(2048)) {
         setWon(true);
+        submitScore(newScore);
       }
 
       // Check game over
       if (isGameOver(newGrid)) {
         setGameOver(true);
+        submitScore(newScore);
       }
     }
-  }, [grid, score, gameOver, won, bestScore]);
+  }, [grid, score, gameOver, won, bestScore, submitScore]);
 
   const isGameOver = (currentGrid) => {
     // Check for empty cells
