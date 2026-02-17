@@ -2,6 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Trophy, Medal, Award, Crown, Star, User, X, ChevronDown, ChevronUp } from 'lucide-react';
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://portfolio-backend-bfkl.onrender.com';
+
 /**
  * GameLeaderboard Component
  * 
@@ -27,7 +29,7 @@ const GameLeaderboard = ({
   gradient = 'from-purple-600 to-pink-600',
   storageKey
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [scores, setScores] = useState([]);
   const [currentUserId, setCurrentUserId] = useState('guest_user');
   const [lastPlayedScore, setLastPlayedScore] = useState(null);
@@ -74,11 +76,11 @@ const GameLeaderboard = ({
       setError(null);
       
       try {
-        const response = await axios.get(`http://localhost:3000/game/${gameId}`);
+        const response = await axios.get(`${API_BASE_URL}/api/scores/game/${gameId}`);
         
-        if (response.data && response.data.leaderboard) {
+        if (response.data && response.data.data && Array.isArray(response.data.data)) {
           // Transform the API response to match the component format
-          const formattedScores = response.data.leaderboard.map(entry => ({
+          const formattedScores = response.data.data.map(entry => ({
             userId: entry.userId || entry.user_id || 'unknown',
             username: entry.username || entry.playerName || `Player${Math.floor(Math.random() * 9999)}`,
             score: entry.score || 0,
