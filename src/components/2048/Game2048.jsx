@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { GAME_IDS } from '../../config/gamesConfig';
 
-const API_URL = 'http://localhost:3000/api/scores';
+const API_URL = `${import.meta.env.VITE_API_URL || 'https://portfolio-backend-bfkl.onrender.com'}/api/scores`;
 
 const Game2048 = ({ embedded = false }) => {
   const { user } = useAuth();
@@ -15,7 +15,7 @@ const Game2048 = ({ embedded = false }) => {
   const [tiles, setTiles] = useState([]);
   const [isPlaying, setIsPlaying] = useState(!embedded); // Auto-play only in non-embedded mode
 
-  // Submit score to MongoDB backend
+  // Submit score to backend API
   const submitScore = useCallback(async (finalScore) => {
     try {
       const userId = user?.uid || localStorage.getItem('userId') || `guest_${Date.now()}`;
