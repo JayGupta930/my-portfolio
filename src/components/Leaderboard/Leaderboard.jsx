@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Trophy, Medal, Award, TrendingUp, BarChart3, Sparkles, Crown, Star, Filter, ArrowUpDown, User, Users } from 'lucide-react';
+import axios from 'axios';
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://portfolio-backend-bfkl.onrender.com';
 
 const Leaderboard = () => {
   const [scores, setScores] = useState([]);
@@ -56,43 +59,87 @@ const Leaderboard = () => {
   }, []);
 
   useEffect(() => {
-    const currentUserScores = gameConfigs.map(game => {
-      const score = localStorage.getItem(game.storageKey);
-      const userId = localStorage.getItem('userId') || 'guest_user';
-      const username = localStorage.getItem('username') || 'Guest';
+    const fetchAllScores = async () => {
+      const allScores = [];
       
-      // Check for last played score
-      const lastPlayedKey = game.storageKey.replace('-best', '-last-played').replace('-high-score', '-last-played');
-      const lastPlayedData = localStorage.getItem(lastPlayedKey);
-      let lastPlayed = null;
-      if (lastPlayedData) {
-        try {
-          lastPlayed = JSON.parse(lastPlayedData);
-        } catch (e) {
-          console.error('Error parsing last played data:', e);
+      // Try multiple endpoint patterns to fetch all scores
+      try {
+        // Try fetching all scores at once
+        const response = await axios.get(`${API_BASE_URL}/api/scores`);
+        console.log('Fetched all scores:', response.data);
+        
+        if (response.data && response.data.data && Array.isArray(response.data.data)) {
+          // Map all scores to the format we need
+          response.data.data.forEach(entry => {
+            const game = gameConfigs.find(g => g.id === entry.gameId);
+            if (game) {
+              allScores.push({
+                ...game,
+                score: entry.score || 0,
+                userId: entry.userId || entry.user_id || 'unknown',
+                username: entry.username || entry.playerName || `Player${Math.floor(Math.random() * 9999)}`,
+                hasPlayed: true,
+                playedAt: entry.playedAt || entry.timestamp || new Date().toISOString(),
+                lastPlayed: null
+              });
+            }
+          });
+        }
+      } catch (err) {
+        console.log('Error fetching all scores, trying individual games:', err.message);
+        
+        // Fallback: Fetch scores for each game individually
+        for (const game of gameConfigs) {
+          try {
+            const response = await axios.get(`${API_BASE_URL}/api/scores/game/${game.id}`);
+            console.log(`Fetched scores for ${game.name}:`, response.data);
+            
+            if (response.data && response.data.data && Array.isArray(response.data.data)) {
+              response.data.data.forEach(entry => {
+                allScores.push({
+                  ...game,
+                  score: entry.score || 0,
+                  userId: entry.userId || entry.user_id || 'unknown',
+                  username: entry.username || entry.playerName || `Player${Math.floor(Math.random() * 9999)}`,
+                  hasPlayed: true,
+                  playedAt: entry.playedAt || entry.timestamp || new Date().toISOString(),
+                  lastPlayed: null
+                });
+              });
+            }
+          } catch (err) {
+            console.log(`No scores found for ${game.name}`);
+          }
         }
       }
       
-      return {
-        ...game,
-        score: score ? parseInt(score) || 0 : 0,
-        userId: userId,
-        username: username,
-        hasPlayed: score !== null,
-        playedAt: score ? new Date().toISOString() : null,
-        lastPlayed: lastPlayed
-      };
-    }).filter(game => game.hasPlayed);
+      console.log('Total scores loaded:', allScores.length);
+      
+      // Also get current user's last played games from localStorage
+      const userId = localStorage.getItem('userId') || 'guest_user';
+      const recentPlayed = [];
+      
+      gameConfigs.forEach(game => {
+        const lastPlayedKey = game.storageKey.replace('-best', '-last-played').replace('-high-score', '-last-played');
+        const lastPlayedData = localStorage.getItem(lastPlayedKey);
+        if (lastPlayedData) {
+          try {
+            const lastPlayed = JSON.parse(lastPlayedData);
+            recentPlayed.push({ gameId: game.id, ...lastPlayed });
+          } catch (e) {
+            console.error('Error parsing last played data:', e);
+          }
+        }
+      });
+      
+      // Sort recent played by time
+      recentPlayed.sort((a, b) => new Date(b.playedAt) - new Date(a.playedAt));
+      
+      setLastPlayedGames(recentPlayed.slice(0, 5));
+      setScores(allScores);
+    };
     
-    // Track last played games
-    const recentPlayed = currentUserScores
-      .filter(game => game.lastPlayed)
-      .sort((a, b) => new Date(b.lastPlayed.playedAt) - new Date(a.lastPlayed.playedAt))
-      .slice(0, 5)
-      .map(game => ({ gameId: game.id, ...game.lastPlayed }));
-    
-    setLastPlayedGames(recentPlayed);
-    setScores(currentUserScores);
+    fetchAllScores();
   }, []);
 
   const stats = useMemo(() => {
