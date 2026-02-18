@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -369,7 +370,7 @@ const Contact = () => {
 
           <button
             type="submit"
-            className={`w-full border-2 border-transparent bg-transparent py-3 text-white font-semibold rounded-md transition-all duration-300 transform active:scale-95 active:shadow-inner ${loading ? "opacity-70 cursor-not-allowed" : "hover:bg-gradient-to-r hover:from-[#9C43FE] hover:to-[#4CC2E9] hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-500/30 cursor-pointer"
+            className={`"inline-flex items-center justify-center w-full border-2 border-transparent bg-transparent py-3 text-white font-semibold rounded-md transition-all duration-300 transform active:scale-95 active:shadow-inner ${loading ? "opacity-70 cursor-not-allowed" : "hover:bg-gradient-to-r hover:from-[#9C43FE] hover:to-[#4CC2E9] hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-500/30 cursor-pointer"
               }`}
             style={{
               borderImage: "linear-gradient(to right, #9C43FE, #4CC2E9) 1",
@@ -378,7 +379,7 @@ const Contact = () => {
             disabled={loading}
           >
             {loading ? (
-              <span className="inline-flex items-center justify-center gap-2">
+              <span className="inline-flex items-center justify-center">
                 <svg
                   className="w-5 h-5 animate-spin text-white"
                   xmlns="http://www.w3.org/2000/svg"
