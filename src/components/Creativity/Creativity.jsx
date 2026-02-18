@@ -71,9 +71,9 @@ const Creativity = () => {
         className="relative px-3 sm:px-4 font-sans md:px-[7vw] lg:px-[20vw]"
       >
         <div className="mx-auto max-w-5xl mt-20 sm:mt-20 pt-6 sm:pt-0">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
+          <div className="flex flex-col gap-3 sm:gap-4 lg:grid lg:grid-cols-5">
             {/* Live Code Typing Card - Replaced Music Card */}
-            <div className="col-span-1 sm:col-span-2 lg:col-span-5 row-span-1 rounded-2xl border border-white/10 bg-gray-900/70 p-4 sm:p-6 lg:p-8 shadow-2xl shadow-purple-500/10 backdrop-blur-md transition-all duration-300 hover:border-emerald-500/50 hover:shadow-[0_0_40px_rgba(16,185,129,0.35)]">
+            <div className="rounded-2xl border border-white/10 bg-gray-900/70 p-4 sm:p-6 lg:p-8 shadow-2xl shadow-purple-500/10 backdrop-blur-md transition-all duration-300 hover:border-emerald-500/50 hover:shadow-[0_0_40px_rgba(16,185,129,0.35)] lg:col-span-5">
               <div className="h-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
                 <div className="flex flex-col sm:flex-row justify-between w-full gap-4 sm:gap-0">
                   <div className="flex items-center gap-3">
@@ -120,14 +120,14 @@ const Creativity = () => {
               </div>
             </div>
             {/* Globe Card */}
-            <div className="col-span-1 sm:col-span-1 lg:col-span-2 row-span-1 lg:row-span-3 lg:row-start-2 rounded-2xl border border-white/10 bg-gray-900/60 p-4 sm:p-6 lg:p-8 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(157,0,255,0.4)] min-h-[350px] sm:min-h-[380px] lg:min-h-0">
+            <div className="rounded-2xl border border-white/10 bg-gray-900/60 p-4 sm:p-6 lg:p-8 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(157,0,255,0.4)] min-h-[350px] sm:min-h-[380px] lg:min-h-0 lg:col-span-2 lg:row-span-3 lg:row-start-2">
               <div className="flex flex-col items-center justify-center h-full">
                 <div className="flex-shrink-0 scale-75 sm:scale-90 lg:scale-100 mx-auto">
                   <Globe />
                 </div>
                 <div className="mt-6 sm:mt-6 w-full h-20 sm:h-16 flex items-center justify-center text-center" style={{ minHeight: '80px' }}>
                   <VaporizeTextCycle
-                    texts={["Creative", "Design", "Ideas"]}
+                    texts={["Cool", "Design", "Ideas"]}
                     font={{
                       fontFamily: "Inter, sans-serif",
                       fontSize: "50px",
@@ -149,7 +149,7 @@ const Creativity = () => {
               </div>
             </div>
             {/* Empty Card */}
-            <div className="col-span-1 sm:col-span-1 lg:col-span-3 row-span-1 lg:row-span-3 lg:col-start-3 lg:row-start-2 rounded-2xl border border-white/10 bg-gray-900/60 p-4 sm:p-6 lg:p-8 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(157,0,255,0.4)] min-h-[200px] sm:min-h-[280px] lg:min-h-0 flex items-center justify-center overflow-hidden">
+            <div className="rounded-2xl border border-white/10 bg-gray-900/60 p-4 sm:p-6 lg:p-8 shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(157,0,255,0.4)] min-h-[200px] sm:min-h-[280px] lg:min-h-0 flex items-center justify-center overflow-hidden lg:col-span-3 lg:row-span-3 lg:col-start-3 lg:row-start-2">
               <div className="w-full h-full flex items-center justify-center px-2 sm:px-4">
                 <ScrollReveal
                   baseOpacity={0}
