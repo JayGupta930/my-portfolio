@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 import { RotateCcw } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { GAME_IDS, getGameConfig } from '../../config/gamesConfig';
+import GameLeaderboard from '../Leaderboard/GameLeaderboard';
+
+const API_URL = `${import.meta.env.VITE_API_URL || 'https://portfolio-backend-bfkl.onrender.com'}/api/scores`;
+const GAME_CONFIG = getGameConfig(GAME_IDS.MEMORY_MATCH);
 
 const EMOJIS = ['🎮', '🎯', '🎨', '🎭', '🎪', '🎢', '🎡', '🎠'];
 
@@ -10,6 +17,39 @@ const MemoryGame = ({ embedded = false }) => {
   const [moves, setMoves] = useState(0);
   const [gameWon, setGameWon] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
+
+  const { user } = useAuth();
+
+  const submitScore = useCallback(async (finalScore) => {
+    if (finalScore <= 0) return;
+    try {
+      const userId = user?.uid || localStorage.getItem('userId') || `guest_${Date.now()}`;
+      const username = user?.displayName || localStorage.getItem('username') || `Player${Math.floor(Math.random() * 9999)}`;
+      if (!user) {
+        if (!localStorage.getItem('userId')) localStorage.setItem('userId', userId);
+        if (!localStorage.getItem('username')) localStorage.setItem('username', username);
+      }
+      localStorage.setItem(`${GAME_CONFIG.id}-last-played`, JSON.stringify({
+        score: finalScore, userId, username,
+        playedAt: new Date().toISOString(),
+        gameId: GAME_CONFIG.id, gameName: GAME_CONFIG.name
+      }));
+      await axios.post(API_URL, {
+        userId, username,
+        gameId: GAME_CONFIG.id, gameName: GAME_CONFIG.name,
+        score: finalScore, playedAt: new Date().toISOString(),
+      });
+    } catch (error) {
+      console.error('Error submitting score:', error);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (gameWon && moves > 0) {
+      const finalScore = Math.max(1, 200 - moves * 10);
+      submitScore(finalScore);
+    }
+  }, [gameWon]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const initializeGame = () => {
     const shuffledCards = [...EMOJIS, ...EMOJIS]
@@ -110,25 +150,33 @@ const MemoryGame = ({ embedded = false }) => {
         {/* Game Board */}
         <div className={embedded ? 'flex-1 flex items-center justify-center min-h-0' : 'bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20'}>
           <div className={embedded ? 'grid grid-cols-4 gap-2 w-full max-w-[280px]' : 'grid grid-cols-4 gap-3'}>
-            {cards.map((card, index) => (
-              <button
-                key={card.id}
-                onClick={() => handleCardClick(index)}
-                className={`
-                  aspect-square rounded-lg font-bold transition-all duration-300 flex items-center justify-center
-                  ${embedded ? 'text-2xl' : 'text-4xl'}
-                  ${isCardFlipped(index)
-                    ? 'bg-gradient-to-br from-purple-500 to-pink-500 transform rotate-y-180'
-                    : 'bg-white/10 hover:bg-white/20 cursor-pointer'
-                  }
-                  ${matchedPairs.includes(card.emoji) ? 'ring-2 ring-green-400' : ''}
-                  border border-white/20 shadow-lg
-                `}
-                disabled={isLocked || matchedPairs.includes(card.emoji)}
-              >
-                {isCardFlipped(index) ? card.emoji : '?'}
-              </button>
-            ))}
+            {cards.map((card, index) => {
+              const flipped = isCardFlipped(index);
+              const matched = matchedPairs.includes(card.emoji);
+
+              return (
+                <button
+                  key={card.id}
+                  onClick={() => handleCardClick(index)}
+                  className={`
+                    group aspect-square rounded-lg transition-all duration-300 overflow-hidden p-0.5
+                    border border-white/20 shadow-lg disabled:cursor-not-allowed
+                    ${matched ? 'ring-2 ring-green-400 cursor-default' : ''}
+                    ${!flipped && !matched ? 'hover:border-white/40 cursor-pointer' : 'cursor-default'}
+                  `}
+                  disabled={isLocked || matched}
+                >
+                  <div
+                    className={`
+                      w-full h-full rounded-md flex items-center justify-center font-bold leading-[0] text-center
+                      ${embedded ? 'text-2xl' : 'text-4xl'}
+                    `}
+                  >
+                    {flipped ? card.emoji : '?'}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -136,6 +184,17 @@ const MemoryGame = ({ embedded = false }) => {
         <div className={embedded ? 'text-center text-white/50 text-[8px]' : 'text-center text-white/50 text-xs'}>
           <p>Click cards to find matching pairs</p>
         </div>
+
+        {/* Game Leaderboard */}
+        {!embedded && GAME_CONFIG && (
+          <GameLeaderboard
+            gameId={GAME_CONFIG.id}
+            gameName={GAME_CONFIG.name}
+            emoji={GAME_CONFIG.emoji}
+            gradient={GAME_CONFIG.gradient}
+            storageKey={GAME_CONFIG.storageKey}
+          />
+        )}
 
         {/* Win Overlay */}
         {gameWon && (
