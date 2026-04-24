@@ -261,9 +261,27 @@ const GamesPage = () => {
   const [showGuide, setShowGuide] = useState(false);
   const [activeGame, setActiveGame] = useState(null);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const ActiveGameComponent = activeGame ? gamesList.find(g => g.id === activeGame)?.component : null;
   const activeGameInfo = activeGame ? gamesList.find(g => g.id === activeGame) : null;
+
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Filter out snake game for mobile users
+  const displayedGamesList = isMobile 
+    ? gamesList.filter(game => game.id !== 'snake')
+    : gamesList;
 
   // Reset leaderboard when game changes
   useEffect(() => {
@@ -388,9 +406,9 @@ const GamesPage = () => {
             </div>
 
             {/* Game and Leaderboard Container */}
-            <div className={`flex ${showLeaderboard ? 'gap-4' : ''} items-start`}>
+            <div className={`flex ${showLeaderboard ? 'gap-4' : ''} items-start flex-col lg:flex-row`}>
               {/* Game Container */}
-              <div className={`relative group ${showLeaderboard ? 'flex-1' : 'w-full'}`}>
+              <div className={`relative group ${showLeaderboard ? 'lg:flex-1' : ''} w-full`}>
                 <div className={`absolute -inset-1 bg-gradient-to-r ${activeGameInfo?.gradient} rounded-2xl sm:rounded-3xl blur opacity-30`}></div>
                 <div className="relative bg-black/50 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-3xl p-3 sm:p-4 md:p-6 h-[calc(100vh-180px)] sm:h-[calc(100vh-200px)] md:h-[650px] min-h-[400px] max-h-[700px] overflow-hidden">
                   <Suspense fallback={<GameLoader />}>
@@ -399,7 +417,20 @@ const GamesPage = () => {
                 </div>
               </div>
 
-              {/* Game-Specific Leaderboard - Right Side */}
+              {/* Game-Specific Leaderboard - Mobile (Below Game) */}
+              {showLeaderboard && activeGameInfo && (
+                <div className="w-full lg:hidden mt-4">
+                  <GameLeaderboard 
+                    gameId={activeGameInfo.id}
+                    gameName={activeGameInfo.name}
+                    emoji={activeGameInfo.emoji}
+                    gradient={activeGameInfo.gradient}
+                    storageKey={activeGameInfo.storageKey}
+                  />
+                </div>
+              )}
+
+              {/* Game-Specific Leaderboard - Desktop (Right Side) */}
               {showLeaderboard && activeGameInfo && (
                 <div className="w-80 flex-shrink-0 hidden lg:block">
                   <GameLeaderboard 
@@ -430,19 +461,19 @@ const GamesPage = () => {
           </div>
 
           {/* Games Selection Grid */}
-          <div className="max-w-6xl mx-auto grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-4 px-2">
-            {gamesList.map((game) => (
+          <div className="games-grid-mobile max-w-6xl mx-auto flex flex-wrap justify-center gap-3 sm:gap-4 px-4 sm:px-6">
+            {displayedGamesList.map((game) => (
               <button
                 key={game.id}
                 onClick={() => setActiveGame(game.id)}
-                className="relative group cursor-pointer"
+                className="game-card-mobile relative group cursor-pointer w-[calc(50%-0.375rem)] sm:w-[calc(33.333%-0.67rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(16.666%-0.84rem)]"
               >
                 <div className={`absolute -inset-0.5 sm:-inset-1 bg-gradient-to-r ${game.gradient} rounded-xl sm:rounded-2xl blur opacity-25 group-hover:opacity-60 transition duration-300`}></div>
-                <div className="relative bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl sm:rounded-2xl p-2 sm:p-4 h-full flex flex-col items-center justify-center gap-1.5 sm:gap-3 hover:bg-white/5 transition-all duration-300 group-hover:scale-[1.02] min-h-[80px] sm:min-h-[120px]">
-                  <span className="text-2xl sm:text-4xl md:text-5xl">{game.emoji}</span>
-                  <span className="text-white font-medium text-[10px] sm:text-sm text-center leading-tight">{game.name}</span>
-                  <div className={`absolute bottom-1 right-1 sm:bottom-2 sm:right-2 w-5 h-5 sm:w-8 sm:h-8 rounded-full bg-gradient-to-r ${game.gradient} flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
-                    <Play className="w-2.5 h-2.5 sm:w-4 sm:h-4 text-white fill-white" />
+                <div className="relative bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-4 h-full flex flex-col items-center justify-center gap-2 sm:gap-3 hover:bg-white/5 transition-all duration-300 group-hover:scale-[1.02] min-h-[110px] sm:min-h-[120px]">
+                  <span className="text-3xl sm:text-4xl md:text-5xl">{game.emoji}</span>
+                  <span className="text-white font-medium text-xs sm:text-sm text-center leading-tight">{game.name}</span>
+                  <div className={`absolute bottom-1 right-1 sm:bottom-2 sm:right-2 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-r ${game.gradient} flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
+                    <Play className="w-3 h-3 sm:w-4 sm:h-4 text-white fill-white" />
                   </div>
                 </div>
               </button>
