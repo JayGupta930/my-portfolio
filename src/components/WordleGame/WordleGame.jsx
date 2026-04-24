@@ -219,7 +219,7 @@ const WordleGame = ({ embedded = false }) => {
                       ? key.length > 1 ? 'px-2 h-8 text-[9px]' : 'w-6 h-8 text-xs'
                       : key.length > 1 ? 'px-4 h-12 text-sm' : 'w-9 h-12 text-lg'
                     }
-                    rounded-md font-semibold transition-all duration-150 active:scale-95
+                    rounded-md font-semibold transition-all duration-150 active:scale-95 flex items-center justify-center
                     ${getKeyClass(key)}
                   `}
                 >
