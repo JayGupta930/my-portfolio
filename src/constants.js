@@ -38,6 +38,8 @@ import MusicLogo from './assets/work_logo/music.png';
 import FreshJuiceLogo from './assets/work_logo/freshjuice.png';
 import SanskarDhaniGarbaLogo from './assets/work_logo/sanskardhani-garba.png';
 import IlikaLogo from './assets/work_logo/ilika.png';
+import IndustrialMachineryLogo from './assets/work_logo/mm.png';
+import BizCoreLogo from './assets/work_logo/bizcore.png';
 
 
 export const SkillsInfo = [
@@ -152,6 +154,26 @@ export const SkillsInfo = [
   ];
   
   export const projects = [
+      {
+        id: 9,
+        title: "Industrial Machinery Management & Maintenance System",
+        description:
+        "Developed a SaaS-based machinery management system to handle machines of all scales, featuring AMC tracking, maintenance scheduling, and real-time monitoring through a centralized dashboard.",
+        image: IndustrialMachineryLogo,
+        tags: ["JavaScript", "Next.js", "Node.js", "Firebase", "Render", "MongoDB", "Tailwind CSS", "JWT"],
+        github: "",
+        webapp: "#",
+      },
+      {
+        id: 10,
+        title: "Multi-Industry Business Management Platform (SaaS)",
+        description:
+        "Developed a scalable SaaS platform enabling businesses across multiple industries (Gym, Salon, Retail, Restaurant, Manufacturing, and Medical) to manage operations, including customer handling, appointments, inventory, billing, and analytics through a unified dashboard.",
+        image: BizCoreLogo,
+        tags: ["JavaScript", "Next.js", "Node.js", "Firebase", "Render", "REST APIs", "MongoDB", "JWT"],
+        github: "",
+        webapp: "#",
+      },
     {
       id: 0,
       title: "SanskarDhani Garba",
