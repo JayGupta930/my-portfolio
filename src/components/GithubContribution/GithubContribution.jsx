@@ -34,7 +34,7 @@ const GithubContributions = () => {
   };
 
   return (
-    <div className="mt-20 space-y-7 overflow-hidden bg-slate-50 dark:bg-[#0f0017] mx-10">
+    <div className="hidden md:block mt-20 space-y-7 overflow-hidden bg-slate-50 dark:bg-[#0f0017] mx-10">
       <p className="text-3xl flex justify-center items-center text-neutral-950 dark:text-slate-50 font-bold font-serif">
         GitHub Contribution Graph
       </p>
