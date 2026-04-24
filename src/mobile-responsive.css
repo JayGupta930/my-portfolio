@@ -1,29 +1,40 @@
 /* Mobile Responsive Styles */
 
-/* Games Page Mobile Responsive */
+/* Games Grid Mobile Fix - CRITICAL */
 @media (max-width: 640px) {
-  /* Game container adjustments */
-  .game-container-mobile {
-    height: calc(100vh - 180px) !important;
-    min-height: 400px;
-    max-height: 600px;
+  /* Force proper grid layout on mobile */
+  .games-grid-mobile {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem !important;
+    column-gap: 1.5rem !important;
+    row-gap: 1.5rem !important;
+    width: 100% !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
   }
   
-  /* Ensure game content scales properly */
-  .game-content-scale {
-    transform-origin: center center;
+  /* Ensure game cards don't overlap */
+  .game-card-mobile {
+    position: relative !important;
+    width: 100% !important;
+    min-height: 110px !important;
+    margin: 0.5rem !important;
+    display: block !important;
+  }
+  
+  /* Add spacing inside game cards */
+  .game-card-mobile > div {
+    margin: 0 !important;
+  }
+  
+  /* Reduce blur effect to prevent visual overlap */
+  .game-card-mobile .blur {
+    opacity: 0.15 !important;
   }
 }
 
-/* Very small screens - games */
-@media (max-width: 380px) {
-  .game-container-mobile {
-    height: calc(100vh - 160px) !important;
-    min-height: 350px;
-  }
-}
-
-/* Ensure all text is readable on mobile */
+/* Mobile Styles - Max Width 640px */
 @media (max-width: 640px) {
   /* Base mobile styles */
   body {
@@ -42,11 +53,416 @@
     overflow-x: hidden;
     max-width: 100vw;
   }
+
+  /* Force leaderboard container visibility */
+  .min-h-screen.bg-\[\#050414\] {
+    background-color: #050414 !important;
+    min-height: 100vh !important;
+    min-height: -webkit-fill-available;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  /* Ensure all children are visible */
+  .min-h-screen.bg-\[\#050414\] > * {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Force text visibility */
+  .text-white,
+  h1.text-white,
+  h2.text-white,
+  h3.text-white,
+  p.text-white,
+  span.text-white {
+    color: #ffffff !important;
+    opacity: 1 !important;
+  }
+  
+  /* Force icon visibility */
+  svg,
+  svg.text-yellow-400,
+  svg.text-purple-400,
+  svg.text-cyan-400,
+  svg.text-amber-400 {
+    display: inline-block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  /* Ensure trophy icons are visible */
+  svg.text-yellow-400 {
+    color: #fbbf24 !important;
+  }
+  
+  /* Force stats cards visibility */
+  /* .bg-gradient-to-br {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-height: 100px !important;
+  } */
+  
+  /* Make sure stats cards are visible */
+  .backdrop-blur-md {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+  }
+  
+  /* Improve visibility of borders */
+  .border-white\/10 {
+    border-color: rgba(255, 255, 255, 0.15) !important;
+  }
+  
+  /* Force button visibility */
+  button,
+  button[class*="bg-gradient"],
+  select {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #ffffff !important;
+  }
   
   /* Ensure buttons are touch-friendly */
   button, a {
     min-height: 44px;
     touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Make buttons more visible on mobile */
+  button.bg-gradient-to-r,
+  button[class*="bg-gradient"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  /* Force leaderboard table visibility */
+  .bg-white\/5,
+  div[class*="bg-white/5"] {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    display: block !important;
+    visibility: visible !important;
+  }
+  
+  /* Force grid layout */
+  .grid {
+    display: grid !important;
+  }
+  
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  
+  /* Ensure proper spacing for leaderboard sections */
+  [class*="grid-cols-2"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  
+  /* Ensure emojis are visible */
+  span[class*="text-xl"],
+  span[class*="text-2xl"] {
+    display: inline-block !important;
+    opacity: 1 !important;
+  }
+  
+  /* Ensure game icons and emojis are visible */
+  span[class*="text-"] {
+    display: inline-block;
+  }
+  
+  /* GameLeaderboard Component Mobile Visibility */
+  /* Ensure game leaderboards show below games properly */
+  div[class*="w-full"] > button[class*="bg-gradient"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background-color: #A855F7 !important;
+    color: #FFFFFF !important;
+    width: 100% !important;
+  }
+  
+  /* Game leaderboard panel visibility */
+  div[class*="mt-3"][class*="bg-black"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    width: 100% !important;
+  }
+  
+  /* Ensure leaderboard scores list is visible and scrollable */
+  div[class*="divide-y"] {
+    display: block !important;
+    visibility: visible !important;
+    overflow-y: auto !important;
+  }
+  
+  /* Force leaderboard text visibility */
+  div[class*="bg-black"] * {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  /* Ensure leaderboard avatars are visible */
+  div[class*="rounded-full"][class*="bg-gradient"] {
+    display: flex !important;
+    opacity: 1 !important;
+  }
+  
+  /* Better spacing for leaderboard rows on mobile */
+  .divide-y > div {
+    min-height: 60px !important;
+    padding: 0.75rem 0.5rem !important;
+  }
+  
+  /* Ensure usernames don't overflow on mobile */
+  .min-w-0 {
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+  
+  /* Prevent text from wrapping in leaderboard */
+  [style*="whiteSpace: 'nowrap'"] {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  
+  /* Mobile leaderboard below game */
+  .lg\\:hidden.mt-4 {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    margin-top: 1rem !important;
+  }
+  
+  /* Ensure flex-col layout on mobile */
+  .flex-col {
+    flex-direction: column !important;
+  }
+  
+  /* Force visibility of mobile leaderboard section */
+  div[style*="marginTop: '1rem'"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Leaderboard mobile optimizations */
+  .leaderboard-button {
+    position: relative;
+    z-index: 10;
+    cursor: pointer;
+  }
+  
+  /* Prevent content from hiding behind navbar */
+  [class*="mt-20"] {
+    margin-top: 5rem !important;
+  }
+  
+  [class*="mt-16"] {
+    margin-top: 4rem !important;
+  }
+  
+  /* Ensure leaderboard content doesn't overflow */
+  .max-w-7xl {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  /* Improve filter and sort visibility */
+  select.bg-white\/10 {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+  }
+  
+  /* Ensure select dropdowns work on mobile */
+  select {
+    min-height: 44px;
+    font-size: 16px;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+  
+  /* Fix z-index stacking on mobile */
+  .relative.z-10, [style*="z-index"] {
+    position: relative;
+    z-index: 10;
+  }
+  
+  /* Improve leaderboard stats cards on mobile */
+  .leaderboard-stat-card {
+    padding: 16px;
+    min-height: 100px;
+  }
+  
+  /* Enhanced leaderboard mobile visibility */
+  @media (max-width: 640px) {
+    /* Ensure leaderboard container has proper spacing */
+    .max-h-64 {
+      max-height: 16rem !important;
+      overflow-y: auto !important;
+    }
+    
+    /* Better touch targets for leaderboard items */
+    [style*="minHeight: '60px'"] {
+      min-height: 60px !important;
+    }
+    
+    /* Ensure proper flex layout in leaderboard rows */
+    .flex.items-center.justify-between {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+    }
+    
+    /* Better visibility for rank icons */
+    svg.w-5.h-5 {
+      width: 1rem !important;
+      height: 1rem !important;
+    }
+    
+    /* Compact score display on mobile */
+    .text-lg.font-bold {
+      font-size: 1rem !important;
+    }
+    
+    /* Ensure proper gap between elements */
+    .gap-1\.5 {
+      gap: 0.375rem !important;
+    }
+  }
+  
+  /* Prevent layout shift during scroll */
+  .overflow-y-auto {
+    scrollbar-gutter: stable;
+  }
+  
+  /* Optimize leaderboard table rows for mobile */
+  .leaderboard-row {
+    padding: 12px 8px;
+    touch-action: manipulation;
+    min-height: 60px;
+  }
+  
+  /* Improve leaderboard item sizing on mobile */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Better layout for leaderboard player info on mobile */
+  @media (max-width: 640px) {
+    /* Reduce avatar size on mobile */
+    .w-8.h-8.rounded-full {
+      width: 1.75rem !important;
+      height: 1.75rem !important;
+    }
+    
+    /* Adjust icon sizes on mobile */
+    .w-4.h-4 {
+      width: 0.875rem !important;
+      height: 0.875rem !important;
+    }
+    
+    /* Compact spacing for leaderboard items */
+    .gap-2 {
+      gap: 0.375rem !important;
+    }
+  }
+  
+  /* Custom scrollbar for leaderboard */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.1);
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    overflow-y: auto !important;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    margin: 4px 0;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.6);
+    background-clip: padding-box;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:active {
+    background: rgba(255, 255, 255, 0.7);
+    background-clip: padding-box;
+  }
+  
+  /* Ensure scrollbar is visible on mobile */
+  @media (hover: none) and (pointer: coarse) {
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.5);
+    }
+  }
+  
+  /* Ensure proper spacing for leaderboard elements */
+  .leaderboard-container {
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-top: 80px;
+  }
+  
+  /* Ensure avatar circles remain perfectly circular on mobile */
+  @media (max-width: 768px) {
+    [class*="rounded-full"][class*="w-7"] {
+      min-width: 1.75rem !important;
+      max-width: 1.75rem !important;
+      min-height: 1.75rem !important;
+      max-height: 1.75rem !important;
+      aspect-ratio: 1 / 1 !important;
+      border-radius: 50% !important;
+    }
+  }
+  
+  /* Game container adjustments */
+  .game-container-mobile {
+    height: calc(100vh - 180px) !important;
+    min-height: 400px;
+    max-height: 600px;
+  }
+  
+  /* Ensure game content scales properly */
+  .game-content-scale {
+    transform-origin: center center;
   }
   
   /* Improve text wrapping for typewriter effect */
@@ -79,11 +495,47 @@
     min-height: 200px;
   }
   
-  /* Improve navigation menu */
-  .mobile-menu {
-    max-height: 90vh;
+  /* Projects section mobile optimization */
+  #work {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-top: 2rem;
+    overflow-x: hidden;
+  }
+
+  /* Ensure project card stack is properly centered */
+  [class*="max-w-[min(380px,90vw)]"] {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Project card grid responsive layout */
+  [class*="grid-cols-1"] {
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Fix project modal overflow on mobile */
+  [class*="max-h-[85vh]"] {
+    max-height: 85vh !important;
     overflow-y: auto;
   }
+
+  /* Ensure project images scale properly */
+  [class*="max-h-[25vh]"] {
+    max-height: 25vh !important;
+    width: 100%;
+    object-fit: contain;
+  }
+
+  /* Project buttons touch-friendly */
+  #work button,
+  #work a {
+    min-height: 40px;
+    touch-action: manipulation;
+  }
+
   
   /* Improve contact form */
   .contact-form {
@@ -125,11 +577,41 @@
     margin-top: 2rem;
   }
   
-  /* Improve button sizing on mobile */
-  .btn-mobile {
-    padding: 12px 24px;
-    font-size: 14px;
-    min-height: 44px;
+  /* Additional Projects section mobile fixes */
+  @media (max-width: 640px) {
+    /* Ensure layout toggle is visible and properly sized */
+    #work [class*="bg-gray-800/80"] {
+      display: flex !important;
+      visibility: visible !important;
+    }
+    
+    /* Fix project card heights on mobile */
+    #work [class*="h-[380px]"] {
+      min-height: 360px !important;
+    }
+    
+    /* Ensure grid cards maintain aspect ratio */
+    #work [class*="min-h-[360px]"] {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Make sure modal fits on mobile screens */
+    #work [class*="fixed inset-0"] {
+      padding: 0.5rem !important;
+    }
+  }
+  
+  /* Very small mobile screens */
+  @media (max-width: 380px) {
+    #work [class*="h-[380px]"] {
+      min-height: 340px !important;
+    }
+    
+    #work [class*="px-4"] {
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
   }
   
   /* Ensure proper grid layouts */
@@ -160,7 +642,13 @@
   }
 }
 
-/* Tablet styles */
+/* Very small screens - games */
+@media (max-width: 380px) {
+  .game-container-mobile {
+    height: calc(100vh - 160px) !important;
+    min-height: 350px;
+  }
+}
 @media (min-width: 641px) and (max-width: 1024px) {
   /* Tablet-specific adjustments */
   .tablet-grid {
