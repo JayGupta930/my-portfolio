@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import axios from 'axios';
 import { RotateCcw, Timer } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { GAME_IDS, getGameConfig } from '../../config/gamesConfig';
+import GameLeaderboard from '../Leaderboard/GameLeaderboard';
+
+const API_URL = `${import.meta.env.VITE_API_URL || 'https://portfolio-backend-bfkl.onrender.com'}/api/scores`;
+const GAME_CONFIG = getGameConfig(GAME_IDS.SPEED_TYPING);
 
 const WORDS = [
   'react', 'javascript', 'coding', 'developer', 'function', 'variable', 'component',
@@ -21,6 +28,38 @@ const TypingGame = ({ embedded = false }) => {
   const [gameOver, setGameOver] = useState(false);
   const [highScore, setHighScore] = useState(0);
   const inputRef = useRef(null);
+
+  const { user } = useAuth();
+
+  const submitScore = useCallback(async (finalScore) => {
+    if (finalScore <= 0) return;
+    try {
+      const userId = user?.uid || localStorage.getItem('userId') || `guest_${Date.now()}`;
+      const username = user?.displayName || localStorage.getItem('username') || `Player${Math.floor(Math.random() * 9999)}`;
+      if (!user) {
+        if (!localStorage.getItem('userId')) localStorage.setItem('userId', userId);
+        if (!localStorage.getItem('username')) localStorage.setItem('username', username);
+      }
+      localStorage.setItem(`${GAME_CONFIG.id}-last-played`, JSON.stringify({
+        score: finalScore, userId, username,
+        playedAt: new Date().toISOString(),
+        gameId: GAME_CONFIG.id, gameName: GAME_CONFIG.name
+      }));
+      await axios.post(API_URL, {
+        userId, username,
+        gameId: GAME_CONFIG.id, gameName: GAME_CONFIG.name,
+        score: finalScore, playedAt: new Date().toISOString(),
+      });
+    } catch (error) {
+      console.error('Error submitting score:', error);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (gameOver && correctWords > 0) {
+      submitScore(correctWords);
+    }
+  }, [gameOver]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const saved = localStorage.getItem('typing-high-score');
@@ -220,6 +259,17 @@ const TypingGame = ({ embedded = false }) => {
               </button>
             </div>
           </div>
+        )}
+
+        {/* Game Leaderboard */}
+        {!embedded && GAME_CONFIG && (
+          <GameLeaderboard
+            gameId={GAME_CONFIG.id}
+            gameName={GAME_CONFIG.name}
+            emoji={GAME_CONFIG.emoji}
+            gradient={GAME_CONFIG.gradient}
+            storageKey={GAME_CONFIG.storageKey}
+          />
         )}
       </div>
     </div>
