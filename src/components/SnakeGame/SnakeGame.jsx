@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import axios from 'axios';
 import { RotateCcw, Play, Pause } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import GameLeaderboard from '../Leaderboard/GameLeaderboard';
 import { GAME_IDS, getGameConfig } from '../../config/gamesConfig';
 
+const API_URL = `${import.meta.env.VITE_API_URL || 'https://portfolio-backend-bfkl.onrender.com'}/api/scores`;
 const GRID_SIZE = 15;
 const INITIAL_SPEED = 150;
 const GAME_CONFIG = getGameConfig(GAME_IDS.SNAKE);
@@ -18,10 +21,63 @@ const SnakeGame = ({ embedded = false }) => {
   const [speed, setSpeed] = useState(INITIAL_SPEED);
   const gameLoopRef = useRef(null);
   const directionRef = useRef(direction);
+  const boardContainerRef = useRef(null);
+  const [cellSize, setCellSize] = useState(0);
+
+  const { user } = useAuth();
+
+  const submitScore = useCallback(async (finalScore) => {
+    if (finalScore <= 0) return;
+    try {
+      const userId = user?.uid || localStorage.getItem('userId') || `guest_${Date.now()}`;
+      const username = user?.displayName || localStorage.getItem('username') || `Player${Math.floor(Math.random() * 9999)}`;
+      if (!user) {
+        if (!localStorage.getItem('userId')) localStorage.setItem('userId', userId);
+        if (!localStorage.getItem('username')) localStorage.setItem('username', username);
+      }
+      localStorage.setItem(`${GAME_CONFIG.id}-last-played`, JSON.stringify({
+        score: finalScore, userId, username,
+        playedAt: new Date().toISOString(),
+        gameId: GAME_CONFIG.id, gameName: GAME_CONFIG.name
+      }));
+      await axios.post(API_URL, {
+        userId, username,
+        gameId: GAME_CONFIG.id, gameName: GAME_CONFIG.name,
+        score: finalScore, playedAt: new Date().toISOString(),
+      });
+    } catch (error) {
+      console.error('Error submitting score:', error);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (gameOver && score > 0) {
+      submitScore(score);
+    }
+  }, [gameOver]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const saved = localStorage.getItem(GAME_CONFIG.storageKey);
     if (saved) setHighScore(parseInt(saved));
+  }, []);
+
+  useEffect(() => {
+    const updateCellSize = () => {
+      if (boardContainerRef.current) {
+        const { clientWidth, clientHeight } = boardContainerRef.current;
+        const available = Math.min(clientWidth, clientHeight);
+        // padding (p-1 = 4px * 2 = 8px) + gaps (14 gaps * 1px)
+        const gridSpace = available - 8 - (GRID_SIZE - 1);
+        const size = Math.floor(gridSpace / GRID_SIZE);
+        setCellSize(Math.max(size, 8));
+      }
+    };
+    updateCellSize();
+    const observer = new ResizeObserver(updateCellSize);
+    if (boardContainerRef.current) {
+      observer.observe(boardContainerRef.current);
+    }
+    return () => observer.disconnect();
   }, []);
 
   const generateFood = useCallback((currentSnake) => {
@@ -144,7 +200,13 @@ const SnakeGame = ({ embedded = false }) => {
   }, [isPaused, gameOver, resetGame]);
 
   const handleDirectionButton = (newDir) => {
-    if (isPaused || gameOver) return;
+    if (gameOver) return;
+    
+    // Auto-unpause when user presses direction button
+    if (isPaused) {
+      setIsPaused(false);
+    }
+    
     const currentDir = directionRef.current;
     
     if (newDir.y === -1 && currentDir.y !== 1) {
@@ -168,7 +230,7 @@ const SnakeGame = ({ embedded = false }) => {
 
   const wrapperClass = embedded
     ? 'flex flex-col w-full h-full gap-2 text-white'
-    : 'max-w-md w-full flex flex-col gap-6';
+    : 'max-w-md w-full flex flex-col gap-6 relative';
 
   return (
     <div className={containerClass}>
@@ -218,61 +280,68 @@ const SnakeGame = ({ embedded = false }) => {
         </div>
 
         {/* Game Board */}
-        <div className={embedded ? 'flex-1 flex items-center justify-center min-h-0' : 'bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20'}>
-          <div 
-            className="grid gap-[1px] bg-white/5 rounded-lg p-1"
-            style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)` }}
-          >
-            {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, index) => {
-              const x = index % GRID_SIZE;
-              const y = Math.floor(index / GRID_SIZE);
-              const isSnakeHead = snake[0]?.x === x && snake[0]?.y === y;
-              const isSnakeBody = snake.slice(1).some(segment => segment.x === x && segment.y === y);
-              const isFood = food.x === x && food.y === y;
+        <div 
+          ref={boardContainerRef}
+          className={embedded ? 'flex-1 flex items-center justify-center min-h-0 w-full' : 'bg-white/10 backdrop-blur-md rounded-2xl p-2 sm:p-4 border border-white/20 flex items-center justify-center'}
+        >
+          {cellSize > 0 && (
+            <div 
+              className="grid gap-[1px] bg-white/5 rounded-lg p-1"
+              style={{ 
+                gridTemplateColumns: `repeat(${GRID_SIZE}, ${cellSize}px)`,
+                gridTemplateRows: `repeat(${GRID_SIZE}, ${cellSize}px)`
+              }}
+            >
+              {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, index) => {
+                const x = index % GRID_SIZE;
+                const y = Math.floor(index / GRID_SIZE);
+                const isSnakeHead = snake[0]?.x === x && snake[0]?.y === y;
+                const isSnakeBody = snake.slice(1).some(segment => segment.x === x && segment.y === y);
+                const isFood = food.x === x && food.y === y;
 
-              return (
-                <div
-                  key={index}
-                  className={`
-                    ${embedded ? 'w-[14px] h-[14px]' : 'w-5 h-5'} 
-                    rounded-sm transition-all duration-100
-                    ${isSnakeHead ? 'bg-green-400 shadow-lg shadow-green-400/50' : ''}
-                    ${isSnakeBody ? 'bg-green-500' : ''}
-                    ${isFood ? 'bg-red-500 shadow-lg shadow-red-500/50 animate-pulse' : ''}
-                    ${!isSnakeHead && !isSnakeBody && !isFood ? 'bg-white/5' : ''}
-                  `}
-                />
-              );
-            })}
-          </div>
+                return (
+                  <div
+                    key={index}
+                    className={`
+                      rounded-sm transition-all duration-100
+                      ${isSnakeHead ? 'bg-green-400 shadow-lg shadow-green-400/50' : ''}
+                      ${isSnakeBody ? 'bg-green-500' : ''}
+                      ${isFood ? 'bg-red-500 shadow-lg shadow-red-500/50 animate-pulse' : ''}
+                      ${!isSnakeHead && !isSnakeBody && !isFood ? 'bg-white/5' : ''}
+                    `}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Mobile Controls */}
-        <div className={embedded ? 'flex justify-center gap-1' : 'flex justify-center gap-2'}>
+        <div className={embedded ? 'flex justify-center gap-1 relative z-30' : 'flex justify-center gap-2 relative z-30'}>
           <div className="grid grid-cols-3 gap-1">
             <div></div>
             <button
               onClick={() => handleDirectionButton({ x: 0, y: -1 })}
-              className={`${embedded ? 'w-8 h-8 text-sm' : 'w-12 h-12'} bg-white/10 rounded-lg hover:bg-white/20 flex items-center justify-center`}
+              className={`${embedded ? 'w-8 h-8 text-sm' : 'w-12 h-12'} bg-white/10 rounded-lg hover:bg-white/20 active:bg-white/30 flex items-center justify-center text-white font-bold transition-all touch-manipulation`}
             >
               ↑
             </button>
             <div></div>
             <button
               onClick={() => handleDirectionButton({ x: -1, y: 0 })}
-              className={`${embedded ? 'w-8 h-8 text-sm' : 'w-12 h-12'} bg-white/10 rounded-lg hover:bg-white/20 flex items-center justify-center`}
+              className={`${embedded ? 'w-8 h-8 text-sm' : 'w-12 h-12'} bg-white/10 rounded-lg hover:bg-white/20 active:bg-white/30 flex items-center justify-center text-white font-bold transition-all touch-manipulation`}
             >
               ←
             </button>
             <button
               onClick={() => handleDirectionButton({ x: 0, y: 1 })}
-              className={`${embedded ? 'w-8 h-8 text-sm' : 'w-12 h-12'} bg-white/10 rounded-lg hover:bg-white/20 flex items-center justify-center`}
+              className={`${embedded ? 'w-8 h-8 text-sm' : 'w-12 h-12'} bg-white/10 rounded-lg hover:bg-white/20 active:bg-white/30 flex items-center justify-center text-white font-bold transition-all touch-manipulation`}
             >
               ↓
             </button>
             <button
               onClick={() => handleDirectionButton({ x: 1, y: 0 })}
-              className={`${embedded ? 'w-8 h-8 text-sm' : 'w-12 h-12'} bg-white/10 rounded-lg hover:bg-white/20 flex items-center justify-center`}
+              className={`${embedded ? 'w-8 h-8 text-sm' : 'w-12 h-12'} bg-white/10 rounded-lg hover:bg-white/20 active:bg-white/30 flex items-center justify-center text-white font-bold transition-all touch-manipulation`}
             >
               →
             </button>
@@ -292,8 +361,8 @@ const SnakeGame = ({ embedded = false }) => {
 
         {/* Game Over / Paused Overlay */}
         {(gameOver || (isPaused && !gameOver)) && (
-          <div className="absolute inset-0 bg-black/80 backdrop-blur flex items-center justify-center z-20 rounded-3xl">
-            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 text-center">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur flex items-center justify-center z-20 rounded-3xl pointer-events-none">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 text-center pointer-events-auto">
               <h2 className="text-2xl font-bold text-white mb-3">
                 {gameOver ? '💀 Game Over!' : '⏸️ Paused'}
               </h2>
@@ -301,11 +370,11 @@ const SnakeGame = ({ embedded = false }) => {
                 <p className="text-white/80 mb-2">Score: {score}</p>
               )}
               <p className="text-white/60 text-sm mb-4">
-                {gameOver ? 'Press Space or click to restart' : 'Press Space or click to resume'}
+                {gameOver ? 'Press Space or click to restart' : 'Press Space, tap controls, or click to resume'}
               </p>
               <button
                 onClick={gameOver ? resetGame : () => setIsPaused(false)}
-                className="bg-green-500 text-white px-5 py-2 rounded-lg font-semibold hover:bg-green-600 transition-colors"
+                className="bg-green-500 text-white px-5 py-2 rounded-lg font-semibold hover:bg-green-600 active:bg-green-700 transition-colors touch-manipulation"
               >
                 {gameOver ? 'Play Again' : 'Resume'}
               </button>
