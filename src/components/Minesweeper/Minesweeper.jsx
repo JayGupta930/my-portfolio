@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 import { RotateCcw, Flag, Bomb } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { GAME_IDS, getGameConfig } from '../../config/gamesConfig';
+import GameLeaderboard from '../Leaderboard/GameLeaderboard';
+
+const API_URL = `${import.meta.env.VITE_API_URL || 'https://portfolio-backend-bfkl.onrender.com'}/api/scores`;
+const GAME_CONFIG = getGameConfig(GAME_IDS.MINESWEEPER);
 
 const GRID_SIZE = 8;
 const MINES_COUNT = 10;
@@ -11,6 +18,38 @@ const Minesweeper = ({ embedded = false }) => {
   const [flagsCount, setFlagsCount] = useState(0);
   const [revealedCount, setRevealedCount] = useState(0);
   const [firstClick, setFirstClick] = useState(true);
+
+  const { user } = useAuth();
+
+  const submitScore = useCallback(async (finalScore) => {
+    if (finalScore <= 0) return;
+    try {
+      const userId = user?.uid || localStorage.getItem('userId') || `guest_${Date.now()}`;
+      const username = user?.displayName || localStorage.getItem('username') || `Player${Math.floor(Math.random() * 9999)}`;
+      if (!user) {
+        if (!localStorage.getItem('userId')) localStorage.setItem('userId', userId);
+        if (!localStorage.getItem('username')) localStorage.setItem('username', username);
+      }
+      localStorage.setItem(`${GAME_CONFIG.id}-last-played`, JSON.stringify({
+        score: finalScore, userId, username,
+        playedAt: new Date().toISOString(),
+        gameId: GAME_CONFIG.id, gameName: GAME_CONFIG.name
+      }));
+      await axios.post(API_URL, {
+        userId, username,
+        gameId: GAME_CONFIG.id, gameName: GAME_CONFIG.name,
+        score: finalScore, playedAt: new Date().toISOString(),
+      });
+    } catch (error) {
+      console.error('Error submitting score:', error);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (gameWon) {
+      submitScore(100);
+    }
+  }, [gameWon]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const initializeGrid = useCallback((safeX = -1, safeY = -1) => {
     // Create empty grid
@@ -247,6 +286,17 @@ const Minesweeper = ({ embedded = false }) => {
         <div className={embedded ? 'text-center text-white/50 text-[8px]' : 'text-center text-white/50 text-xs'}>
           <p>Left click to reveal • Right click to flag</p>
         </div>
+
+        {/* Game Leaderboard */}
+        {!embedded && GAME_CONFIG && (
+          <GameLeaderboard
+            gameId={GAME_CONFIG.id}
+            gameName={GAME_CONFIG.name}
+            emoji={GAME_CONFIG.emoji}
+            gradient={GAME_CONFIG.gradient}
+            storageKey={GAME_CONFIG.storageKey}
+          />
+        )}
 
         {/* Game Over/Win Overlay */}
         {(gameOver || gameWon) && (
