@@ -162,7 +162,7 @@ export const SkillsInfo = [
         image: IndustrialMachineryLogo,
         tags: ["JavaScript", "Next.js", "Node.js", "Firebase", "Render", "MongoDB", "Tailwind CSS", "JWT"],
         github: "",
-        webapp: "#",
+        webapp: "https://machinarymanagement.web.app/",
       },
       {
         id: 10,
@@ -172,7 +172,7 @@ export const SkillsInfo = [
         image: BizCoreLogo,
         tags: ["JavaScript", "Next.js", "Node.js", "Firebase", "Render", "REST APIs", "MongoDB", "JWT"],
         github: "",
-        webapp: "#",
+        webapp: "https://mibmsaas.web.app/",
       },
     {
       id: 0,
