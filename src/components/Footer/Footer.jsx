@@ -81,7 +81,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#0A0A0A] text-white">
+    <footer className="relative z-10 w-full bg-[#0A0A0A] text-white border-t border-white/5">
       {/* Main Footer Content */}
       <div className="px-6 sm:px-12 lg:px-24 py-16 sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto">
@@ -130,25 +130,23 @@ const Footer = () => {
 
             {/* Social Section */}
             <div className="lg:col-span-3">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h3 className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-6">
-                    Connect
-                  </h3>
-                  <div className="flex gap-4">
-                    {socialLinks.map((item, index) => (
-                      <a
-                        key={index}
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={item.label}
-                        className="w-11 h-11 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-[#8245ec] hover:border-[#8245ec] transition-all duration-300 ease-out hover:scale-110 hover:rotate-6 cursor-pointer"
-                      >
-                        {item.icon}
-                      </a>
-                    ))}
-                  </div>
+              <h3 className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-6">
+                Connect
+              </h3>
+              <div className="flex items-center justify-between gap-4 max-w-sm">
+                <div className="flex gap-4">
+                  {socialLinks.map((item, index) => (
+                    <a
+                      key={index}
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={item.label}
+                      className="w-11 h-11 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-[#8245ec] hover:border-[#8245ec] transition-all duration-300 ease-out hover:scale-110 hover:rotate-6 cursor-pointer"
+                    >
+                      {item.icon}
+                    </a>
+                  ))}
                 </div>
                 <WallClock />
               </div>
