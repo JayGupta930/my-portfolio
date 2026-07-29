@@ -34,13 +34,13 @@ const GithubContributions = () => {
   };
 
   return (
-    <div className="hidden md:block mt-20 space-y-7 overflow-hidden bg-slate-50 dark:bg-[#0f0017] mx-10">
-      <p className="text-3xl flex justify-center items-center text-neutral-950 dark:text-slate-50 font-bold font-serif">
+    <div className="block mt-12 sm:mt-16 md:mt-20 space-y-7 bg-slate-50 dark:bg-[#0f0017] mx-4 sm:mx-6 md:mx-10">
+      <p className="text-2xl sm:text-3xl flex justify-center items-center text-neutral-950 dark:text-slate-50 font-bold font-serif text-center px-4">
         GitHub Contribution Graph
       </p>
       <div className="flex justify-center items-center xl:flex-row md:items-center flex-col gap-4">
-        <div className="max-w-full overflow-x-auto text-neutral-950 dark:text-slate-50">
-          <div className="bg-secondary/30 border border-divider p-8 rounded-lg max-w-fit max-h-fit z-20">
+        <div className="max-w-full overflow-x-auto text-neutral-950 dark:text-slate-50 w-full flex justify-center">
+          <div className="bg-secondary/30 border border-divider p-4 sm:p-6 md:p-8 rounded-lg max-w-fit max-h-fit z-20">
             <GitHubCalendar
               key={year}
               username={SiteConfig.user.socials.githubUserId}
