@@ -316,8 +316,8 @@ const Contact = () => {
         {isVisible && currentToast}
       </div>
       
-      <div style={{ width: '100%', height: '600px', position: 'relative' }}>
-  <Orb
+      <div className="w-full h-[320px] sm:h-[400px] md:h-[500px] lg:h-[600px] relative">
+        <Orb
     hoverIntensity={0.5}
     rotateOnHover={true}
     hue={0}
