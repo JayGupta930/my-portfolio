@@ -64,7 +64,7 @@ const Work = () => {
           </div>
           
           <div 
-            className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-[95vw] sm:max-w-2xl lg:max-w-4xl my-4 sm:my-0 overflow-hidden border border-purple-500/20 animate-scaleIn"
+            className="relative bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-[95vw] sm:max-w-2xl lg:max-w-4xl my-4 sm:my-0 overflow-y-auto md:overflow-hidden border border-purple-500/20 animate-scaleIn"
             onClick={(e) => e.stopPropagation()}
             style={{
               boxShadow: '0 0 60px rgba(147, 51, 234, 0.3), 0 0 100px rgba(147, 51, 234, 0.1)',
@@ -83,7 +83,7 @@ const Work = () => {
               </svg>
             </button>
 
-            <div className="flex flex-col md:flex-row h-auto max-h-[85vh] sm:max-h-[90vh]">
+            <div className="flex flex-col md:flex-row h-auto max-h-[85vh] sm:max-h-[90vh] overflow-y-auto md:overflow-y-visible">
               {/* Image Section with gorgeous presentation */}
               <div className="relative md:w-1/2 bg-gradient-to-b from-gray-800/50 to-gray-900 p-2 sm:p-3 md:p-4 flex items-center justify-center">
                 <div className="relative group w-full">
