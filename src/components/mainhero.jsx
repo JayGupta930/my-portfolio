@@ -66,8 +66,8 @@ const HeroSection = () => {
   const showQuoteButton = scrollProgress < 0.25;
 
   return (
-    <div className="relative pt-48 pb-12 h-screen bg-black xl:pt-60 sm:pb-16 lg:pb-32 xl:pb-48 2xl:pb-56 overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
+    <div className="relative pt-24 pb-12 lg:h-screen min-h-screen bg-black xl:pt-60 sm:pb-16 lg:pb-32 xl:pb-48 2xl:pb-56 overflow-hidden flex flex-col justify-center items-center">
+      <div className="lg:absolute lg:inset-0 relative w-full h-full flex flex-col justify-center lg:block pointer-events-none gap-12 py-8 mt-12 lg:mt-0">
         <video
           ref={videoRef}
           className="object-cover w-full h-full fixed top-0 left-0 pointer-events-none"
@@ -112,7 +112,7 @@ const HeroSection = () => {
         />
 
         < div
-          className="absolute top-16 left-8 sm:top-20 sm:left-16 max-w-xs text-left pointer-events-none"
+          className="lg:absolute lg:top-24 lg:left-16 lg:max-w-xs lg:text-left relative top-auto left-auto max-w-lg text-center px-6 pointer-events-none mx-auto lg:mx-0"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(-15px)',
@@ -131,7 +131,7 @@ const HeroSection = () => {
         </div >
 
         <div
-          className="absolute bottom-16 right-8 sm:bottom-20 sm:right-16 max-w-sm text-right pointer-events-none"
+          className="lg:absolute lg:bottom-24 lg:right-16 lg:max-w-sm lg:text-right relative bottom-auto right-auto max-w-lg text-center px-6 pointer-events-none mx-auto lg:mx-0"
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
@@ -147,7 +147,7 @@ const HeroSection = () => {
           <p className="mt-3 text-sm sm:text-base text-white text-opacity-80 leading-6">
             Dive into interactive experiments that showcase the playful heart of my craft.
           </p>
-          <div className="mt-6 inline-flex justify-end pointer-events-auto">
+          <div className="mt-6 inline-flex lg:justify-end justify-center w-full pointer-events-auto">
             <a
               href="/creativity"
               className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-5 py-2 text-sm font-semibold uppercase tracking-widest text-white transition-all duration-300 hover:bg-white hover:text-black hover:border-white"
