@@ -7,12 +7,11 @@ const About = ({ sectionRef }) => {
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-4 px-4 font-sans min-h-[calc(100vh-64px)] sm:min-h-[calc(100vh-80px)]
-                transition-transform duration-300 ease-in-out will-change-transform"
+      className="relative py-12 lg:py-4 px-6 sm:px-12 font-sans lg:min-h-[calc(100vh-80px)] min-h-screen transition-transform duration-300 ease-in-out will-change-transform flex flex-col justify-center items-center lg:block gap-12"
     >
       {/* Top Left Side - Name & Role */}
       <div
-        className="absolute top-16 left-8 sm:top-20 sm:left-16 max-w-xs text-left pointer-events-none"
+        className="lg:absolute lg:top-24 lg:left-16 lg:max-w-xs lg:text-left relative top-auto left-auto max-w-lg text-center px-4 pointer-events-none mx-auto lg:mx-0"
       >
         <p className="text-xs font-semibold tracking-[0.3em] uppercase text-white text-opacity-70">
           About Me
@@ -20,7 +19,7 @@ const About = ({ sectionRef }) => {
         <h2 className="mt-2 font-serif text-3xl sm:text-4xl text-white leading-tight">
           Hi, I'm Jay Gupta
         </h2>
-        <div className="mt-3 text-sm sm:text-base text-white text-opacity-80 leading-6 flex flex-wrap items-center gap-1">
+        <div className="mt-3 text-sm sm:text-base text-white text-opacity-80 leading-6 flex flex-wrap items-center justify-center lg:justify-start gap-1">
           <span>I am a</span>
           <span className="text-[#8245ec] font-semibold">
             <Typewriter
@@ -38,7 +37,7 @@ const About = ({ sectionRef }) => {
 
       {/* Bottom Right Side - Description & Buttons */}
       <div
-        className="absolute bottom-16 right-8 sm:bottom-20 sm:right-16 max-w-sm text-right"
+        className="lg:absolute lg:bottom-24 lg:right-16 lg:max-w-md lg:text-right relative bottom-auto right-auto max-w-lg text-center px-4 mx-auto lg:mx-0 mt-8"
       >
         <p className="text-xs font-semibold tracking-[0.35em] uppercase text-white text-opacity-70">
           My Journey
@@ -50,7 +49,7 @@ const About = ({ sectionRef }) => {
           I am a MERN-Stack developer with over 2 years of experience in building scalable web applications. 
           I specialize in creating seamless user experiences and efficient solutions.
         </p>
-        <div className="mt-6 inline-flex justify-end gap-4 pointer-events-auto flex-wrap">
+        <div className="mt-6 inline-flex lg:justify-end justify-center w-full gap-4 pointer-events-auto flex-wrap">
           <a
             target="_blank"
             download
