@@ -33,11 +33,14 @@ const Navbar = () => {
       event.preventDefault();
       scrollToSection(item.scrollToId);
       setIsOpen(false);
+      return;
     }
+
+    setIsOpen(false);
   };
 
   return (
-    <nav className="fixed top-0 w-full z-50 transition duration-300 px-4 sm:px-[7vw] md:px-[7vw] lg:px-[20vw] backdrop-filter backdrop-blur-lg">
+    <nav className="fixed top-0 w-full z-50 transition duration-300 px-6 sm:px-12 md:px-16 lg:px-[8vw] backdrop-filter backdrop-blur-lg">
       <div className="text-white py-4 sm:py-5 flex justify-between items-center ">
         {/* Logo */}
         <div className="text-base sm:text-lg font-semibold cursor-pointer">
