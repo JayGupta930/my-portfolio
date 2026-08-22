@@ -1,4 +1,4 @@
-import { useEffect, useRef, Suspense, lazy, memo, useMemo } from "react";
+import { useEffect, useRef, useState, Suspense, lazy, memo, useMemo } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss } from "react-icons/si";
 import Navbar from "./components/Navbar/Navbar";
@@ -7,7 +7,6 @@ import BlurBlob from "./BlurBlob";
 import "./mobile-responsive.css";
 import { scrollToSection } from "./utils/scrollUtils";
 import SmoothScroll from "./components/SmoothScroll/SmoothScroll";
-import { AuthProvider } from "./context/AuthContext";
 
 // Eagerly loaded components (critical for first paint)
 import About from "./components/About/About";
@@ -17,9 +16,11 @@ import HeroSection from "./components/mainhero";
 const Skills = lazy(() => import("./components/Skills/Skills"));
 const Experience = lazy(() => import("./components/Experience/Experience"));
 const Education = lazy(() => import("./components/Education/Education"));
-const GithubContribution = lazy(() => import("./components/GithubContribution/GithubContribution"));
+const preloadGithubContribution = () => import("./components/GithubContribution/GithubContribution");
+const GithubContribution = lazy(preloadGithubContribution);
 const LogoLoop = lazy(() => import("./components/LogoLoop"));
-const MagicBento = lazy(() => import("./components/MagicBento"));
+const preloadMagicBento = () => import("./components/MagicBentoWithAuth");
+const MagicBento = lazy(preloadMagicBento);
 
 // Lazy loaded pages and components (loaded on-demand)
 const Contact = lazy(() => import("./components/Contact/Contact"));
@@ -27,7 +28,7 @@ const Project = lazy(() => import("./components/Projects/Projects"));
 const Creativity = lazy(() => import("./components/Creativity/Creativity"));
 const Music = lazy(() => import("./Creativity/Music/Music"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
-const GamesPage = lazy(() => import("./pages/GamesPage"));
+const GamesPage = lazy(() => import("./pages/GamesPageWithAuth"));
 const Leaderboard = lazy(() => import("./components/Leaderboard/Leaderboard"));
 
 // Loading fallback - memoized to prevent re-renders
@@ -44,6 +45,52 @@ const SectionLoader = memo(() => (
   </div>
 ));
 
+const ViewportSection = memo(({ children, minHeight = 0 }) => {
+  const containerRef = useRef(null);
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldRender(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "400px 0px" }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={containerRef} style={!shouldRender && minHeight ? { minHeight } : undefined}>
+      {shouldRender ? <Suspense fallback={<SectionLoader />}>{children}</Suspense> : null}
+    </div>
+  );
+});
+
+const useIdlePreload = () => {
+  useEffect(() => {
+    const preload = () => {
+      void preloadGithubContribution();
+      void preloadMagicBento();
+    };
+
+    if ("requestIdleCallback" in window) {
+      const idleId = window.requestIdleCallback(preload, { timeout: 2000 });
+      return () => window.cancelIdleCallback(idleId);
+    }
+
+    const timeoutId = window.setTimeout(preload, 1200);
+    return () => window.clearTimeout(timeoutId);
+  }, []);
+};
+
 const ScrollToTop = memo(() => {
   const { pathname } = useLocation();
 
@@ -57,6 +104,8 @@ const ScrollToTop = memo(() => {
 const LandingPage = () => {
   const sectionRef = useRef(null)
   const location = useLocation();
+
+  useIdlePreload();
 
   useEffect(() => {
     if (location.state?.scrollToId) {
@@ -126,9 +175,9 @@ const LandingPage = () => {
         <Education />
       </Suspense>
       <hr className="border-t-2 border-gray-600 mx-auto max-w-7xl my-8" />
-      <Suspense fallback={<SectionLoader />}>
+      <ViewportSection minHeight={500}>
         <GithubContribution />
-      </Suspense>
+      </ViewportSection>
       <hr className="border-t-2 border-gray-600 mx-auto max-w-7xl my-8" />
       <Suspense fallback={<SectionLoader />}>
         <div className="flex items-center"
@@ -167,7 +216,7 @@ const LandingPage = () => {
       </div> */}
 
       <hr className="border-t-2 border-gray-600 mx-auto max-w-7xl my-8" />
-      <Suspense fallback={<SectionLoader />}>
+      <ViewportSection minHeight={760}>
         <MagicBento
           textAutoHide={true}
           enableStars={true}
@@ -180,7 +229,7 @@ const LandingPage = () => {
           particleCount={12}
           glowColor="132, 0, 255"
         />
-      </Suspense>
+      </ViewportSection>
     </>
   );
 };
@@ -206,8 +255,7 @@ const EducationPage = () => (
 
 const App = () => {
   return (
-    <AuthProvider>
-      <SmoothScroll>
+    <SmoothScroll>
         <div className="bg-[#050414] min-h-screen w-full">
           <BlurBlob
             position={{ top: "35%", left: "20%" }}
@@ -233,8 +281,7 @@ const App = () => {
             <Footer />
           </div>
         </div>
-      </SmoothScroll>
-    </AuthProvider>
+    </SmoothScroll>
   );
 };
 
