@@ -552,6 +552,11 @@ const MagicBento = ({
             aspect-ratio: auto;
           }
           
+          .card-responsive .card.game-card {
+            min-height: 380px !important;
+            aspect-ratio: auto !important;
+          }
+          
           @media (min-width: 480px) {
             .card-responsive {
               width: 92%;
@@ -790,7 +795,7 @@ const MagicBento = ({
             const baseClassName = [
               'card flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full rounded-[20px] border border-solid font-light overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)]',
               enableBorderGlow ? 'card--border-glow' : '',
-              isGameCard ? 'p-0' : 'p-5'
+              isGameCard ? 'p-0 game-card' : 'p-5'
             ].filter(Boolean).join(' ');
 
             const cardStyle = {
@@ -820,30 +825,46 @@ const MagicBento = ({
                     <span className="card__label text-base">{card.label}</span>
                     {index === 0 && (
                       <img 
-                        src="/img/Profile.jpg" 
+                        src="/img/Profile.jpg"
                         alt="Profile" 
                         className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                        width="56"
+                        height="56"
+                        loading="lazy"
+                        decoding="async"
                       />
                     )}
                     {index === 1 && (
                       <img 
-                        src="/img/x.jpg" 
+                        src="/img/x-avatar.jpg"
                         alt="X Profile" 
                         className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                        width="56"
+                        height="56"
+                        loading="lazy"
+                        decoding="async"
                       />
                     )}
                     {index === 4 && (
                       <img 
-                        src="/img/insta.jpg" 
+                        src="/img/insta.jpg"
                         alt="Instagram Profile" 
                         className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                        width="56"
+                        height="56"
+                        loading="lazy"
+                        decoding="async"
                       />
                     )}
                     {index === 5 && (
                       <img 
-                        src="/img/github.jpg" 
+                        src="/img/github.jpg"
                         alt="GitHub Profile" 
                         className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                        width="56"
+                        height="56"
+                        loading="lazy"
+                        decoding="async"
                       />
                     )}
                   </div>
@@ -1002,23 +1023,35 @@ const MagicBento = ({
                   )}
                   {index === 1 && (
                     <img 
-                      src="/img/x.jpg" 
+                      src="/img/x-avatar.jpg"
                       alt="X Profile" 
                       className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                      width="56"
+                      height="56"
+                      loading="lazy"
+                      decoding="async"
                     />
                   )}
                   {index === 4 && (
                     <img 
-                      src="/img/insta.jpg" 
+                      src="/img/insta.jpg"
                       alt="Instagram Profile" 
                       className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                      width="56"
+                      height="56"
+                      loading="lazy"
+                      decoding="async"
                     />
                   )}
                   {index === 5 && (
                     <img 
-                      src="/img/github.jpg" 
+                      src="/img/github.jpg"
                       alt="GitHub Profile" 
                       className="w-14 h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg flex-shrink-0"
+                      width="56"
+                      height="56"
+                      loading="lazy"
+                      decoding="async"
                     />
                   )}
                 </div>
