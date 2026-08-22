@@ -40,6 +40,8 @@ const Education = () => {
                 src={edu.img}
                 alt={edu.school}
                 className="w-full h-full object-cover rounded-full"
+                width="64"
+                height="64"
                 loading="lazy"
                 decoding="async"
               />
@@ -62,6 +64,8 @@ const Education = () => {
                     src={edu.img}
                     alt={edu.school}
                     className="w-full h-full object-contain"
+                    width="96"
+                    height="64"
                     loading="lazy"
                     decoding="async"
                   />
