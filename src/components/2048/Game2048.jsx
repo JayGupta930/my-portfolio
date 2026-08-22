@@ -5,16 +5,64 @@ import { GAME_IDS } from '../../config/gamesConfig';
 
 const API_URL = `${import.meta.env.VITE_API_URL || 'https://portfolio-backend-bfkl.onrender.com'}/api/scores`;
 
+const DEBUG_2048 = import.meta.env.DEV;
+const trace2048 = (event, details = {}) => {
+  if (DEBUG_2048) console.debug('[2048:' + event + ']', { time: performance.now(), ...details });
+};
+
 const Game2048 = ({ embedded = false }) => {
   const { user } = useAuth();
-  const [grid, setGrid] = useState([]);
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [won, setWon] = useState(false);
   const [tiles, setTiles] = useState([]);
   const [isPlaying, setIsPlaying] = useState(!embedded); // Auto-play only in non-embedded mode
+  const gridRef = React.useRef([]);
+  const scoreRef = React.useRef(0);
+  const bestScoreRef = React.useRef(0);
+  const gameOverRef = React.useRef(false);
+  const wonRef = React.useRef(false);
+  const renderCountRef = React.useRef(0);
+  const listenerCountRef = React.useRef(0);
 
+  renderCountRef.current += 1;
+  trace2048('render', { render: renderCountRef.current, score, bestScore, gameOver, won, isPlaying, tiles: tiles.length });
+
+  useEffect(() => {
+    trace2048('state-committed', { board: gridRef.current, score, bestScore, gameOver, won, isPlaying, tiles: tiles.length });
+  }, [score, bestScore, gameOver, won, isPlaying, tiles]);
+
+  useEffect(() => {
+    if (!DEBUG_2048) return undefined;
+
+    const onError = (event) => trace2048('window-error', { message: event.message, error: event.error });
+    const onRejection = (event) => trace2048('unhandled-rejection', { reason: event.reason });
+    let previousFrame = performance.now();
+    let frameId;
+    const monitorFrame = (now) => {
+      if (now - previousFrame > 50) trace2048('dropped-frame', { delay: now - previousFrame });
+      previousFrame = now;
+      frameId = requestAnimationFrame(monitorFrame);
+    };
+    const observer = 'PerformanceObserver' in window
+      ? new PerformanceObserver((list) => list.getEntries().forEach((entry) => trace2048('long-task', { duration: entry.duration, name: entry.name })))
+      : null;
+
+    window.addEventListener('error', onError);
+    window.addEventListener('unhandledrejection', onRejection);
+    observer?.observe({ type: 'longtask', buffered: true });
+    frameId = requestAnimationFrame(monitorFrame);
+    trace2048('runtime-monitors-started');
+
+    return () => {
+      window.removeEventListener('error', onError);
+      window.removeEventListener('unhandledrejection', onRejection);
+      observer?.disconnect();
+      cancelAnimationFrame(frameId);
+      trace2048('runtime-monitors-stopped');
+    };
+  }, []);
   // Submit score to backend API
   const submitScore = useCallback(async (finalScore) => {
     try {
@@ -38,6 +86,7 @@ const Game2048 = ({ embedded = false }) => {
       };
       localStorage.setItem('2048-last-played', JSON.stringify(lastPlayedData));
 
+      trace2048('score-submit-started', { finalScore });
       const { data } = await axios.post(API_URL, {
         userId,
         username,
@@ -47,12 +96,14 @@ const Game2048 = ({ embedded = false }) => {
         playedAt: new Date().toISOString(),
       });
 
+      trace2048('score-submit-settled', { finalScore, success: data.success });
       if (data.success) {
         console.log('Score submitted successfully:', data.message || 'OK');
       } else {
         console.error('Score submission failed:', data.message);
       }
     } catch (error) {
+      trace2048('score-submit-failed', { finalScore, error });
       console.error('Error submitting score:', error);
     }
   }, [user]);
@@ -66,7 +117,10 @@ const Game2048 = ({ embedded = false }) => {
     addRandomTile(newGrid, newTiles);
     addRandomTile(newGrid, newTiles);
     
-    setGrid(newGrid);
+    gridRef.current = newGrid;
+    scoreRef.current = 0;
+    gameOverRef.current = false;
+    wonRef.current = false;
     setTiles(newTiles);
     setScore(0);
     setGameOver(false);
@@ -76,7 +130,11 @@ const Game2048 = ({ embedded = false }) => {
   useEffect(() => {
     initializeGame();
     const saved = localStorage.getItem('2048-best');
-    if (saved) setBestScore(parseInt(saved));
+    if (saved) {
+      const parsedScore = parseInt(saved);
+      bestScoreRef.current = parsedScore;
+      setBestScore(parsedScore);
+    }
   }, [initializeGame]);
 
   // Add random tile
@@ -107,13 +165,16 @@ const Game2048 = ({ embedded = false }) => {
 
   // Move tiles
   const move = useCallback((direction) => {
-    if (gameOver || won) return;
+    trace2048('move-called', { direction, board: gridRef.current, score: scoreRef.current });
+    if (gameOverRef.current || wonRef.current) {
+      trace2048('move-early-exit', { direction, gameOver: gameOverRef.current, won: wonRef.current });
+      return;
+    }
 
-    const newGrid = grid.map(row => [...row]);
+    const newGrid = gridRef.current.map(row => [...row]);
     const newTiles = [];
     let moved = false;
-    let newScore = score;
-    const mergedPositions = new Set();
+    let newScore = scoreRef.current;
 
     const moveRow = (row, reverse = false) => {
       const filtered = row.filter(x => x !== 0);
@@ -193,28 +254,33 @@ const Game2048 = ({ embedded = false }) => {
       }
 
       addRandomTile(newGrid, newTiles);
-      setGrid(newGrid);
+      trace2048('move-committed', { direction, previousBoard: gridRef.current, newBoard: newGrid, previousScore: scoreRef.current, newScore });
+      gridRef.current = newGrid;
+      scoreRef.current = newScore;
       setTiles(newTiles);
       setScore(newScore);
 
-      if (newScore > bestScore) {
+      if (newScore > bestScoreRef.current) {
+        bestScoreRef.current = newScore;
         setBestScore(newScore);
         localStorage.setItem('2048-best', newScore.toString());
       }
 
       // Check for 2048
       if (newGrid.flat().includes(2048)) {
+        wonRef.current = true;
         setWon(true);
         submitScore(newScore);
       }
 
       // Check game over
       if (isGameOver(newGrid)) {
+        gameOverRef.current = true;
         setGameOver(true);
         submitScore(newScore);
       }
     }
-  }, [grid, score, gameOver, won, bestScore, submitScore]);
+  }, [submitScore]);
 
   const isGameOver = (currentGrid) => {
     // Check for empty cells
@@ -257,28 +323,9 @@ const Game2048 = ({ embedded = false }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [move, isPlaying]);
 
-  // Touch controls - only on game container
+  // Touch controls are intentionally limited to the playable board. The rest of
+  // the embedded card remains a normal page-scroll surface.
   const gameContainerRef = React.useRef(null);
-  
-  // Prevent page scroll when playing in embedded mode
-  useEffect(() => {
-    if (!embedded) return;
-    
-    if (isPlaying) {
-      // Prevent body scroll when playing
-      document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
-    } else {
-      // Restore scroll when not playing
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-    }
-    
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-    };
-  }, [isPlaying, embedded]);
   
   useEffect(() => {
     if (!isPlaying) return; // Don't listen if not playing
@@ -288,13 +335,10 @@ const Game2048 = ({ embedded = false }) => {
     let isTouchOnGame = false;
 
     const handleTouchStart = (e) => {
-      // Skip if touching a button - let buttons work normally
-      if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
-        isTouchOnGame = false;
-        return;
-      }
-      
-      // Only respond to touches that start within the game container
+      trace2048('touchstart', { touches: e.touches.length, target: e.target.className, touchAction: getComputedStyle(container).touchAction, pointerEvents: getComputedStyle(container).pointerEvents, overflow: getComputedStyle(container).overflow });
+      // The listener is attached to the board, so only intentional board
+      // touches become game swipes; card controls and surrounding page scroll
+      // are left to the browser.
       if (gameContainerRef.current && gameContainerRef.current.contains(e.target)) {
         isTouchOnGame = true;
         touchStartX = e.touches[0].clientX;
@@ -309,6 +353,7 @@ const Game2048 = ({ embedded = false }) => {
     };
 
     const handleTouchMove = (e) => {
+      trace2048('touchmove', { touches: e.touches.length, active: isTouchOnGame, defaultPrevented: e.defaultPrevented });
       // Prevent scroll while swiping on game
       if (isTouchOnGame && embedded) {
         e.preventDefault();
@@ -323,6 +368,7 @@ const Game2048 = ({ embedded = false }) => {
       const touchEndY = e.changedTouches[0].clientY;
       
       const diffX = touchEndX - touchStartX;
+      trace2048('touchend', { touchEndX, touchEndY });
       const diffY = touchEndY - touchStartY;
       
       if (Math.abs(diffX) > Math.abs(diffY)) {
@@ -338,11 +384,19 @@ const Game2048 = ({ embedded = false }) => {
       isTouchOnGame = false;
     };
 
+    const handleTouchCancel = () => {
+      trace2048('touchcancel', { active: isTouchOnGame });
+      isTouchOnGame = false;
+    };
+
     const container = gameContainerRef.current;
     if (container) {
       container.addEventListener('touchstart', handleTouchStart, { passive: false });
       container.addEventListener('touchmove', handleTouchMove, { passive: false });
       container.addEventListener('touchend', handleTouchEnd, { passive: true });
+      container.addEventListener('touchcancel', handleTouchCancel, { passive: true });
+      listenerCountRef.current += 1;
+      trace2048('listeners-registered', { activeRegistrations: listenerCountRef.current });
     }
     
     return () => {
@@ -350,6 +404,9 @@ const Game2048 = ({ embedded = false }) => {
         container.removeEventListener('touchstart', handleTouchStart);
         container.removeEventListener('touchmove', handleTouchMove);
         container.removeEventListener('touchend', handleTouchEnd);
+        container.removeEventListener('touchcancel', handleTouchCancel);
+        listenerCountRef.current -= 1;
+        trace2048('listeners-removed', { activeRegistrations: listenerCountRef.current });
       }
     };
   }, [move, isPlaying, embedded]);
@@ -435,7 +492,7 @@ const Game2048 = ({ embedded = false }) => {
     : 'bg-orange-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors';
 
   return (
-    <div className={containerClass} ref={gameContainerRef}>
+    <div className={containerClass}>
       {/* Play Button Overlay - only in embedded mode when not playing */}
       {embedded && !isPlaying && (
         <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center z-30 rounded-2xl">
@@ -502,7 +559,7 @@ const Game2048 = ({ embedded = false }) => {
         {/* Game Grid */}
         <div className={gridWrapperClass}>
           {/* Background Grid */}
-          <div className="relative w-full max-w-[240px] sm:max-w-[280px] mx-auto">
+          <div ref={gameContainerRef} className="relative w-full max-w-[240px] sm:max-w-[280px] mx-auto">
             <div className={backgroundGridClass}>
               {Array(16).fill(0).map((_, i) => (
                 <div
