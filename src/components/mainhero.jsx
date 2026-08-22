@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback, memo } from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 
 const motivationalQuotes = [
   "Code is the canvas where ideas become alive.",
@@ -29,21 +29,46 @@ const motivationalQuotes = [
 ];
 
 const HeroSection = () => {
-  const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [isQuoteVisible, setIsQuoteVisible] = useState(false);
   const [currentQuote, setCurrentQuote] = useState(motivationalQuotes[0]);
   const videoRef = useRef(null);
+  const contentRef = useRef(null);
+  const gradientRef = useRef(null);
+  const quoteButtonRef = useRef(null);
   const tickingRef = useRef(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 50);
 
-    // Optimized scroll handler using requestAnimationFrame for throttling
+    const updateScrollEffects = () => {
+      const scrollProgress = Math.min(window.scrollY / 800, 1);
+      const isMobile = window.matchMedia('(max-width: 767px)').matches;
+      const video = videoRef.current;
+      const content = contentRef.current;
+      const gradient = gradientRef.current;
+      const quoteButton = quoteButtonRef.current;
+
+      if (video) {
+        video.style.opacity = String(1 - scrollProgress * 0.7);
+        video.style.filter = `blur(${scrollProgress * (isMobile ? 3 : 8)}px)`;
+      }
+      if (content) {
+        content.style.opacity = String(1 - Math.pow(scrollProgress, 1.5) * 1.2);
+        content.style.transform = `translateY(${scrollProgress * 100}px) scale(${1 - scrollProgress * 0.1})`;
+      }
+      if (gradient) gradient.style.opacity = String(scrollProgress * 0.8);
+      if (quoteButton) {
+        const isShown = scrollProgress < 0.25;
+        quoteButton.style.opacity = isShown ? '1' : '0';
+        quoteButton.style.pointerEvents = isShown ? 'auto' : 'none';
+      }
+    };
+
     const handleScroll = () => {
       if (!tickingRef.current) {
         requestAnimationFrame(() => {
-          setScrollY(window.scrollY);
+          updateScrollEffects();
           tickingRef.current = false;
         });
         tickingRef.current = true;
@@ -51,19 +76,12 @@ const HeroSection = () => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    updateScrollEffects();
     return () => {
       window.removeEventListener('scroll', handleScroll);
       clearTimeout(timer);
     };
   }, []);
-
-  const scrollProgress = Math.min(scrollY / 800, 1);
-  const videoOpacity = 1 - scrollProgress * 0.7;
-  const videoBlur = scrollProgress * 8;
-  const contentOpacity = 1 - Math.pow(scrollProgress, 1.5) * 1.2;
-  const contentTranslateY = scrollProgress * 100;
-  const contentScale = 1 - scrollProgress * 0.1;
-  const showQuoteButton = scrollProgress < 0.25;
 
   return (
     <div className="relative pt-24 pb-12 lg:h-screen min-h-screen bg-black xl:pt-60 sm:pb-16 lg:pb-32 xl:pb-48 2xl:pb-56 overflow-hidden flex flex-col justify-center items-center">
@@ -72,8 +90,8 @@ const HeroSection = () => {
           ref={videoRef}
           className="object-cover w-full h-full fixed top-0 left-0 pointer-events-none"
           style={{
-            opacity: videoOpacity,
-            filter: `blur(${videoBlur}px)`,
+            opacity: 1,
+            filter: 'blur(0px)',
             transition: 'opacity 300ms ease-out, transform 300ms ease-out, filter 300ms ease-out',
             objectPosition: '40% center',
           }}
@@ -97,9 +115,10 @@ const HeroSection = () => {
         />
 
         <div
+          ref={gradientRef}
           className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#020714]"
           style={{
-            opacity: scrollProgress * 0.8,
+            opacity: 0,
             transition: 'opacity 300ms ease-out',
           }}
         />
@@ -162,13 +181,14 @@ const HeroSection = () => {
       </div>
 
       <button
+        ref={quoteButtonRef}
         type="button"
         onClick={() => {
           const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
           setCurrentQuote(motivationalQuotes[randomIndex]);
           setIsQuoteVisible(true);
         }}
-        className={`fixed right-0 px-3 py-5 bg-[#999193] text-white uppercase tracking-[0.28em] text-[11px] font-semibold rotate-180 origin-center shadow-lg transition-all duration-300 hover:bg-[#ff476d] ${showQuoteButton ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        className="fixed right-0 px-3 py-5 bg-[#999193] text-white uppercase tracking-[0.28em] text-[11px] font-semibold rotate-180 origin-center shadow-lg transition-all duration-300 hover:bg-[#ff476d]"
         style={{ writingMode: 'vertical-rl', top: '20%' }}
         aria-label="Show motivational quote"
       >
@@ -202,10 +222,11 @@ const HeroSection = () => {
       <div className="relative z-10">
         <div className="px-6 mx-auto sm:px-8 lg:px-12 max-w-7xl">
           <div
+            ref={contentRef}
             className="w-full flex flex-col items-center text-center mt-[-40px]"
             style={{
-              opacity: contentOpacity,
-              transform: `translateY(${contentTranslateY}px) scale(${contentScale})`,
+              opacity: 1,
+              transform: 'translateY(0) scale(1)',
               transition: 'opacity 200ms ease-out, transform 200ms ease-out',
             }}
           >
