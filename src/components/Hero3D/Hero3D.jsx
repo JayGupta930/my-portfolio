@@ -18,7 +18,10 @@ class SceneBoundary extends Component {
   }
 }
 
-export default function Hero3D({ progress, modelUrl, posterUrl, rearPosterUrl = posterUrl, modelYaw = 0, onReady }) {
+// Keep sizes in sync with the hero image preloads in index.html and Hero3D.css.
+const posterSizes = '(max-width: 1023px) min(420px, calc(100vw - 56px)), (max-height: 599px) min(420px, calc(100vw - 56px)), 42vw';
+
+export default function Hero3D({ progress, modelUrl, posterUrl, posterSrcSet, rearPosterUrl = posterUrl, rearPosterSrcSet, modelYaw = 0, onReady }) {
   const [canRender, setCanRender] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -51,8 +54,8 @@ export default function Hero3D({ progress, modelUrl, posterUrl, rearPosterUrl = 
   return (
     <div className="hero3d-visual" role="img" aria-label="Jay Gupta in a black suit and sunglasses, seated in a black leather chair">
       <div className={`hero3d-portrait${loaded ? ' hero3d-portrait--hidden' : ''}`}>
-        <img className="hero3d-face hero3d-face--front" src={posterUrl} alt="" width="1024" height="1536" fetchPriority="high" decoding="async" />
-        <img className="hero3d-face hero3d-face--back" src={rearPosterUrl} alt="" width="1024" height="1536" fetchPriority="high" decoding="async" aria-hidden="true" />
+        <img className="hero3d-face hero3d-face--front" src={posterUrl} srcSet={posterSrcSet} sizes={posterSizes} alt="" width="1024" height="1536" loading="eager" fetchPriority="high" decoding="async" />
+        <img className="hero3d-face hero3d-face--back" src={rearPosterUrl} srcSet={rearPosterSrcSet} sizes={posterSizes} alt="" width="1024" height="1536" loading="eager" fetchPriority="high" decoding="async" aria-hidden="true" />
       </div>
       {canRender && !failed && (
         <SceneBoundary key={modelUrl} onFailure={handleFailure}>
