@@ -93,11 +93,28 @@ export const SkillsInfo = [
 
   export const experiences = [
     {
+      id: 1,
+      img: ilikaEarthLogo,
+      role: "Full Stack Developer",
+      company: "Ilika Greentech Pvt. Ltd.",
+      date: "June 2026 - Present",
+      desc: "Developed and maintained full-stack sustainability management applications using React.js, Next.js, Node.js, and MongoDB. Implemented data collection, unit conversion, analytics, dashboards, and reporting modules, integrating frontend interfaces with backend APIs. Built scalable features and improved existing application workflows based on business requirements.",
+      skills: [
+        "React.js",
+        "Next.js",
+        "Node.js",
+        "MongoDB",
+        "API Integration",
+        "Data Analytics",
+        "Dashboard Development",
+      ],
+    },
+    {
       id: 0,
        img: ilikaEarthLogo,
       role: "Full Stack Web Developer Intern",
       company: "Ilika.Earth",
-      date: "August 2025 - Present",
+      date: "August 2025 - May 2026",
       desc: "Developed and maintained responsive, user-friendly web applications to support the company's environmental and sustainability initiatives. Collaborated with cross-functional teams to design and implement scalable features using modern web technologies like React.js, Next.js, Node.js, Tailwind CSS.",
       skills: [
         "React.js",
