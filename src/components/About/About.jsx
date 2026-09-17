@@ -2,12 +2,12 @@ import { memo } from 'react'
 import { Typewriter } from 'react-simple-typewriter'
 import resumePDF from '../../assets/Resume.pdf'
 
-const About = ({ sectionRef }) => {
+const About = ({ sectionRef, withPortrait = false }) => {
   return (
     <section
       id="about"
       ref={sectionRef}
-      className="relative py-12 lg:py-4 px-6 sm:px-12 font-sans lg:min-h-[calc(100vh-80px)] min-h-screen transition-transform duration-300 ease-in-out will-change-transform flex flex-col justify-center items-center lg:block gap-12"
+      className={`${withPortrait ? 'hero3d-intro ' : ''}relative py-12 lg:py-4 px-6 sm:px-12 font-sans lg:min-h-[calc(100vh-80px)] min-h-screen transition-transform duration-300 ease-in-out will-change-transform flex flex-col justify-center items-center lg:block gap-12`}
     >
       {/* Top Left Side - Name & Role */}
       <div
