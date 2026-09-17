@@ -19,7 +19,7 @@ class SceneBoundary extends Component {
 }
 
 // Keep sizes in sync with the hero image preloads in index.html and Hero3D.css.
-const posterSizes = '(max-width: 1023px) min(420px, calc(100vw - 56px)), (max-height: 599px) min(420px, calc(100vw - 56px)), 42vw';
+const posterSizes = '(max-width: 1199px) min(420px, calc(100vw - 56px)), (max-height: 599px) min(420px, calc(100vw - 56px)), 42vw';
 
 export default function Hero3D({ progress, modelUrl, posterUrl, posterSrcSet, rearPosterUrl = posterUrl, rearPosterSrcSet, modelYaw = 0, onReady }) {
   const [canRender, setCanRender] = useState(false);
@@ -28,7 +28,7 @@ export default function Hero3D({ progress, modelUrl, posterUrl, posterSrcSet, re
 
   useEffect(() => {
     // Small screens, reduced motion and data-saving connections use the portrait.
-    const media = window.matchMedia('(min-width: 1024px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)');
+    const media = window.matchMedia('(min-width: 1200px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)');
     const update = () => {
       setCanRender(Boolean(modelUrl) && media.matches && !navigator.connection?.saveData);
       setLoaded(false);
