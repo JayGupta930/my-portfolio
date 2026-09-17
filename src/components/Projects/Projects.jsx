@@ -83,7 +83,7 @@ const Work = () => {
               </svg>
             </button>
 
-            <div className="flex flex-col md:flex-row h-auto max-h-[85vh] sm:max-h-[90vh] overflow-y-auto md:overflow-y-visible">
+            <div className="project-modal-body flex flex-col md:flex-row h-auto max-h-[85vh] sm:max-h-[90vh] overflow-y-auto md:overflow-y-visible">
               {/* Image Section with gorgeous presentation */}
               <div className="relative md:w-1/2 bg-gradient-to-b from-gray-800/50 to-gray-900 p-2 sm:p-3 md:p-4 flex items-center justify-center">
                 <div className="relative group w-full">
