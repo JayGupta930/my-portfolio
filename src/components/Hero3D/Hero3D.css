@@ -1,0 +1,165 @@
+.hero3d-story { position: relative; isolation: isolate; background: #000; }
+
+.cinematic-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  padding: 0;
+  color: #fff;
+}
+
+.hero3d-backdrop {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: #050506;
+}
+
+.hero3d-studio {
+  position: absolute;
+  inset: 0;
+  /* Stationary studio light picks up the photograph's charcoal and chrome. */
+  background:
+    radial-gradient(ellipse at 53% 35%, #82766a30 0%, transparent 42%),
+    radial-gradient(ellipse at 52% 78%, #a4a8b51a 0%, transparent 38%),
+    linear-gradient(115deg, #060608 5%, #141416 48%, #08080a 90%);
+}
+
+.hero3d-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 40% center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 650ms ease-out, filter 300ms ease-out;
+}
+
+.hero3d-backdrop[data-video-active='true'] .hero3d-video { opacity: var(--video-opacity, 1); }
+
+.hero3d-stage {
+  position: relative;
+  height: 100svh;
+  min-height: 600px;
+  overflow: hidden;
+  z-index: 2;
+  background: linear-gradient(to bottom, transparent 0%, transparent 60%, #020714 100%);
+}
+
+.hero3d-traveller {
+  position: absolute;
+  width: 100%;
+  inset: 0 0 auto;
+  height: 100svh;
+  min-height: 600px;
+  perspective: 1400px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.hero3d-atmosphere {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom right, #0a102599, transparent, #1a0331b3);
+  mix-blend-mode: multiply;
+}
+
+.hero3d-visual {
+  position: absolute;
+  inset: 84px 28% 54px 30%;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+.hero3d-portrait,
+.hero3d-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.hero3d-portrait {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  transform-style: preserve-3d;
+}
+
+.hero3d-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.hero3d-face--front { transform: translateZ(0.5px); }
+.hero3d-face--back { transform: rotateY(180deg) translateZ(0.5px); }
+
+.hero3d-portrait--hidden { opacity: 0; }
+.hero3d-portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Feather only the background at the image perimeter; keep the whole pose. */
+  mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+}
+
+.hero3d-copy { position: absolute; z-index: 2; }
+.hero3d-copy--left { top: 122px; left: 5%; width: 25%; max-width: 320px; }
+.hero3d-copy--right { right: 5%; bottom: 100px; width: 24%; max-width: 350px; text-align: right; }
+.hero3d-copy p { text-wrap: pretty; }
+.hero3d-copy h2 { text-wrap: balance; }
+.hero3d-quote-trigger { position: absolute; top: 20%; right: 0; z-index: 3; writing-mode: vertical-rl; }
+
+.hero3d-scroll-cue {
+  position: absolute;
+  z-index: 2;
+  inset: auto 5% 30px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #ffffff80;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+.hero3d-scroll-cue svg { flex: 0 0 auto; }
+.hero3d-progress { height: 1px; width: 72px; background: #ffffff20; overflow: hidden; }
+.hero3d-progress span { display: block; width: 100%; height: 100%; background: #ffffffa0; transform: scaleX(0); transform-origin: left; }
+.cinematic-hero a:focus-visible, .cinematic-hero button:focus-visible { outline: 2px solid white; outline-offset: 6px; }
+
+.hero3d-dialog { border: 1px solid #ffffff30; border-radius: 24px; background: #111; color: white; padding: 44px; margin: auto; max-width: min(500px, calc(100vw - 40px)); text-align: center; }
+.hero3d-dialog::backdrop { background: #000b; backdrop-filter: blur(8px); }
+
+.hero3d-intro { z-index: 2; background: linear-gradient(#020714c9, #050414); }
+@media (min-width: 1024px) and (min-height: 600px) {
+  .hero3d-intro > div:first-child { left: 5%; width: 24%; padding-inline: 0; }
+  .hero3d-intro > div:last-child { right: 5%; width: 25%; max-width: 350px; padding-inline: 0; }
+  .hero3d-intro > div:last-child h2 { font-size: clamp(26px, 2.5vw, 36px); }
+  .hero3d-intro > div:last-child p:not(:first-child) { font-size: 14px; line-height: 1.7; }
+  .hero3d-intro > div:last-child a { font-size: 11px; padding-inline: 14px; }
+}
+
+@media (max-width: 1199px) and (min-width: 1024px) {
+  .hero3d-copy--left { left: 4%; width: 25%; }
+  .hero3d-copy--right { right: 5%; width: 24%; }
+  .hero3d-copy h2 { font-size: 28px; }
+  .hero3d-copy p:not(:first-child) { font-size: 13px; line-height: 1.65; }
+  .hero3d-copy a { padding-inline: 12px; font-size: 11px; }
+}
+
+@media (max-width: 1023px), (max-height: 599px) {
+  .hero3d-stage { height: auto; min-height: 100svh; padding: 112px 28px 52px; display: flex; flex-direction: column; align-items: center; gap: 26px; }
+  .hero3d-copy { position: relative; inset: auto; width: 100%; max-width: 460px; text-align: center; }
+  .hero3d-copy--left { order: 0; padding-inline: 10px; }
+  .hero3d-visual { position: relative; inset: auto; order: 1; width: min(100%, 420px); height: auto; aspect-ratio: 2 / 3; flex-shrink: 0; }
+  .hero3d-traveller { position: relative; inset: auto; height: auto; min-height: 0; padding: 28px; display: flex; justify-content: center; }
+  .hero3d-stage { justify-content: center; }
+  .hero3d-copy--right { order: 2; }
+  .hero3d-copy--right .hero3d-cta { justify-content: center; }
+  .hero3d-quote-trigger { top: 155px; padding: 12px 7px; font-size: 8px; }
+  .hero3d-scroll-cue { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero3d-scroll-cue { display: none; }
+  .cinematic-hero *, .cinematic-hero *::before { transition: none !important; }
+}
