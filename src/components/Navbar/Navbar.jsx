@@ -40,7 +40,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 w-full z-50 transition duration-300 px-6 sm:px-12 md:px-16 lg:px-[8vw] backdrop-filter backdrop-blur-lg">
+    <nav className="site-nav fixed top-0 w-full z-50 transition duration-300 px-6 sm:px-12 md:px-16 lg:px-[8vw] backdrop-filter backdrop-blur-lg">
       <div className="text-white py-4 sm:py-5 flex justify-between items-center ">
         {/* Logo */}
         <div className="text-base sm:text-lg font-semibold cursor-pointer">
@@ -52,7 +52,7 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-8 text-white ">
+        <ul className="site-nav-links hidden md:flex space-x-8 text-white ">
           {menuItems.map((item) => (
             <li
               key={item.path}
@@ -81,7 +81,7 @@ const Navbar = () => {
         </ul>
 
         {/* Social Icons */}
-        <div className="hidden md:flex space-x-4 ">
+        <div className="site-nav-social hidden md:flex space-x-4 ">
           <a
             href="https://github.com/JayGupta930"
             target="_blank"
@@ -101,7 +101,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu Icon */}
-        <div className="md:hidden">
+        <div className="site-nav-toggle md:hidden">
           {isOpen ? (
             <FiX
               className="text-3xl text-[#8245ec] cursor-pointer"
@@ -118,7 +118,7 @@ const Navbar = () => {
 
       {/* Mobile Menu Items */}
       {isOpen && (
-        <div className="fixed top-16 left-0 right-0 mx-4 sm:left-1/2 sm:right-auto sm:transform sm:-translate-x-1/2 sm:w-4/5 sm:mx-0 bg-[#050414] border border-white/10 backdrop-filter backdrop-blur-lg z-[100] rounded-lg shadow-lg md:hidden">
+        <div className="site-nav-panel fixed top-16 left-0 right-0 mx-4 sm:left-1/2 sm:right-auto sm:transform sm:-translate-x-1/2 sm:w-4/5 sm:mx-0 bg-[#050414] border border-white/10 backdrop-filter backdrop-blur-lg z-[100] rounded-lg shadow-lg md:hidden">
           <ul className="flex flex-col items-center space-y-4 py-6 text-white">
             {menuItems.map((item) => (
               <li
