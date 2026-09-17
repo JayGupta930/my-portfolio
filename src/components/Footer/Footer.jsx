@@ -85,7 +85,7 @@ const Footer = () => {
       {/* Main Footer Content */}
       <div className="px-6 sm:px-12 lg:px-24 py-16 sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
+          <div className="site-footer-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
             
             {/* Brand Area */}
             <div className="lg:col-span-5 space-y-6">
