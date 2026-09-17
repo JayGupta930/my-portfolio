@@ -86,7 +86,7 @@ const HeroSection = ({ introRef }) => {
     document.addEventListener('visibilitychange', syncVideo);
     resetReveal();
 
-    media.add('(min-width: 1024px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)', () => {
+    media.add('(min-width: 1200px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)', () => {
       state.value = 0;
       const timeline = gsap.timeline({
         defaults: { ease: 'none' },
@@ -124,7 +124,7 @@ const HeroSection = ({ introRef }) => {
       };
     }, section);
 
-    media.add('(max-width: 1023px) and (prefers-reduced-motion: no-preference), (max-height: 599px) and (prefers-reduced-motion: no-preference)', () => {
+    media.add('(max-width: 1199px) and (prefers-reduced-motion: no-preference), (max-height: 599px) and (prefers-reduced-motion: no-preference)', () => {
       gsap.fromTo('.hero3d-portrait', { rotationY: 180 }, {
         rotationY: 0,
         ease: 'none',
