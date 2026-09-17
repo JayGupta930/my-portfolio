@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import BlurBlob from "./BlurBlob";
 import "./mobile-responsive.css";
+import "./tablet-responsive.css";
 import { scrollToSection } from "./utils/scrollUtils";
 import SmoothScroll from "./components/SmoothScroll/SmoothScroll";
 
