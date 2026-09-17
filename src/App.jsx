@@ -136,32 +136,12 @@ const LandingPage = () => {
     ];
   }, []);
 
-  // Optimized scroll parallax effect using requestAnimationFrame
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const scroll = window.scrollY;
-          const shift = Math.min(scroll * 0.15, 80);
-          section.style.transform = `translateY(${shift}px)`;
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <>
-      <HeroSection />
-      <About sectionRef={sectionRef} />
+      <div className="hero3d-story">
+        <HeroSection introRef={sectionRef} />
+        <About sectionRef={sectionRef} withPortrait />
+      </div>
       <hr className="border-t-2 border-gray-600 mx-auto max-w-7xl my-8" />
       <Suspense fallback={<SectionLoader />}>
         <Skills />
