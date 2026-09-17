@@ -130,7 +130,7 @@
 .hero3d-dialog::backdrop { background: #000b; backdrop-filter: blur(8px); }
 
 .hero3d-intro { z-index: 2; background: linear-gradient(#020714c9, #050414); }
-@media (min-width: 1024px) and (min-height: 600px) {
+@media (min-width: 1200px) and (min-height: 600px) {
   .hero3d-intro > div:first-child { left: 5%; width: 24%; padding-inline: 0; }
   .hero3d-intro > div:last-child { right: 5%; width: 25%; max-width: 350px; padding-inline: 0; }
   .hero3d-intro > div:last-child h2 { font-size: clamp(26px, 2.5vw, 36px); }
@@ -146,7 +146,7 @@
   .hero3d-copy a { padding-inline: 12px; font-size: 11px; }
 }
 
-@media (max-width: 1023px), (max-height: 599px) {
+@media (max-width: 1199px), (max-height: 599px) {
   .hero3d-stage { height: auto; min-height: 100svh; padding: 112px 28px 52px; display: flex; flex-direction: column; align-items: center; gap: 26px; }
   .hero3d-copy { position: relative; inset: auto; width: 100%; max-width: 460px; text-align: center; }
   .hero3d-copy--left { order: 0; padding-inline: 10px; }

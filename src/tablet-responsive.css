@@ -1,0 +1,88 @@
+/* Tablet layouts only. Phone and wide desktop styles stay in their components. */
+@media (min-width: 641px) and (max-width: 1199px) {
+  .site-nav { padding-inline: 32px; }
+  .site-nav .site-nav-links,
+  .site-nav .site-nav-social { display: none; }
+  .site-nav .site-nav-toggle,
+  .site-nav .site-nav-panel { display: block; }
+  .site-nav .site-nav-panel {
+    top: 76px;
+    max-height: calc(100svh - 92px);
+    overflow-y: auto;
+  }
+
+  /* Keep the portrait in normal flow; leave room for both blocks of copy. */
+  .cinematic-hero .hero3d-stage {
+    min-height: 0;
+    padding: 112px 56px 40px;
+    gap: 32px;
+  }
+  .cinematic-hero .hero3d-copy { max-width: 620px; }
+  .cinematic-hero .hero3d-copy h2 { font-size: 32px; }
+  .cinematic-hero .hero3d-copy p:not(:first-child) { font-size: 16px; }
+  .cinematic-hero .hero3d-copy a { font-size: 14px; padding-inline: 20px; }
+  .hero3d-story .hero3d-intro {
+    display: flex;
+    min-height: 0;
+    padding: 64px 48px;
+    gap: 40px;
+  }
+  .hero3d-story .hero3d-intro > div {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .hero3d-intro > div > div { justify-content: center; }
+
+  #skills,
+  #experience,
+  #education { padding-inline: 6vw; }
+  #skills > div:last-child {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+  #skills > div:last-child > div {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 0;
+    padding: 24px 16px;
+  }
+  #skills h3 { font-size: 24px; }
+  #skills .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #skills .grid > div {
+    flex-direction: column;
+    gap: 8px;
+  }
+  #skills .grid > div > * { margin-inline: 0; }
+
+  /* A left-hand timeline gives long roles and school names the full card width. */
+  #experience > .relative > .absolute,
+  #education > .relative > .absolute { left: 32px; }
+  #experience > .relative > .flex,
+  #education > .relative > .flex { padding: 0 0 0 88px; }
+  #experience > .relative > .flex > .absolute,
+  #education > .relative > .flex > .absolute { left: 32px; }
+  #experience > .relative > .flex > .w-full,
+  #education > .relative > .flex > .w-full {
+    max-width: none;
+    min-width: 0;
+    margin-inline: 0;
+    padding: 24px;
+  }
+  #experience h3, #experience h4,
+  #education h3, #education h4 { overflow-wrap: anywhere; }
+
+  #work { padding-top: 112px; }
+  #work .project-modal-body { overflow-y: auto; }
+
+  .site-footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px;
+  }
+  .site-footer-grid > div { grid-column: auto; min-width: 0; }
+  .site-footer-grid > div:last-child { grid-column: 1 / -1; }
+}
