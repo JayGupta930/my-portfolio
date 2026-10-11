@@ -15,6 +15,7 @@ const Navbar = () => {
   const menuItems = [
     { path: "/", label: "Home", end: true, scrollToTop: true },
     { path: "/projects", label: "Projects" },
+    { path: "/ecommerce", label: "E-commerce" },
     { path: "/games", label: "Games" },
     { path: "/creativity", label: "Creativity" },
     { path: "/contact", label: "Contact" },
@@ -101,19 +102,17 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu Icon */}
-        <div className="site-nav-toggle md:hidden">
+        <button type="button" className="site-nav-toggle md:hidden min-w-11 min-h-11 flex items-center justify-center" aria-label={isOpen ? "Close navigation" : "Open navigation"} aria-expanded={isOpen} onClick={() => setIsOpen(open => !open)}>
           {isOpen ? (
             <FiX
               className="text-3xl text-[#8245ec] cursor-pointer"
-              onClick={() => setIsOpen(false)}
             />
           ) : (
             <FiMenu
               className="text-3xl text-[#8245ec] cursor-pointer"
-              onClick={() => setIsOpen(true)}
             />
           )}
-        </div>
+        </button>
       </div>
 
       {/* Mobile Menu Items */}
