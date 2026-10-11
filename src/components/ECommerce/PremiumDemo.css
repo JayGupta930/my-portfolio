@@ -1,0 +1,864 @@
+/* Crisp conceptual interfaces, framed by the original sketchbook language. */
+.ec-premium-store,
+.ec-premium-admin {
+  min-width: 0;
+  margin-block: 24px;
+}
+.ec-edge-notes {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 18px;
+  color: #c4a1ed;
+}
+.ec-edge-notes .ec-note {
+  font-size: 16px;
+  transform: rotate(-2deg);
+}
+.ec-fashion {
+  background: #100d24;
+  color: #e8ddf7;
+  border-color: #8264a5;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ec-fashion .ec-browser-bar {
+  background: #17112d;
+  color: #c6b0e1;
+  border-color: #503866;
+}
+.ec-fashion button:focus-visible,
+.ec-fashion a:focus-visible {
+  outline: 3px solid #d4b4ff;
+  outline-offset: 3px;
+}
+.ec-fashion a:hover {
+  color: #e5d1ff;
+}
+.ec-fashion-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 30px;
+  border-bottom: 1px solid #e8ddf720;
+  gap: 16px;
+}
+.ec-fashion-nav > button:first-child {
+  font:
+    600 24px "Poppins",
+    sans-serif;
+  letter-spacing: -1px;
+  text-align: left;
+}
+.ec-fashion-nav > button:first-child span {
+  display: block;
+  font:
+    8px Arial,
+    sans-serif;
+  letter-spacing: 2px;
+  margin-top: 5px;
+}
+.ec-fashion-nav > button:last-child {
+  font-size: 12px;
+  min-height: 44px;
+}
+.ec-fashion-season {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #b9a2d2;
+}
+.ec-fashion-hero {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  background: #1c1433;
+  margin: 22px 26px 0;
+  padding: 30px 42px;
+  align-items: center;
+  min-height: 300px;
+  overflow: hidden;
+}
+.ec-fashion-hero > div > span {
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+.ec-fashion-hero h3 {
+  font:
+    clamp(38px, 5vw, 66px)/1.04 "Poppins",
+    sans-serif;
+  margin: 20px 0;
+  color: #eee5fa;
+  letter-spacing: -2px;
+}
+.ec-fashion-hero h3 em {
+  font-weight: normal;
+  color: #b58be9;
+}
+.ec-fashion-hero p {
+  font-size: 12px;
+  color: #c3b2d9;
+  max-width: 260px;
+}
+.ec-fashion-hero-art {
+  position: relative;
+  text-align: center;
+}
+.ec-fashion-hero-art .ec-garment {
+  height: 245px;
+  transform: rotate(-8deg);
+  filter: drop-shadow(12px 14px 8px #8245ec22);
+}
+.ec-fashion-hero-art > span {
+  font-size: 8px !important;
+  letter-spacing: 1px !important;
+}
+.ec-garment {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.ec-fashion-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 26px 28px 12px;
+  gap: 12px;
+}
+.ec-fashion-filter h4 {
+  font:
+    22px "Poppins",
+    sans-serif;
+}
+.ec-fashion-filter > div {
+  display: flex;
+  gap: 7px;
+}
+.ec-fashion-filter button {
+  font-size: 11px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  min-height: 40px;
+}
+.ec-fashion-filter button[aria-pressed="true"] {
+  background: #8245ec;
+  color: #fff;
+}
+.ec-fashion-products {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  padding: 10px 28px 28px;
+}
+.ec-fashion-products article {
+  min-width: 0;
+  transition: transform 0.2s ease;
+}
+.ec-fashion-products article:hover {
+  transform: translateY(-4px);
+}
+.ec-fashion-image {
+  background: #1c1630;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 3px;
+}
+.ec-fashion-image > .ec-garment {
+  height: 245px;
+  padding: 10px 18px;
+}
+.ec-fashion-image > span:first-child {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #c4afdd;
+}
+.ec-tone-1 {
+  background: #211935;
+}
+.ec-tone-2 {
+  background: #281b3d;
+}
+.ec-fashion-products article > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 15px;
+  font-size: 12px;
+}
+.ec-fashion-products h4 {
+  font-weight: 600;
+}
+.ec-fashion-products article > p {
+  font-size: 10px;
+  color: #b9a5d0;
+  margin-top: 5px;
+}
+.ec-product-open {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-size: 10px;
+  background: #100d24dd;
+  padding: 7px 12px;
+  border-radius: 20px;
+}
+.ec-fashion-link {
+  display: block;
+  min-height: 44px;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  font-size: 11px;
+  padding-block: 12px;
+}
+.ec-fashion-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 44px;
+  padding: 35px;
+  align-items: center;
+  min-height: 490px;
+}
+.ec-fashion-detail > .ec-fashion-image > .ec-garment {
+  height: 370px;
+}
+.ec-fashion-detail h3,
+.ec-fashion-checkout h3 {
+  font:
+    36px/1.15 "Poppins",
+    sans-serif;
+  margin: 15px 0;
+}
+.ec-fashion-detail p {
+  font-size: 12px;
+  color: #c4b1dc;
+  margin: 16px 0;
+}
+.ec-fashion-detail fieldset {
+  margin-top: 24px;
+}
+.ec-fashion-detail legend {
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+.ec-sizes {
+  display: flex;
+  gap: 8px;
+}
+.ec-sizes button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid #806497;
+  border-radius: 3px;
+}
+.ec-sizes button[aria-pressed="true"] {
+  background: #8245ec;
+  color: white;
+  border-color: #8245ec;
+}
+.ec-fashion-detail .ec-availability {
+  font-size: 10px;
+  color: #c4a3ed;
+}
+.ec-fashion-primary {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 22px;
+  background: #8245ec;
+  color: #fff;
+  border-radius: 3px;
+  min-height: 48px;
+  font-size: 12px;
+  gap: 10px;
+}
+.ec-fashion a.ec-fashion-primary:hover {
+  color: white;
+  background: #9c62ef;
+}
+.ec-fashion-status {
+  padding: 16px 28px;
+  border-top: 1px solid #e8ddf720;
+  font-size: 11px;
+  min-height: 56px;
+  background: #19122e;
+  color: #cab3e5;
+}
+.ec-fashion-checkout {
+  padding: 42px;
+  min-height: 460px;
+}
+.ec-fashion-checkout > p {
+  margin-block: 22px;
+  font-size: 13px;
+}
+.ec-fashion-checkout > span {
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+.ec-fashion-checkout .ec-fashion-check {
+  font-size: 36px;
+  color: #c3a1f5;
+}
+.ec-fashion-cart-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e8ddf720;
+  font-size: 12px;
+}
+.ec-fashion-cart-row > .ec-garment {
+  height: 80px;
+  width: 70px;
+  background: #1c1630;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.ec-fashion-cart-row > div {
+  flex: 1;
+}
+.ec-fashion-cart-row p {
+  font-size: 11px;
+  color: #c5acdf;
+}
+.ec-fashion-cart-row button {
+  font-size: 10px;
+  min-height: 44px;
+  text-decoration: underline;
+}
+.ec-connected-flow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 11px;
+  color: #c5b4dd;
+  padding: 28px 0;
+}
+.ec-connected-flow b {
+  color: #b287eb;
+  font-size: 26px;
+}
+.ec-connected-flow a {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.ec-premium-admin > .ec-browser {
+  border-radius: 12px;
+  border-color: #806c9955;
+  overflow: hidden;
+  background: #100d21;
+}
+.ec-dash-shell {
+  display: grid;
+  grid-template-columns: 174px minmax(0, 1fr);
+}
+.ec-dash-sidebar {
+  background: #151026;
+  border-right: 1px solid #ffffff0f;
+  padding: 26px 14px;
+  display: flex;
+  flex-direction: column;
+}
+.ec-dash-sidebar > strong {
+  font:
+    30px "Poppins",
+    sans-serif;
+  padding: 0 16px 28px;
+}
+.ec-dash-sidebar > strong > span {
+  font:
+    8px Arial,
+    sans-serif;
+  letter-spacing: 2px;
+  display: block;
+  margin-top: 8px;
+  color: #b7a5d0;
+}
+.ec-dash-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ec-dash-sidebar button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 11px;
+  color: #b1a5c3;
+  text-align: left;
+  padding: 10px;
+  border-radius: 6px;
+}
+.ec-dash-sidebar button > span {
+  font-size: 17px;
+  color: #b597e4;
+}
+.ec-dash-sidebar button[aria-pressed="true"] {
+  background: #8d5cdb26;
+  color: #ddc8ff;
+}
+.ec-dash-sidebar b {
+  font-size: 9px;
+  margin-left: auto;
+  background: #8250cb;
+  border-radius: 5px;
+  padding: 2px 5px;
+}
+.ec-dash-sidebar > small {
+  font-size: 11px;
+  line-height: 1.8;
+  color: #9382ad;
+  margin-top: auto;
+  padding: 30px 12px 0;
+}
+.ec-dash-main {
+  padding: 26px;
+  min-width: 0;
+  min-height: 650px;
+}
+.ec-dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.ec-dash-header p {
+  font-size: 8px;
+  letter-spacing: 1.7px;
+  color: #a090b8;
+}
+.ec-dash-header h3 {
+  font-size: 25px;
+  margin-top: 5px;
+}
+.ec-dash-header > span {
+  font-size: 9px;
+  color: #bfacd8;
+  border: 1px solid #ffffff18;
+  border-radius: 20px;
+  padding: 7px 11px;
+}
+.ec-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.ec-metrics > div {
+  padding: 17px 13px;
+  background: #1b152d;
+  border: 1px solid #ffffff0b;
+  border-radius: 7px;
+  transition: background 0.2s;
+}
+.ec-metrics > div:hover {
+  background: #251b3e;
+}
+.ec-metrics span {
+  display: block;
+  font-size: 10px;
+  color: #b8a8cd;
+}
+.ec-metrics strong {
+  display: block;
+  font-size: clamp(18px, 2vw, 26px);
+  font-variant-numeric: tabular-nums;
+  margin: 10px 0;
+  color: #f0e6ff;
+  white-space: nowrap;
+}
+.ec-metrics small {
+  font-size: 8px;
+  color: #9f8ab7;
+}
+.ec-analytics,
+.ec-dash-orders,
+.ec-dash-products {
+  border: 1px solid #ffffff10;
+  border-radius: 8px;
+  padding: 20px;
+  background: #171126;
+  margin-bottom: 16px;
+  min-width: 0;
+}
+.ec-dash-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.ec-dash-section-head h4,
+.ec-dash-products > h4 {
+  font-size: 13px;
+}
+.ec-dash-section-head p,
+.ec-dash-section-head > span {
+  font-size: 9px;
+  color: #ad9ac5;
+}
+.ec-dash-section-head select {
+  background: #231933;
+  border: 1px solid #8a72a54d;
+  border-radius: 5px;
+  padding: 9px;
+  font-size: 10px;
+  color: #d5c4ea;
+  min-height: 40px;
+}
+.ec-analytics > svg {
+  width: 100%;
+  max-height: 250px;
+  overflow: visible;
+}
+.ec-chart-readout {
+  font-size: 10px;
+  color: #c4a9e8;
+  min-height: 24px;
+}
+.ec-analytics circle:focus-visible {
+  outline: 2px solid #d8c1ff;
+}
+.ec-table-scroll {
+  overflow-x: auto;
+}
+.ec-table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  text-align: left;
+  min-width: 460px;
+}
+.ec-table-scroll th {
+  font-size: 9px;
+  color: #a995c0;
+  font-weight: 400;
+  padding: 10px 8px;
+  border-bottom: 1px solid #ffffff15;
+}
+.ec-table-scroll td {
+  padding: 15px 8px;
+  border-bottom: 1px solid #ffffff0b;
+  white-space: nowrap;
+}
+.ec-table-scroll td:first-child {
+  white-space: normal;
+  min-width: 110px;
+}
+.ec-table-scroll small {
+  display: block;
+  font-size: 9px;
+  color: #ad9ac5;
+  max-width: 200px;
+  margin-top: 6px;
+}
+.ec-table-scroll tr:hover td {
+  background: #ffffff03;
+}
+.ec-status-badge {
+  display: inline-block;
+  font-size: 9px;
+  padding: 5px 9px;
+  border-radius: 5px;
+  background: #b293ea20;
+  color: #ceb6f7;
+  white-space: nowrap;
+}
+.ec-status-shipped {
+  background: #80afed15;
+  color: #9dbdea;
+}
+.ec-status-delivered,
+.ec-status-processed {
+  background: #78d5b515;
+  color: #9ad6bc;
+}
+.ec-status-processing {
+  background: #e7c98015;
+  color: #dec68f;
+}
+.ec-status-new {
+  min-height: 44px;
+  border: 1px solid #b18bde55;
+}
+.ec-dash-product {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ffffff0b;
+  font-size: 11px;
+}
+.ec-dash-product > div {
+  width: 42px;
+  height: 46px;
+  background: #302241;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+.ec-dash-product > span:nth-child(2) {
+  flex: 1;
+}
+.ec-dash-product strong {
+  font-weight: 500;
+}
+.ec-dash-product small {
+  display: block;
+  font-size: 9px;
+  color: #a995be;
+  margin-top: 3px;
+}
+.ec-dash-product > span:last-child {
+  font-size: 9px;
+  color: #a9cfbe;
+  min-width: 76px;
+  text-align: right;
+}
+.ec-dash-product > span.ec-low-stock {
+  color: #e3c087;
+}
+.ec-dash-main .ec-admin-bottom {
+  padding: 0;
+  border: 0;
+  font-size: 9px;
+}
+.ec-dash-main .ec-admin-bottom button {
+  font-size: 9px;
+}
+.ec-dash-main .ec-data-row {
+  flex-wrap: wrap;
+}
+@media (max-width: 1000px) {
+  .ec-dash-shell {
+    grid-template-columns: 140px minmax(0, 1fr);
+  }
+  .ec-dash-main {
+    padding: 18px;
+  }
+  .ec-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ec-fashion-image > .ec-garment {
+    height: 195px;
+  }
+  .ec-fashion-products {
+    gap: 12px;
+  }
+  .ec-fashion-hero {
+    padding: 24px;
+  }
+  .ec-fashion-products article > div {
+    display: block;
+  }
+  .ec-fashion-products article > div > span {
+    display: block;
+    margin-top: 4px;
+  }
+}
+@media (max-width: 700px) {
+  .ec-edge-notes {
+    padding: 10px 0;
+    gap: 10px;
+  }
+  .ec-edge-notes .ec-note {
+    font-size: 12px;
+  }
+  .ec-fashion-nav {
+    padding: 14px 16px;
+  }
+  .ec-fashion-nav > button:first-child {
+    font-size: 21px;
+  }
+  .ec-fashion-season {
+    display: none;
+  }
+  .ec-fashion-hero {
+    margin: 12px 12px 0;
+    padding: 22px 16px;
+    min-height: 220px;
+    grid-template-columns: 1.1fr 1fr;
+  }
+  .ec-fashion-hero h3 {
+    font-size: 40px;
+    letter-spacing: -1px;
+    margin: 12px 0;
+  }
+  .ec-fashion-hero p {
+    font-size: 10px;
+  }
+  .ec-fashion-hero > div > span {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+  .ec-fashion-hero-art .ec-garment {
+    height: 165px;
+    padding: 0;
+  }
+  .ec-fashion-hero-art > span {
+    display: none;
+  }
+  .ec-fashion-filter {
+    flex-wrap: wrap;
+    padding: 20px 14px 8px;
+  }
+  .ec-fashion-filter h4 {
+    font-size: 20px;
+  }
+  .ec-fashion-filter button {
+    padding: 6px 12px;
+  }
+  .ec-fashion-products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 10px 14px 18px;
+    gap: 18px 12px;
+  }
+  .ec-fashion-image > .ec-garment {
+    height: 175px;
+    padding: 20px 5px 10px;
+  }
+  .ec-fashion-image > span:first-child {
+    font-size: 7px;
+    top: 8px;
+    left: 8px;
+  }
+  .ec-fashion-products h4 {
+    font-size: 11px;
+  }
+  .ec-fashion-products article > p {
+    font-size: 9px;
+  }
+  .ec-product-open {
+    bottom: 7px;
+    right: 6px;
+    font-size: 8px;
+    padding: 5px 8px;
+  }
+  .ec-fashion-detail {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px;
+  }
+  .ec-fashion-detail > .ec-fashion-image > .ec-garment {
+    height: 240px;
+  }
+  .ec-fashion-detail h3,
+  .ec-fashion-checkout h3 {
+    font-size: 30px;
+  }
+  .ec-fashion-checkout {
+    padding: 24px 18px;
+  }
+  .ec-fashion-cart-row {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .ec-fashion-cart-row > .ec-garment {
+    width: 46px;
+    height: 60px;
+  }
+  .ec-fashion-cart-row > div {
+    min-width: 130px;
+  }
+  .ec-fashion-status {
+    padding: 14px 16px;
+    font-size: 10px;
+  }
+  .ec-connected-flow {
+    font-size: 10px;
+    gap: 10px;
+    padding: 18px 0;
+  }
+  .ec-dash-shell {
+    grid-template-columns: 1fr;
+  }
+  .ec-dash-sidebar {
+    padding: 10px;
+    border-right: 0;
+    border-bottom: 1px solid #ffffff10;
+  }
+  .ec-dash-sidebar > strong,
+  .ec-dash-sidebar > small {
+    display: none;
+  }
+  .ec-dash-sidebar nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3px;
+  }
+  .ec-dash-sidebar button {
+    font-size: 10px;
+    padding: 8px;
+    gap: 5px;
+  }
+  .ec-dash-sidebar button > span {
+    font-size: 13px;
+  }
+  .ec-dash-main {
+    padding: 14px;
+    min-height: 560px;
+  }
+  .ec-dash-header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .ec-dash-header h3 {
+    font-size: 22px;
+  }
+  .ec-dash-header > span {
+    font-size: 8px;
+    padding: 6px 8px;
+  }
+  .ec-metrics {
+    gap: 8px;
+  }
+  .ec-metrics > div {
+    padding: 13px;
+  }
+  .ec-metrics strong {
+    font-size: 24px;
+  }
+  .ec-analytics,
+  .ec-dash-orders,
+  .ec-dash-products {
+    padding: 12px;
+  }
+  .ec-dash-product {
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 10px;
+  }
+  .ec-dash-product > span:nth-child(2) {
+    min-width: 110px;
+  }
+  .ec-dash-product > span:last-child {
+    min-width: 66px;
+  }
+  .ec-dash-section-head > span {
+    font-size: 8px;
+  }
+  .ec-dash-main .ec-admin-bottom {
+    align-items: flex-start;
+  }
+  .ec-dash-main .ec-admin-bottom button {
+    max-width: 85px;
+    text-align: right;
+    white-space: normal;
+  }
+  .ec-analytics > svg {
+    min-height: 145px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ec-fashion-products article,
+  .ec-metrics > div {
+    transition: none;
+  }
+}
