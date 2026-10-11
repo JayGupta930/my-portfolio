@@ -4,7 +4,7 @@ Welcome to my personal developer portfolio! This website showcases my projects, 
 
 ## 🌍 Live Website
 
-[![Live Demo](https://img.shields.io/badge/🌐-Live%20Demo-1e90ff?style=for-the-badge&labelColor=black)](https://jaygupta.web.app/)
+[![Live Demo](https://img.shields.io/badge/🌐-Live%20Demo-1e90ff?style=for-the-badge&labelColor=black)](https://jaygupta.me/)
 
 
 ## 🚀 Tech Stack
