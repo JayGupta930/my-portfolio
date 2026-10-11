@@ -1,0 +1,652 @@
+﻿/* Overview and optional explanation share one visual language. */
+.ec-quick-story {
+  margin-top: 12px;
+}
+.ec-overview-step {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: 60px;
+  padding: 20px 0;
+  min-height: 355px;
+}
+.ec-overview-step .ec-overview-copy h2 {
+  font-size: clamp(30px, 3.3vw, 45px);
+  line-height: 1.12;
+  letter-spacing: -1.2px;
+}
+.ec-overview-copy > p:not(.ec-eyebrow) {
+  font-size: 13px;
+  color: var(--ec-muted);
+  max-width: 370px;
+  margin: 18px 0;
+}
+.ec-overview-copy .ec-eyebrow {
+  margin-bottom: 18px;
+}
+.ec-overview-link {
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 44px;
+  color: #cfb2ef;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+.ec-overview-link > span {
+  font-size: 19px;
+}
+.ec-overview-art {
+  min-width: 0;
+}
+.ec-overview-art .ec-browser {
+  border-radius: 9px 14px 10px 8px;
+  border-color: #a27aca66;
+  box-shadow: 10px 12px 0 #8245ec08;
+}
+.ec-overview-art .ec-browser-bar {
+  font-size: 8px;
+  padding: 10px 14px;
+  background: #171027;
+}
+.ec-chaos-overview {
+  position: relative;
+}
+.ec-chaos-overview .ec-sketch {
+  width: 100%;
+  max-height: 350px;
+}
+.ec-chaos-overview .ec-svg-note {
+  font-size: 18px;
+}
+.ec-story-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 0 0 0 16%;
+  height: 65px;
+  color: #af88d7;
+}
+.ec-story-arrow svg {
+  width: 200px;
+  height: 55px;
+}
+.ec-story-arrow .ec-note {
+  font-size: 14px;
+  transform: rotate(-3deg);
+}
+.ec-preview-note {
+  font-size: 15px;
+  color: #c8a6ee;
+  margin: 0 0 12px 12px;
+  transform: rotate(-2deg);
+}
+.ec-note-right {
+  text-align: right;
+  margin: 14px 12px 0 0;
+}
+.ec-mini-store-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  gap: 12px;
+  border-bottom: 1px solid #a886cd22;
+}
+.ec-mini-store-head > strong {
+  font-size: 17px;
+  letter-spacing: -0.6px;
+}
+.ec-mini-store-head > strong > span {
+  display: block;
+  font-size: 6px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  color: #ac92c5;
+  margin-top: 5px;
+}
+.ec-mini-bag {
+  font-size: 9px;
+  color: #dbc2f6;
+  border: 1px solid #ad7fe64d;
+  border-radius: 20px;
+  padding: 7px 11px;
+}
+.ec-mini-catalog {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px 20px;
+}
+.ec-mini-catalog > div > div {
+  background: #211632;
+  border: 1px solid #a986d129;
+  border-radius: 4px 8px 5px 6px;
+}
+.ec-mini-catalog .ec-garment {
+  height: 112px;
+  padding: 3px;
+}
+.ec-mini-catalog strong {
+  display: block;
+  font-size: 9px;
+  font-weight: 500;
+  margin-top: 9px;
+}
+.ec-mini-catalog > div > span {
+  font-size: 9px;
+  color: #bba1d6;
+}
+.ec-mini-options {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 20px 16px;
+  font-size: 9px;
+}
+.ec-mini-options > div {
+  display: flex;
+  gap: 5px;
+}
+.ec-mini-options > div > span {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #9b73c944;
+  border-radius: 4px;
+}
+.ec-mini-options .ec-mini-selected {
+  background: #8245ec;
+  border-color: #c9a3ff;
+  color: white;
+}
+.ec-mini-options > .ec-note {
+  font-size: 13px;
+  margin-left: auto;
+}
+.ec-mini-checkout {
+  padding: 12px 20px;
+  background: #221536;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 9px;
+  border-top: 1px solid #9d78c52a;
+}
+.ec-mini-checkout b {
+  color: #bd86f8;
+  padding-inline: 8px;
+}
+.ec-mini-checkout > span:last-child {
+  color: #d0b4f1;
+}
+.ec-mini-disclosure {
+  font-size: 9px;
+  color: #aa95bf;
+  margin: 10px 0 0 12px;
+}
+.ec-mini-dashboard-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 18px 18px 12px;
+  align-items: center;
+}
+.ec-mini-dashboard-head strong {
+  font-size: 13px;
+}
+.ec-mini-dashboard-head > span {
+  font-size: 8px;
+  color: #b79dcc;
+  border: 1px solid #ad87d12a;
+  border-radius: 20px;
+  padding: 5px 8px;
+}
+.ec-mini-metrics {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 8px;
+  padding: 0 18px 14px;
+}
+.ec-mini-metrics > div {
+  background: #221630;
+  border: 1px solid #b48bd124;
+  border-radius: 5px;
+  padding: 10px 12px;
+}
+.ec-mini-metrics span {
+  font-size: 9px;
+  color: #ba9ed0;
+  display: block;
+}
+.ec-mini-metrics strong {
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+  display: block;
+  margin-top: 7px;
+  white-space: nowrap;
+  letter-spacing: -0.6px;
+}
+.ec-mini-operations {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 15px;
+  margin: 0 18px;
+  padding: 10px 0;
+  border-block: 1px solid #b78dd122;
+}
+.ec-mini-operations > div > span {
+  font-size: 9px;
+  color: #c4aadd;
+}
+.ec-mini-operations svg {
+  display: block;
+  width: 100%;
+  height: 83px;
+  margin-top: 6px;
+}
+.ec-mini-stock > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 7px;
+  font-size: 8px;
+}
+.ec-mini-stock .ec-garment {
+  width: 28px;
+  height: 31px;
+  background: #251934;
+  border-radius: 3px;
+  margin: 0;
+}
+.ec-mini-stock small {
+  font-size: 7px;
+  display: block;
+  color: #bfa2d3;
+  margin-top: 3px;
+}
+.ec-mini-order {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  gap: 10px;
+  font-size: 9px;
+}
+.ec-mini-order > span:last-child {
+  color: #dec6f6;
+  background: #a376ce22;
+  border-radius: 4px;
+  padding: 4px 7px;
+}
+.ec-deeper {
+  margin-top: 65px;
+  border-top: 1px dashed #aa86cf44;
+  padding-top: 45px;
+}
+.ec-deeper > .ec-section-heading {
+  margin-bottom: 28px;
+}
+.ec-deeper > .ec-section-heading h2 {
+  font-size: clamp(30px, 4vw, 48px);
+}
+.ec-deeper > .ec-section-heading .ec-intro {
+  max-width: 650px;
+  font-size: 13px;
+}
+.ec-detail-chapter {
+  border-top: 1px solid #aa83ce33;
+  scroll-margin-top: 155px;
+}
+.ec-detail-chapter:last-child {
+  border-bottom: 1px solid #aa83ce33;
+}
+.ec-detail-chapter > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 24px 8px;
+  color: #e7d9f5;
+}
+.ec-detail-chapter > summary::-webkit-details-marker {
+  display: none;
+}
+.ec-detail-chapter > summary:focus-visible {
+  outline: 2px solid #caa2f6;
+  outline-offset: 4px;
+}
+.ec-detail-number {
+  font-size: 12px;
+  color: #c098ed;
+  border: 1px solid #a378d070;
+  border-radius: 50%;
+  width: 37px;
+  height: 37px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.ec-detail-chapter > summary strong {
+  font-size: 20px;
+  font-weight: 500;
+}
+.ec-detail-chapter > summary small {
+  display: block;
+  font-size: 11px;
+  color: #af9cbf;
+  margin-top: 5px;
+}
+.ec-expand-mark {
+  font-size: 27px;
+  color: #b989ed;
+  margin-left: auto;
+  transition: transform 0.2s;
+}
+.ec-detail-chapter[open] > summary .ec-expand-mark {
+  transform: rotate(45deg);
+}
+.ec-detail-chapter[open] > summary {
+  color: #cba6f5;
+}
+.ec-chapter-body {
+  padding: 20px 0 32px;
+}
+.ec-detail-intro {
+  font-size: 14px;
+  color: #beacd0;
+  max-width: 780px;
+  margin-bottom: 25px;
+}
+.ec-demo-anchor {
+  scroll-margin-top: 155px;
+  outline: none;
+}
+.ec-detail-chapter .ec-problem-copy > p:not(.ec-eyebrow) {
+  font-size: 12px;
+  line-height: 1.9;
+}
+.ec-detail-chapter .ec-control-notes {
+  margin-top: 30px;
+}
+/* Harmonize the working storefront with the surrounding illustrated world. */
+.ec-page .ec-fashion-nav > button:first-child {
+  font-family: inherit;
+  font-size: 22px;
+  font-weight: 600;
+}
+.ec-page .ec-fashion-hero {
+  min-height: 220px;
+  border: 1px solid #b28bce33;
+  border-radius: 6px 12px 8px 11px;
+}
+.ec-page .ec-fashion-hero h3 {
+  font-family: inherit;
+  font-size: clamp(28px, 3.6vw, 45px);
+  font-weight: 600;
+  letter-spacing: -1.5px;
+}
+.ec-page .ec-fashion-hero h3 em {
+  font-family: inherit;
+  font-weight: 500;
+}
+.ec-page .ec-fashion-hero-art .ec-garment {
+  height: 195px;
+}
+.ec-page .ec-fashion-filter h4 {
+  font-family: inherit;
+  font-size: 20px;
+}
+.ec-page .ec-fashion-image {
+  border: 1px solid #ab84cc33;
+}
+.ec-page .ec-fashion-products article > div {
+  color: #e5d7f1;
+}
+.ec-page .ec-fashion-detail h3,
+.ec-page .ec-fashion-checkout h3 {
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: -1px;
+}
+@media (min-width: 1001px) {
+  .ec-page .ec-hero {
+    min-height: 0;
+    padding-top: 28px;
+    gap: 40px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .ec-page .ec-hero h1 {
+    font-size: 61px;
+    max-width: 600px;
+  }
+  .ec-page .ec-hero-art {
+    max-width: 490px;
+    margin: auto;
+  }
+  .ec-hero .ec-hero-copy > p:not(.ec-eyebrow):not(.ec-note) {
+    margin: 20px 0;
+  }
+  .ec-hero .ec-hero-copy > .ec-note {
+    margin-top: 18px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 1000px) {
+  .ec-overview-step {
+    gap: 28px;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+  .ec-overview-step .ec-overview-copy h2 {
+    font-size: 31px;
+  }
+  .ec-overview-copy > p:not(.ec-eyebrow) {
+    font-size: 12px;
+  }
+  .ec-mini-catalog {
+    padding: 12px;
+    gap: 8px;
+  }
+  .ec-mini-catalog .ec-garment {
+    height: 95px;
+  }
+  .ec-mini-options {
+    padding: 0 12px 12px;
+    gap: 8px;
+  }
+  .ec-mini-options > .ec-note {
+    display: none;
+  }
+  .ec-mini-metrics {
+    padding: 0 12px 12px;
+    gap: 6px;
+  }
+  .ec-mini-metrics > div {
+    padding: 9px 8px;
+  }
+  .ec-mini-metrics strong {
+    font-size: 20px;
+  }
+  .ec-mini-dashboard-head {
+    padding: 15px 12px 12px;
+  }
+  .ec-mini-operations {
+    margin-inline: 12px;
+    gap: 8px;
+  }
+  .ec-mini-order {
+    padding: 12px;
+    font-size: 8px;
+  }
+  .ec-mini-checkout {
+    padding: 12px;
+    font-size: 8px;
+  }
+  .ec-mini-checkout b {
+    padding-inline: 4px;
+  }
+}
+@media (max-width: 700px) {
+  .ec-overview-step {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px 0;
+    min-height: 0;
+  }
+  .ec-overview-step .ec-overview-copy h2 {
+    font-size: 32px;
+    letter-spacing: -0.8px;
+  }
+  .ec-overview-copy > p:not(.ec-eyebrow) {
+    max-width: 100%;
+    margin: 14px 0 7px;
+  }
+  .ec-overview-copy .ec-eyebrow {
+    margin-bottom: 14px;
+  }
+  .ec-overview-link {
+    font-size: 11px;
+  }
+  .ec-overview-art {
+    width: 100%;
+    max-width: 510px;
+    margin: auto;
+  }
+  .ec-chaos-overview .ec-sketch {
+    min-height: 190px;
+  }
+  .ec-story-arrow {
+    margin: 0;
+    gap: 10px;
+    height: 60px;
+  }
+  .ec-story-arrow svg {
+    width: 120px;
+  }
+  .ec-story-arrow .ec-note {
+    font-size: 12px;
+  }
+  .ec-preview-note {
+    font-size: 12px;
+  }
+  .ec-mini-store-head {
+    padding: 14px 12px;
+  }
+  .ec-mini-store-head > strong {
+    font-size: 16px;
+  }
+  .ec-mini-store-head > strong > span {
+    font-size: 5px;
+    letter-spacing: 1px;
+  }
+  .ec-mini-catalog strong {
+    font-size: 8px;
+  }
+  .ec-mini-catalog > div > span {
+    font-size: 8px;
+  }
+  .ec-mini-options {
+    font-size: 8px;
+  }
+  .ec-mini-options > div > span {
+    width: 24px;
+    height: 24px;
+  }
+  .ec-mini-dashboard-head strong {
+    font-size: 11px;
+  }
+  .ec-mini-dashboard-head > span {
+    font-size: 7px;
+    padding: 4px 6px;
+  }
+  .ec-mini-metrics span {
+    font-size: 8px;
+  }
+  .ec-mini-metrics strong {
+    font-size: 21px;
+  }
+  .ec-mini-operations {
+    grid-template-columns: 1.15fr 1fr;
+  }
+  .ec-mini-stock > div {
+    font-size: 7px;
+  }
+  .ec-mini-operations > div > span {
+    font-size: 8px;
+  }
+  .ec-deeper {
+    margin-top: 40px;
+    padding-top: 30px;
+  }
+  .ec-detail-chapter > summary {
+    padding: 22px 0;
+    gap: 12px;
+  }
+  .ec-detail-chapter > summary strong {
+    font-size: 16px;
+  }
+  .ec-detail-chapter > summary small {
+    font-size: 10px;
+  }
+  .ec-detail-number {
+    height: 31px;
+    width: 31px;
+    font-size: 10px;
+  }
+  .ec-expand-mark {
+    font-size: 23px;
+  }
+  .ec-detail-intro {
+    font-size: 12px;
+  }
+  .ec-detail-chapter,
+  .ec-demo-anchor {
+    scroll-margin-top: 145px;
+  }
+  .ec-page .ec-fashion-hero {
+    grid-template-columns: 1.2fr 0.8fr;
+    padding: 18px 14px;
+    min-height: 210px;
+  }
+  .ec-page .ec-fashion-hero h3 {
+    font-size: 29px;
+    letter-spacing: -1px;
+  }
+  .ec-page .ec-fashion-hero-art .ec-garment {
+    height: 140px;
+  }
+  .ec-page .ec-fashion-nav > button:first-child {
+    font-size: 19px;
+  }
+  .ec-page .ec-fashion-detail h3,
+  .ec-page .ec-fashion-checkout h3 {
+    font-size: 27px;
+  }
+}
+@media (max-width: 370px) {
+  .ec-mini-metrics strong {
+    font-size: 17px;
+  }
+  .ec-mini-order {
+    font-size: 7px;
+    gap: 5px;
+  }
+  .ec-mini-checkout {
+    font-size: 7px;
+    gap: 6px;
+  }
+  .ec-mini-options {
+    gap: 6px;
+  }
+  .ec-mini-store-head > strong {
+    font-size: 14px;
+  }
+  .ec-mini-catalog .ec-garment {
+    height: 85px;
+  }
+}
