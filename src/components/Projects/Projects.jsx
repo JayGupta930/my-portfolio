@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { projects } from "../../constants";
 import MorphingCard from '../ui/morphing-card-stack'
 
@@ -40,6 +41,11 @@ const Work = () => {
       </div>
       
       {/* Morphing Card Stack for Projects */}
+      <div className="max-w-5xl mx-auto mb-8 text-center">
+        <Link to="/ecommerce" className="inline-flex items-center gap-3 rounded-lg border border-purple-400/40 px-6 py-3 text-sm text-purple-200 hover:bg-purple-500/10 focus-visible:outline-2 focus-visible:outline-purple-400">
+          From Idea to Online Store — explore the illustrated story ↗
+        </Link>
+      </div>
       <MorphingCard 
         cards={projectCards} 
         defaultLayout="grid"
