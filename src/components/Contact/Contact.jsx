@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Orb from "../orb";
@@ -244,6 +245,13 @@ const useCreativeNotifications = () => {
 };
 
 const Contact = () => {
+  const [searchParams] = useSearchParams();
+  const enquirySubject = {
+    'ready-to-launch': 'Explore a ready-to-launch e-commerce store',
+    'custom-ecommerce': 'Discuss a custom e-commerce project',
+    'ecommerce-quote': 'Request an e-commerce quote',
+    ecommerce: 'Discuss an e-commerce project',
+  }[searchParams.get('topic')] || '';
   const [loading, setLoading] = useState(false);
   const { currentToast, isVisible, stopNotifications, currentPosition } = useCreativeNotifications();
 
@@ -343,6 +351,7 @@ const Contact = () => {
             type="email"
             name="email"
             placeholder="Your Email"
+            aria-label="Your Email"
             required
             className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus:outline-none focus:border-purple-500"
           />
@@ -350,19 +359,24 @@ const Contact = () => {
             type="text"
             name="name"
             placeholder="Your Name"
+            aria-label="Your Name"
             required
             className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus:outline-none focus:border-purple-500"
           />
           <input
             type="text"
             name="subject"
+            key={enquirySubject}
+            defaultValue={enquirySubject}
             placeholder="Subject"
+            aria-label="Subject"
             required
             className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus:outline-none focus:border-purple-500"
           />
           <textarea
             name="message"
             placeholder="Message"
+            aria-label="Message"
             rows="4"
             required
             className="w-full p-3 rounded-md bg-[#131025] text-white border border-gray-600 focus:outline-none focus:border-purple-500"
