@@ -29,6 +29,7 @@ const Project = lazy(() => import("./components/Projects/Projects"));
 const Creativity = lazy(() => import("./components/Creativity/Creativity"));
 const Music = lazy(() => import("./Creativity/Music/Music"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
+const ECommerceCaseStudy = lazy(() => import("./pages/ECommerceCaseStudy"));
 const GamesPage = lazy(() => import("./pages/GamesPageWithAuth"));
 const Leaderboard = lazy(() => import("./components/Leaderboard/Leaderboard"));
 
@@ -251,6 +252,7 @@ const App = () => {
               <Route path="/about" element={<Suspense fallback={<PageLoader />}><AboutPage /></Suspense>} />
               <Route path="/skills" element={<SkillsPage />} />
               <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/ecommerce" element={<Suspense fallback={<PageLoader />}><ECommerceCaseStudy /></Suspense>} />
               <Route path="/education" element={<EducationPage />} />
               <Route path="/creativity" element={<Suspense fallback={<PageLoader />}><Creativity /></Suspense>} />
               <Route path="/creativity/music" element={<Suspense fallback={<PageLoader />}><Music /></Suspense>} />
