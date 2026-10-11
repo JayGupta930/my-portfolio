@@ -7,7 +7,7 @@ const SmoothScroll = ({ children }) => {
   useEffect(() => {
     // Only initialize Lenis on desktop / non-touch devices to prevent mobile scroll lockups
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 1024;
-    if (isTouchDevice) return;
+    if (isTouchDevice || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     // Initialize Lenis
     lenisRef.current = new Lenis({
