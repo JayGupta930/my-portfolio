@@ -1,4 +1,4 @@
-# 💼 Jay Gupta – Portfolio Website
+# 💼 Jay Gupta – Portfolio Website 
 
 Welcome to my personal developer portfolio! This website showcases my projects, skills, and professional background as a frontend developer.
 
